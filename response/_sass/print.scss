@@ -1,0 +1,63 @@
+/* 列印設定 */
+@import "css3-mixins.scss";
+
+/* 列印出背景顏色 */
+@mixin print-color-adjust($value) {
+	-webkit-print-color-adjust: $value;
+	-moz-print-color-adjust: $value;
+	-ms-print-color-adjust: $value;
+	-o-print-color-adjust: $value;
+	print-color-adjust: $value;
+}
+@mixin page-break-inside($value) {
+	-webkit-page-break-inside: $value;
+	-moz-page-break-inside: $value;
+	-ms-page-break-inside: $value;
+	-o-page-break-inside: $value;
+	page-break-inside: $value;
+}
+@mixin page-break-after($value) {
+	-webkit-page-break-after: $value;
+	-moz-page-break-after: $value;
+	-ms-page-break-after: $value;
+	-o-page-break-after: $value;
+	page-break-after: $value;
+}
+
+
+/* default setup: res object printstyle setup */
+#resMainWrap {
+	margin:0;
+	padding:10px;
+}
+#mobile_nav, .flipContent, #topcontrol, #swap_btn {
+	display:none !important;
+}
+
+table, th, td, h1, h2, h3, h4, h5, div, a, div, span, ol, ul, li, br, p, iframe {
+	@include print-color-adjust(exact);/* 列印出背景顏色 */
+	@include page-break-inside(avoid);
+	@include page-break-after(auto);
+}
+table {
+	@include page-break-inside(auto);
+}
+.resEnlarge>.resEnlargeOpenIcon{
+	background:none;
+}
+.mobile_overflow{
+	background:none;
+	padding:0;
+}
+.resMarquee>span{margin:0 !important;width:auto;}
+
+/* custom setup */
+.thrColAbsHdr{
+	#container, #mainContent{
+		width:100%;
+	}
+	#container{border:0;}
+} 
+
+#nav{display:none;}
+#sidebar1,#sidebar2{display:none;}
