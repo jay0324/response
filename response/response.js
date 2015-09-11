@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/08/07
+    Date: 2015/09/11
 */
 (function($) {
     $.JResponsive = function(options) {
@@ -13,6 +13,8 @@
         //here is the default value
         var defaults = {
             defaultResponse: "true",
+            setUILoadWidth: 800,
+            printMediaSetupMode: false,
             modulePath: "",
             mobileSwitch: "body",
             viewPortSetup: "",
@@ -42,10 +44,14 @@
             res_mobileTopNavBtnSetup: {},
             additionalBtn: "",
             res_mobileBottomNavBtnSetup: {},
-            additionalBottomBtn: "",
-            setUILoadWidth: 800
+            additionalBottomBtn: ""
         };
+
         options = $.extend(defaults, options);
+        //列印模式測試
+        var printMediaMode = options.printMediaSetupMode;
+        var printMediaSetupMode = (printMediaMode)?"all":"print";
+
         //設定響應式介面載入尺寸
         var setUILoadWidth = options.setUILoadWidth;
 
@@ -441,7 +447,7 @@
         if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
             //-- add response meta --
             $("head").prepend('<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0' + viewPortSetup + '">');
-            $("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="screen" href="' + modulePath + 'response/_css/custom.css"/>');
+            $("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
             //var swapBtn = (noServer== false)?'<li id="swap_btn" '+responsiveSwitch+'><a href="#"></a></li>':'';
             var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> | <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
             //-- loader --
@@ -499,7 +505,7 @@
             $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
         }
         //--add print media style sheet --
-        $("head").append('<link id="resprint" rel="stylesheet" type="text/css" media="print" href="' + modulePath + 'response/_css/print.css"/>');
+        $("head").append('<link id="resprint" rel="stylesheet" type="text/css" media="'+printMediaSetupMode+'" href="' + modulePath + 'response/_css/print.css"/>');
         //加入響應式按鈕
         //$(".resBtn").each(function() {
             $('body').on('click','.resBtn',function(){

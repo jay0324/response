@@ -1,0 +1,6 @@
+$(function() {
+	$.JResponsive({
+						resPageLoader:true
+				  });
+
+ })
