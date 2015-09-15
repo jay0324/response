@@ -9,24 +9,35 @@
 $action = (isset($_GET["action"]) && !empty($_GET["action"]))?$_GET["action"]:"";
 
 //function===========================================================================================
-//get front end html content
+//using file_get_contents get front end html content
 function fnGet($url) {
 	 	$opts = array(  
 			'http'=>array(  
 				'method'=>"GET",  
-				'timeout'=>60,  
+				'timeout'=>60
 			)  
 		);  
 		   
 		$context = stream_context_create($opts);  
 
-		$result = file_get_contents($url, true, $context);
+		$result = file_get_contents($url, false, $context);
 		if ($result){
 			return $result; 
 		}else{
-			printf("Connection busy! Please Try letter");die();
+			printf("網頁[".$url."]無法透過此程式解析內容,請聯絡程式人員進行評估!");die();
 		}
 		
+}
+
+//using curl get front end html content
+function fnCurl($curl){
+	$url = $curl;
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$data = curl_exec($ch);
+	curl_close($ch);
+	return $data;
 }
 
 //check front end html content
@@ -79,7 +90,9 @@ if ($action == "check"){
 		
 		$url = (strstr($_POST["page"],'http://') || strstr($_POST["page"],'https://'))?$_POST['page']:'http://'.$_POST['page'];
 
-		$pageContent = fnGet($url);
+		//$pageContent = fnGet($url); //using file_get_contents to get page content
+
+		$pageContent = fnCurl($url); //using curl to get page content
 
 		echo fnCheck($url,strtolower($pageContent));
 
