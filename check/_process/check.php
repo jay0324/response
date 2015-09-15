@@ -80,6 +80,9 @@ function fnCheck($url,$pageContent){
 		";
 	}
 
+
+	//print source code
+	$result .= '<div class="source">Source: <textarea>'.$pageContent.'</textarea></div>';
 	return $result;
 }
 

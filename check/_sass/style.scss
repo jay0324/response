@@ -19,6 +19,22 @@ label{
 		border:1px solid #ccc;
 		margin:10px 0;
 		padding:5px;
+		
+		.source{
+			padding:5px;
+			width:99%;
+			height:auto;
+			background:#ccc;
+			margin-top:20px;
+			border:1px solid #A9A9A9;
+			@include border-radius(5px);
+			textarea{
+				margin:2px 0;
+				width:99%;
+				height:300px;
+			}
+		}
+		
 	}
 
 }
