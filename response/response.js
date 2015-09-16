@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/09/11
+    Date: 2015/09/16
 */
 (function($) {
     $.JResponsive = function(options) {
@@ -468,17 +468,30 @@
                     }
                 }
             }
+
+            //-- 計算resMainWrap css設定
+            var resMainWrap_miniHight = $(window).height(); //min-height
+            var body_margin_top = ''; //padding-top
+            var body_margin_bottom = ''; //padding-bottom
+
             //-- 計算導覽按鈕群長度 (上方) --
             var mobile_nav_btn_width = mobile_nav_BtnAmt * (resMobileNavSetupWidth + resMobileNavSetupMargin);
             var mobile_nav = resMenuState == true ? ' style="position:'+resMenuType+';width:' + $(window).width() + "px;height:" + resMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
             var mobile_nav_width = $(window).width() > mobile_nav_btn_width ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width + 'px;" ';
-            var body_margin_top = (resMenuState == true) ? 'padding-top:' + resMobileNavSetupHeight + 'px;' : ''; //上選單有使用進行padding-top
+            if (resMenuState == true) {
+                body_margin_top = 'padding-top:' + resMobileNavSetupHeight + 'px;'; //上選單有使用進行resMainWrap padding-top設定
+                resMainWrap_miniHight -= resMobileNavSetupHeight; //如果有padding則需要把resMainWrap min-height相對減去
+            }
 
             //-- 計算導覽按鈕群長度 (下方) --
             var mobile_nav_btn_width_bottom = mobile_nav_BottomBtnAmt * (resBottomMobileNavSetupWidth + resBottomMobileNavSetupMargin);
             var mobile_nav_bottom = resBottomMenuState == true ? ' style="position:'+resBottomMenuType+';width:' + $(window).width() + "px;height:" + resBottomMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
             var mobile_nav_width_bottom = $(window).width() > mobile_nav_btn_width_bottom ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width_bottom + 'px;" ';
             var body_margin_bottom = (resBottomMenuState == true) ? 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;' : ''; //下選單有使用進行padding-bottom
+            if (resBottomMenuState == true) {
+                body_margin_bottom = 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;'; //下選單有使用進行resMainWrap padding-bottom設定
+                resMainWrap_miniHight -= resBottomMobileNavSetupHeight; //如果有padding則需要把resMainWrap min-height相對減去
+            }
 
             //螢幕在800以下進行選單物件狀態偵測
             var body_margin = $(window).width() <= setUILoadWidth ? ' style="' + body_margin_top + body_margin_bottom + '" ' : '';
@@ -499,7 +512,7 @@
             //-- content close mask --
             $("body").append('<div id="resContentMask"></div>');
             //-- give content container a mini-height
-            $("#resMainWrap").css("min-height", $(window).height() + "px");
+            $("#resMainWrap").css("min-height", resMainWrap_miniHight + "px");
         } else {
             //切換為桌面版
             $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
@@ -1638,7 +1651,7 @@
             //$("#resMainWrap").css({"position":"fixed"});
             $("html").addClass("resHtmlOverflow");
             $("#resContentMask").show();
-            $("#resMainWrap").css("min-height", $(window).height() + "px");
+            //$("#resMainWrap").css("min-height", $(window).height() + "px");
         }
     };
     //content scrollerbar
