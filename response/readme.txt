@@ -4,8 +4,8 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/09/16 修改:
-- 修正resMainWrap的mini-height設定，在設定上下選單區塊之後，將其相對高度從預設min-height值中減去
+Date: 2015/09/18 修改:
+- 修正resTable的td欄位高度為auto
 	
 =======================================================================================================================
 套用方式及相關文件說明

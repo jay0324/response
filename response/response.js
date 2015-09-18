@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/09/16
+    Date: 2015/09/18
 */
 (function($) {
     $.JResponsive = function(options) {
