@@ -21,7 +21,6 @@
         .fltrt { float: right; margin-left: 8px; }
         .fltlft { float: left; margin-right: 8px; }
         .clear { clear: both; }
-        .resRow [class*="resCol"] { background: #CCC; }
     </style>
     <!--[if IE 5]>
     <style type="text/css">
@@ -318,6 +317,53 @@
                     <td colspan="3">old structure footer</td>
                 </tr>
             </table>
+
+            <h1>Tab切換功能 (直接寫在本文)</h1>
+            <div class="resRow">
+                <div class="resCol12">
+                    <div id="myTab">
+                        <ul class="tabs">
+                            <li><a href="#tabContent1" class="tabsBtn">tab 1</a></li>
+                            <li><a href="#tabContent2" class="tabsBtn">tab 2</a></li>
+                        </ul>
+
+                        <ul class="tabs_content">
+                            <li id="tabContent1" class="tabsContent">
+                                tab content1<br>
+                                <div style="width:200px;height:200px;float:left;background:#ccc;"></div>
+                                <div style="width:200px;height:400px;float:right;background:#ccc;"></div>
+                            </li>
+                            <li id="tabContent2" class="tabsContent">
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                tab content2<br>
+                                <div style="width:200px;height:200px;float:left;background:#ccc;"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Tab切換功能 (js寫入本文)</h1>
+            <div class="resRow">
+                <div class="resCol8">
+                    <div id="myTab2"></div>
+                </div>
+            </div>
+
         </div>
         <div id="sidebar2">
             <h1>右側連結1</h1>

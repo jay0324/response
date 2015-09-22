@@ -271,3 +271,55 @@ table {
 #resPageLoader{
 	@include box-shadow(0);
 }
+
+/* tab class style */
+.tabs{
+	display:block;
+	margin:0;
+	padding:0;
+	position: relative;
+    z-index: 1;
+	li{
+		display:block;
+		margin:1px 5px 0 0;
+		padding:0;
+		float:left;
+		list-style:none;
+		.tabsBtn{
+			display:block;
+			width:auto;
+			padding:5px 30px;
+			background:#E8E8E8;
+			color:#333;
+			font-size:16px;
+			text-decoration: none;
+			border:1px solid #CCCCCC;
+			@include transition(background 0.5s, color 0.5s);
+			@include border-radius(2px 15px 0 0);
+			&:hover,&.active{
+				color:#333;
+				background:#fff;
+				border-bottom:1px solid #fff;
+			}
+		}
+	}
+}
+.tabs_content{
+	display:block;
+	margin:10px 0;
+	padding:10px;
+	clear:both;
+	border:1px solid #CCCCCC;
+	min-height:200px;
+	top: -1px;
+    position: relative;
+    z-index: 0;
+	.tabsContent{
+		display:none;
+		top:0;
+		clear:both;
+		list-style:none;
+		padding:0;
+		margin:0;
+	}
+}

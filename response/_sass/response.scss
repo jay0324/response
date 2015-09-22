@@ -540,6 +540,27 @@
 	- galaxy note portrait (400px)
 */
 @media (max-width:420px){
+	.tabs{
+		li{
+			clear:both;
+			float:none;
+			margin:1px 0 0 0;
+			.tabsBtn{
+				padding:5px 10px;
+				clear:both;
+				@include border-radius(2px 2px 0 0);
+				&:hover,&.active{
+					border:1px solid #AAAAAA;
+					background:#cccccc;
+				}
+			}
+		}
+	}
+	.tabs_content{
+		margin:0 0 10px 0;
+		top:0;
+		border-top:0;
+	}
 
 }
 

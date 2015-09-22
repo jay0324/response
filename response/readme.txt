@@ -4,8 +4,10 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/09/18 修改:
-- 修正resTable的td欄位高度為auto
+Date: 2015/09/22 修改:
+- 加入Tab group的建立函式
+- Scroll To Top的外掛加入使用與不使用的設定
+- 修正列印樣式
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -86,7 +88,8 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
             			   res_mobileTopNavBtnSetup: {} (設定上方主選單, 預設值 state:true,type:fixed,primary:true,width:50,height:50,margin:5),
             			   additionalBtn: [["按鈕ID名稱","按鈕連結","按鈕顯示文字","按鈕目標 (一般target視窗目標如:target,new,blank等 或 pannel來啟動響應式視窗/tab來建立Tab標籤定位按鈕)",["pannel值啟動之響應式視窗位置(top,top_small,left,right,left_under,right_under)","pannel值啟動之響應式視窗內容"]],...],
             			   res_mobileBottomNavBtnSetup: {} (設定下方主選單, 預設值 state:false,type:fixed,primary:true,width:50,height:50,margin:5),
-            			   additionalBottomBtn: [["按鈕ID名稱","按鈕連結","按鈕顯示文字","按鈕目標 (一般target視窗目標如:target,new,blank等 或 pannel來啟動響應式視窗/tab來建立Tab標籤定位按鈕)",["pannel值啟動之響應式視窗位置(top,top_small,left,right,left_under,right_under)","pannel值啟動之響應式視窗內容"]],...]
+            			   additionalBottomBtn: [["按鈕ID名稱","按鈕連結","按鈕顯示文字","按鈕目標 (一般target視窗目標如:target,new,blank等 或 pannel來啟動響應式視窗/tab來建立Tab標籤定位按鈕)",["pannel值啟動之響應式視窗位置(top,top_small,left,right,left_under,right_under)","pannel值啟動之響應式視窗內容"]],...],
+            			   scrollTop: 使用ScrollToTop外掛功能 (預設:true)
 						  });
 			
 			//文字跑馬燈效果函式
@@ -153,5 +156,38 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 			//Tab標籤頁面定位按鈕設定值
 			$(obj).addClass("resTabJumper");
 			<a class="resTabJumper" href="#目標ID">連結</a>
+
+			//Tab group建立
+			$(obj).JResContentTab({
+				init: 0,				//預設的顯示標籤 (預設:0)
+	            fx: 'fade',				//切換效果 (預設:fade / fade,slide,show)
+	            transitTime: 300,		//切換效果時間 (預設:300)
+	            createTabs: {			//js寫入Tab
+	            	tab1:{				//新標籤編號
+	            		id: "ID",		//物件ID	
+						text: "文字",	//Tab按鈕顯示文字
+						content: "內容"	//Tab內容
+	            	}
+	            }		
+			});
+
+			//直接建立在本文的結構
+			//直接開啟tab，可以在網址上加入標籤，如: 頁面路徑#內容ID
+			<div id="物件ID">
+                <ul class="tabs">
+                    <li><a href="#內容ID1" class="tabsBtn">按鈕顯示文字</a></li>
+                    <li><a href="#內容ID2" class="tabsBtn">按鈕顯示文字</a></li>
+                </ul>
+
+                <ul class="tabs_content">
+                    <li id="內容ID1" class="tabsContent">
+                        按鈕顯示內容
+                	</li>
+                   	<li id="內容ID2" class="tabsContent">
+                        按鈕顯示內容
+                	</li>
+                </ul>
+            </div>
+
 			
 		})

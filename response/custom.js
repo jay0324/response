@@ -9,13 +9,14 @@ $(function() {
 					  					["menu_btn2","#","rPBtn","pannel",["left_under",$("#mainContent").html()]],
 					  					["menu_btn4","#","rPBtn","pannel",["right_under",$("#mainContent").html()]],
 					  					["menu_btn7","#","tsPBtn","pannel",["top_small",$("#searchBk").html()]],
-					  					["menu_btn5","#testImg1","tabBt1","tab",["",""]],
-					  					["menu_btn6","#testImg2","tabBt2","tab",["",""]]
+					  					["menu_btn5","#testImg1","tabBt1","tab"],
+					  					["menu_btn6","#testImg2","tabBt2","tab"],
+					  					["menu_tabs1","#myTab","tabg","tab"]
 					  				],
 					  	additionalBottomBtn: 
 					  				[
 					  					["menu_btn_btm2","#","rPBtn","pannel",["right",$("#mainContent").html()]],
-					  					["menu_btn_btm5","#testImg1","tabBt1","tab",["",""]]
+					  					["menu_btn_btm5","#testImg1","tabBt1","tab"]
 					  				],
 					  	additionalPage: 
 					  				[
@@ -46,5 +47,26 @@ $(function() {
 	$("#enlarge300").JResEnlarge();
 	$("#enlarge300_inCol").JResEnlarge();
 	$("#enlarge600").JResEnlarge({enlargeSize:"auto",scalePx: 50});
+
+	//啟用Tab (直接寫在本文)
+	$("#myTab").JResContentTab();
+
+	//啟用Tab (js寫入本文)
+	$("#myTab2").JResContentTab({
+		fx: 'slide',
+		init:1,
+		createTabs: {
+			tabs1: {
+				id: "tabs1",
+				text: "tabs1",
+				content: "tabs1 content"
+			},
+			tabs2: {
+				id: "tabs2",
+				text: "tabs2",
+				content: "tabs2 content"
+			}
+		}
+	});
 
  })
