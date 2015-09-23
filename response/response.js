@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/09/22
+    Date: 2015/09/23
 */
 (function($) {
     $.JResponsive = function(options) {
@@ -12,7 +12,7 @@
         //using object to replace variable
         //here is the default value
         var defaults = {
-            defaultResponse: "true",
+            defaultResponse: true,
             setUILoadWidth: 800,
             printMediaSetupMode: false,
             modulePath: "",
@@ -132,7 +132,8 @@
         //響應式預設值 
         //開啟:true 
         //關閉:false
-        var defaultResponse = options.defaultResponse;
+        var defaultResponse = (options.defaultResponse)?"true":"false";
+
         var responsiveSwitch = options.responsiveSwitch ? "" : "style='display:none'";
         //響應式開關
         //模組的預設路徑
@@ -446,14 +447,17 @@
         //加入行動版ICON
         $("head").prepend('<link href="' + modulePath + 'response/_img/app_ico.png" rel="apple-touch-icon">');
         //加入響應式預設樣式
-        $("head").append('<link id="response_default" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/default.css"/>');
+        //fnLoadCSS('response_default',modulePath + 'response/_css/default.css','all');
+        //$("head").append('<link id="response_default" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/default.css"/>');
         $(".resRow").append("<div class='clear'></div>");
         //將每組row之後都加上clear
         //check the response cookie
         if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
             //-- add response meta --
             $("head").prepend('<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0' + viewPortSetup + '">');
-            $("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
+            //fnLoadCSS('response',modulePath + 'response/_css/response.css','all');
+            //fnLoadCSS('response_custom',modulePath + 'response/_css/custom.css','all');
+            //$("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
             //var swapBtn = (noServer== false)?'<li id="swap_btn" '+responsiveSwitch+'><a href="#"></a></li>':'';
             var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> | <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
             //-- loader --
@@ -524,7 +528,8 @@
             $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
         }
         //--add print media style sheet --
-        $("head").append('<link id="resprint" rel="stylesheet" type="text/css" media="'+printMediaSetupMode+'" href="' + modulePath + 'response/_css/print.css"/>');
+        //fnLoadCSS('resprint',modulePath + 'response/_css/print.css',printMediaSetupMode);
+        //$("head").append('<link id="resprint" rel="stylesheet" type="text/css" media="'+printMediaSetupMode+'" href="' + modulePath + 'response/_css/print.css"/>');
         //加入響應式按鈕
         //$(".resBtn").each(function() {
             $('body').on('click','.resBtn',function(){
@@ -1190,76 +1195,170 @@
             scalePx: 20,
             paddingAmt: 20,
             extraSource: "",
-            setUILoadWidth: 800
+            setUILoadWidth: 800,
+            popupMode: false
         };
         options = $.extend(defaults, options);
         var setUILoadWidth = options.setUILoadWidth;
+        var popupMode = options.popupMode;
 
-        if (($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") && $(window).width() <= setUILoadWidth) {
-            var enlargeSize = options.enlargeSize;
-            var scalePx = options.scalePx;
-            var paddingAmt = options.paddingAmt;
-            var documentW = $(window).width() - paddingAmt;
-            $(this).each(function() {
-                var objW = 0;
-                $(this).load(function(){
-                    //若圖片尺寸取不到,則以100%的方式取得上層容器的尺寸
-                    $(this).css({
-                            width: "auto"
-                        });
-                    objW = $(this).width();
-                    //alert(objW);
-                    $(this).addClass("resEnlargeImg");
-                    if (objW >= documentW) {
-                        objW = documentW;
-                    }
-
-                    //先檢查class
-                    if (!$(this).hasClass("resUnlarger")) {
-                        //再檢查是否有設定onclick event
-                        if (!$(this).attr("onclick")) {
-                            //再檢查是否被a包覆，如果有則不使用此功能
-                            switch ($(this).parent("a").prop("tagName")) {
-                                case "A":
-                                    var doUsed = false;
-                                break;
-                                default:
-                                    var doUsed = true;
-                                break;
-                            }
-                        } else {
-                            var doUsed = false;
+        if (($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "")) {
+            if ($(window).width() <= setUILoadWidth) {
+                var enlargeSize = options.enlargeSize;
+                var scalePx = options.scalePx;
+                var paddingAmt = options.paddingAmt;
+                var documentW = $(window).width() - paddingAmt;
+                var touchOrangal, updateOrangal = 0;
+                $(this).each(function() {
+                    var objW = 0;
+                    $(this).load(function(){
+                        //若圖片尺寸取不到,則以100%的方式取得上層容器的尺寸
+                        $(this).css({
+                                width: "auto"
+                            });
+                        objW = $(this).width();
+                        //alert(objW);
+                        $(this).addClass("resEnlargeImg");
+                        if (objW >= documentW) {
+                            objW = documentW;
                         }
-            
-                        if (doUsed) {
-                            $(this).attr("style", "width:" + objW + "px;height:auto;");
-                            var thisID = "resEnlarge_" + Math.floor(Math.random() * 100 + 1);
-                            $(this).wrap('<div class="resEnlargeWraper"><div id="' + thisID + '" class="resEnlarge" style="width:' + objW + 'px;height:auto;">');
-                            $(this).before('<div class="resEnlargeOpenIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'open',scalePx:" + scalePx + '});return false;"></div>');
-                            if (enlargeSize == "auto") {
-                                var FitIconVal = 'style="display:none"';
-                                var OrangIconVal = "";
+
+                        //先檢查class
+                        if (!$(this).hasClass("resUnlarger")) {
+                            //再檢查是否有設定onclick event
+                            if (!$(this).attr("onclick")) {
+                                //再檢查是否被a包覆，如果有則不使用此功能
+                                switch ($(this).parent("a").prop("tagName")) {
+                                    case "A":
+                                        var doUsed = false;
+                                    break;
+                                    default:
+                                        var doUsed = true;
+                                    break;
+                                }
                             } else {
-                                var FitIconVal = "";
-                                var OrangIconVal = 'style="display:none"';
+                                var doUsed = false;
                             }
-                            var resEnlargeControl = '<div class="resEnlargeCloseIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'close',scalePx:" + scalePx + '});return false;"></div>' + '<div class="resEnlargeFitIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'fit',scalePx:" + scalePx + '});return false;" ' + FitIconVal + "></div>" + '<div class="resEnlargeOraginalIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'oraginal',scalePx:" + scalePx + '});return false;" ' + OrangIconVal + "></div>" + '<div class="resEnlargePlusIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'plus',scalePx:" + scalePx + '});return false;"></div>' + '<div class="resEnlargeDisIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'dis',scalePx:" + scalePx + '});return false;"></div>';
-                            var extraSource = options.extraSource != "" ? options.extraSource : $(this).attr("src");
-                            var resEnlargeContent = '<div class="resEnlargeContent">' + 
-                                                    '<div class="resEnlargeControlBar">' + resEnlargeControl + "</div>" + 
-                                                    '<img id="' + thisID + '_enObj" src="' + extraSource + '" style="width:' + enlargeSize + ';height:auto;" />' + "</div>";
-                            $(this).after(resEnlargeContent);
+                
+                            if (doUsed) {
+                                $(this).attr("style", "width:" + objW + "px;height:auto;");
+                                var thisID = "resEnlarge_" + Math.floor(Math.random() * 100 + 1);
+                                $(this).wrap('<div class="resEnlargeWraper"><div id="' + thisID + '" class="resEnlarge" style="width:' + objW + 'px;height:auto;">');
+                                $(this).before('<div class="resEnlargeOpenIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'open',scalePx:" + scalePx + '});return false;"></div>');
+                                if (enlargeSize == "auto") {
+                                    var FitIconVal = 'style="display:none"';
+                                    var OrangIconVal = "";
+                                } else {
+                                    var FitIconVal = "";
+                                    var OrangIconVal = 'style="display:none"';
+                                }
+                                var resEnlargeControl = '<div class="resEnlargeCloseIcon" toggle="' + thisID + '"></div>' +
+                                                         '<div class="resEnlargeFitIcon" toggle="' + thisID + '" ' + FitIconVal + "></div>" + 
+                                                         '<div class="resEnlargeOraginalIcon" toggle="' + thisID + '" ' + OrangIconVal + "></div>" + 
+                                                         '<div class="resEnlargePlusIcon" toggle="' + thisID + '"></div>' + 
+                                                         '<div class="resEnlargeDisIcon" toggle="' + thisID + '"></div>';
+                                var extraSource = options.extraSource != "" ? options.extraSource : $(this).attr("src");
+                                var resEnlargeContent = '<div class="resEnlargeContent" toggle="' + thisID + '">' + 
+                                                        '<div class="resEnlargeControlBar">' + resEnlargeControl + "</div>" + 
+                                                        '<img id="' + thisID + '_enObj" src="' + extraSource + '" style="width:' + enlargeSize + ';height:auto;" />' + "</div>";
+                                $(this).after(resEnlargeContent);
+                            }
                         }
-                    }
 
-                    //alert($(this).attr("src")+","+objW+","+documentW);
-                }).each(function(){
-                  if(this.complete) {
-                    $(this).trigger('load');
-                  }
+                        //alert($(this).attr("src")+","+objW+","+documentW);
+                    }).each(function(){
+                      if(this.complete) {
+                        $(this).trigger('load');
+                      }
+                    });
                 });
+            }else{
+                if (popupMode){
+                    $(this).each(function() {
+                        var extraSource = options.extraSource != "" ? options.extraSource : $(this).attr("src");
+                        $(this).addClass("resPopupBox");
+                        $(this).attr("source",extraSource);
+                    })
+                }
+            }
+        }
 
-            });
+        //event
+                $(document).on('click','.resEnlargeCloseIcon',function(){
+                    JResEnlargeControl({
+                        id: $(this).attr("toggle"),
+                        action:'close',
+                        scalePx: scalePx
+                    });
+                    return false;
+                }).on('click','.resEnlargeFitIcon',function(){
+                    JResEnlargeControl({
+                        id: $(this).attr("toggle"),
+                        action:'fit',
+                        scalePx: scalePx
+                    });
+                    return false;
+                }).on('click','.resEnlargeOraginalIcon',function(){
+                    JResEnlargeControl({
+                        id: $(this).attr("toggle"),
+                        action:'oraginal',
+                        scalePx: scalePx
+                    });
+                    return false;
+                }).on('click','.resEnlargePlusIcon',function(){
+                    JResEnlargeControl({
+                        id: $(this).attr("toggle"),
+                        action:'plus',
+                        scalePx: scalePx
+                    });
+                    return false;
+                }).on('click','.resEnlargeDisIcon',function(){
+                    JResEnlargeControl({
+                        id: $(this).attr("toggle"),
+                        action:'dis',
+                        scalePx: scalePx
+                    });
+                    return false;
+                }).on('touchstart','.resEnlargeContent',function(e){
+                    var touch1 = e.originalEvent.touches[0];
+                    var touch2 = e.originalEvent.touches[1];
+                    if (!(touch1 == undefined || touch2 == undefined)){
+                        touchOrangal = fnGetDistance(touch1.pageX,touch2.pageX,touch1.pageY,touch2.pageY);
+                    }
+                    //alert(touchOrangal);
+                }).on('touchmove','.resEnlargeContent',function(e){
+                    var touch1 = e.originalEvent.touches[0];
+                    var touch2 = e.originalEvent.touches[1];
+                    if (!(touch1 == undefined || touch2 == undefined)){
+                        updateOrangal = fnGetDistance(touch1.pageX,touch2.pageX,touch1.pageY,touch2.pageY);
+                        JResEnlargeControl({
+                            id: $(this).attr("toggle"),
+                            action:'plus',
+                            scalePx: Math.round(((touchOrangal - updateOrangal)*-1)/50)
+                        });
+                    }
+                    //alert(touchOrangal - updateOrangal);
+                }).on('click','.resPopupBox',function(){
+                    $(this).JResPopupBox({
+                        type:'img',
+                        action:'open'
+                    });
+                }).on('click','.resPopupBoxCloseBtn, .resPopupBoxWrap',function(){
+                    $(this).JResPopupBox({
+                        action:'close'
+                    });
+                })
+                
+
+        //計算兩點間距離
+        function fnGetDistance(x1,x2,y1,y2){
+            x1 = eval(x1);
+            x2 = eval(x2);
+            y1 = eval(y1);
+            y2 = eval(y2);
+            var xd = x2 - x1;
+            var yd = y2 - y1;
+            return Math.pow((xd * xd + yd * yd), 0.5);
         }
     };
     //JResEnlarge 放大圖功能
@@ -1321,6 +1420,44 @@
             break;
         }
     };
+    //resPopup box
+    $(function(){$('body').append('<div class="resPopupBoxWrap">');})
+    $.fn.JResPopupBox = function(options) {
+        var defaults = {
+            type: 'img',
+            action: 'open'
+        };
+        options = $.extend(defaults, options);
+        var obj = $(this);
+        var type = options.type;
+        var action = options.action;
+        var content = "";
+
+        //effect
+        if (action == "open"){
+            switch(type){
+                case "img":
+                default:
+                    content = '<img src="'+$(this).attr("source")+'" />';
+                break;
+            }
+            var popupBox = '<div class="resPopupBoxContent">'+
+                                '<div class="resPopupBoxCloseBtn"></div>'+
+                                '<div class="resPopupBoxContentArea">'+
+                                    content+
+                                '</div>'+
+                            '</div>';
+
+            $(".resPopupBoxWrap").html(popupBox);
+
+            $(".resPopupBoxWrap").fadeIn(500); 
+            
+        }else{
+            $(".resPopupBoxWrap").fadeOut(500);
+        }
+
+    }
+
     //mobile enlarge control
     //mobile additional page control
     JResPageControl = function(options) {
@@ -1702,7 +1839,7 @@
                     fnFx($(".tabsContent", tabObj), fx, 'hide', transitTime);
                     $(".tabsBtn", tabObj).removeClass("active");
                     var targetObj = $(this).attr("href");
-                    console.log(tabObj);
+                    //console.log(tabObj);
                     fnFx($(targetObj, tabObj), fx, 'show', transitTime);
                     $(this).addClass("active");
                 }
@@ -1738,6 +1875,214 @@
            
 
         }
+    };
+
+    //slider功能
+    $.fn.JResContentSlider = function(options) {
+        var defaults = {
+            autoPlay: true,
+            delayTime: 3000,
+            touchSwipAmt: 100, 
+            transitionTime: 200,
+            listAmt: 5,
+            listPaddingAmt: 2,
+            btnSetup:{
+                nextBtn:{
+                    state: true,
+                    width: 20
+                },
+                prevBtn:{
+                    state: true,
+                    width: 20
+                }
+            },
+            setupResposive: {
+                800:{
+                    listAmt: 5
+                },
+                600:{
+                    listAmt: 4
+                },
+                420:{
+                    listAmt: 2
+                }
+            }
+        };
+        options = $.extend(defaults, options);
+
+        //設定物件model
+        var obj = $(this);
+        var autoPlay = options.autoPlay;
+        var touchSwipAmt = options.touchSwipAmt;
+        var delayTime = options.delayTime;
+        var transitionTime = options.transitionTime;
+        var listAmt = parseInt(options.listAmt);
+        var listPaddingAmt = parseInt(options.listPaddingAmt);
+        var btnSetup = options.btnSetup;
+        var paddingAmt = options.paddingAmt;
+        //創建按鈕組
+        if(!$.isEmptyObject(btnSetup)){
+            for (var btn in btnSetup) {
+                var setState = (btnSetup[btn]['state'] != undefined)?btnSetup[btn]['state']:true;
+                if(setState){
+                    var setWidth = (btnSetup[btn]['width'] != undefined)?btnSetup[btn]['width']:20;
+                    var setStyle =  'style="width:'+setWidth+'px';
+                    switch (btn){
+                        case "nextBtn":
+                            $(".sliderContainer",obj).append('<div class="sliderContainerPrevBtn" '+setStyle+'"></div>');
+                        break;
+                        case "prevBtn":
+                            $(".sliderContainer",obj).append('<div class="sliderContainerNextBtn" '+setStyle+'"></div>');
+                        break;
+                    }
+                } 
+            }    
+        }
+        var prevWidth = $(".sliderContainer .sliderContainerPrevBtn",obj).width();
+        var nextWidth = $(".sliderContainer .sliderContainerNextBtn",obj).width();
+
+        var setupResposive = options.setupResposive;
+        //檢查是否有響應式設定
+        if(!$.isEmptyObject(setupResposive)){
+            var checkWinWArray = [];
+            for (var winW in setupResposive){
+                checkWinWArray.push(winW); //先建立Windows Index for sorting
+            }
+
+            checkWinWArray = checkWinWArray.sort(function(a, b){return b-a}); //DESC Sorting
+
+            //update listAmt
+            for (var i=0;i<checkWinWArray.length;i++) {
+                if ($(window).width() < checkWinWArray[i]) {
+                    listAmt = (setupResposive[checkWinWArray[i]]['listAmt'] != undefined)?setupResposive[checkWinWArray[i]]['listAmt']:listAmt;
+                    listPaddingAmt = (setupResposive[checkWinWArray[i]]['listPaddingAmt'] != undefined)?setupResposive[checkWinWArray[i]]['listPaddingAmt']:listPaddingAmt;
+                }
+            }
+        }
+        //console.log(listPaddingAmt);
+        var amountOfItem = $(".sliderContainer>ul>li",obj).length;
+        //var containerWidth = ($(window).width() > 800)?$(".sliderContainer",obj).width() - (nextWidth+prevWidth+paddingAmt):$(window).width() - (nextWidth+prevWidth+paddingAmt);
+        var containerWidth = $(".sliderContainer",obj).width() - (nextWidth+prevWidth);
+        //console.log(containerWidth);
+        var itemWidth = (containerWidth/listAmt) - (listPaddingAmt*2);
+        var currentPOS = 0;
+        var setContainerWidth = (itemWidth+(listPaddingAmt*2))*amountOfItem;
+        var swipToNextPOS = 0;
+        var swipToPrevPOS = 0;
+        var trackSwipEvent = false;
+        //設定container樣式
+        $(".sliderContainer>ul",obj).width(setContainerWidth).css({"margin-left":prevWidth+"px","margin-right":nextWidth+"px"}); 
+        //設定item樣式
+        $(".sliderContainer>ul>li",obj).width(itemWidth).css({"margin":"0 "+listPaddingAmt+"px"});
+
+        //將slide中圖片bind resIgnoreImgReSizer class
+        $(".sliderContainer img",obj).each(function(){
+            $(this).addClass("resIgnoreImgReSizer");
+        })
+
+        //設定control
+        //prev btn event
+        $(obj).on('click',".sliderContainerPrevBtn", function(){
+            if ((currentPOS*-1) > 0){
+                currentPOS+=containerWidth;
+                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+            }else{
+                currentPOS = 0;
+            }
+            //console.log(currentPOS);
+        })
+
+        //next btn event
+        $(obj).on('click',".sliderContainerNextBtn", function(){
+            if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                currentPOS-=containerWidth;
+                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+            }
+            //console.log(currentPOS);
+        })
+        
+        //content area event
+        $(obj).on('mouseenter',".sliderContainer",function(e) {
+            //mouseenter
+            if(autoPlay) {
+                //mouse over stop looping
+                clearInterval(timeID);
+            }
+
+        }).on('mouseleave',".sliderContainer",function(e) {
+            //mouseleave
+            if(autoPlay) {
+                timeID = setInterval(function() {
+                    if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                        currentPOS-=containerWidth;
+                    }else{
+                        currentPOS = 0;
+                    }
+                    $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+                    //console.log(currentPOS);
+                }, delayTime);
+            }
+
+        }).on('touchstart',".sliderContainer",function(e) {
+            //touchstart
+            var touch = e.originalEvent.touches[0];
+            swipToNextPOS = touch.pageX-touchSwipAmt;
+            swipToPrevPOS = touch.pageX+touchSwipAmt;
+            trackSwipEvent = true;
+
+        }).on('touchmove',".sliderContainer",function(e) {
+            //touchmove
+            var touch = e.originalEvent.touches[0];
+            //swip to next
+            if (trackSwipEvent && swipToNextPOS > touch.pageX){
+                if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                    currentPOS-=containerWidth;
+                    $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+                }
+                trackSwipEvent = false;
+            }
+
+            //swip to prev
+            if (trackSwipEvent && swipToPrevPOS < touch.pageX){
+                if ((currentPOS*-1) > 0){
+                    currentPOS+=containerWidth;
+                    $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+                }else{
+                    currentPOS = 0;
+                }
+                trackSwipEvent = false;
+            }
+        });
+
+        //循環播放
+        if(autoPlay) {
+            var timeID = setInterval(function() {
+                if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                    currentPOS-=containerWidth;
+                }else{
+                    currentPOS = 0;
+                }
+                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+                //console.log(currentPOS);
+
+            }, delayTime);
+        }
+
+    }
+
+    //loadCSS
+    fnLoadCSS = function(id,href,media) {
+      var cssLink = $("<link>");
+      $("head").append(cssLink); //IE hack: append before setting href
+
+      cssLink.attr({
+        id: id,
+        rel:  "stylesheet",
+        type: "text/css",
+        href: href,
+        media: media
+      });
+
     };
 
     //content scrollerbar
@@ -1829,7 +2174,7 @@
                 }).click(function() {
                     mainobj.scrollup();
                     return false;
-                }).appendTo("body");
+                }).appendTo("#resMainWrap");
                 if (document.all && !window.XMLHttpRequest && mainobj.$control.text() != "") //loose check for IE6 and below, plus whether control contains any text
                 mainobj.$control.css({
                     width: mainobj.$control.width()
@@ -1909,23 +2254,26 @@
         //處理res排版圖片尺寸
         $('.resRow [class*="resCol"]').each(function() {
             $resColW = $(this).width();
+            //console.log("width:"+$resColW);
             $("img", this).each(function() {
-                $(this).css("width", "auto");
-                //偵測尺寸前先還原圖片尺寸
-                if (!$(this).hasClass("resEnlargeImg")) {
-                    if ($(this).width() >= $resColW) {
-                        $(this).css("width", "100%");
-                    } else {
-                        //如果是以100%比方式出值，則直接以100%來出圖
-                        if ($resColW <= 100) {
+                if (!$(this).hasClass("resIgnoreImgReSizer")) {
+                    $(this).css("width", "auto");
+                    //偵測尺寸前先還原圖片尺寸
+                    if (!$(this).hasClass("resEnlargeImg")) {
+                        if ($(this).width() >= $resColW) {
                             $(this).css("width", "100%");
                         } else {
-                            $(this).css("width", "auto");
+                            //如果是以100%比方式出值，則直接以100%來出圖
+                            if ($resColW <= 100) {
+                                $(this).css("width", "100%");
+                            } else {
+                                $(this).css("width", "auto");
+                            }
                         }
+                    } else {
+                        $(this).parent(".resEnlarge").css("width", "100%");
+                        $(this).css("width", "100%");
                     }
-                } else {
-                    $(this).parent(".resEnlarge").css("width", "100%");
-                    $(this).css("width", "100%");
                 }
             });
         });

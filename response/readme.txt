@@ -4,10 +4,11 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/09/22 修改:
-- 加入Tab group的建立函式
-- Scroll To Top的外掛加入使用與不使用的設定
-- 修正列印樣式
+Date: 2015/09/23 修改:
+- 加入Response Slider功能,加入touch event
+- 因為原本css是由script載入，因此版抓物件尺吋會有問題，現在改為手動加入在文件中
+將style的文件合併為default.css和custom.css兩個檔案
+- Response Enlarger 加入800px以上的樣式，及touch event
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -22,16 +23,15 @@ jquery.min.js看情形加入，如果該頁面已經有用jQuery則不用加入
 * 調整響應式樣式
 檔案: custom.css
 
-* 調整列印樣式
-檔案: print.css
-
 NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯產生css
 如果沒有的人請直接編輯_css下的css檔案
 
 <!--響應式設定-->
-<script type="text/javascript" src="response/jquery.min.js"></script>
-<script type="text/javascript" src="response/response.min.js"></script>
-<script type="text/javascript" src="response/custom.js"></script>
+<link rel="stylesheet" type="text/css" href="response/_css/default.css" media="all"> <!--無響應式預設樣式-->
+<link rel="stylesheet" type="text/css" href="response/_css/custom.css" media="all"> <!--客制設定樣式-->
+<script type="text/javascript" src="response/jquery.min.js"></script> <!--jQuery-->
+<script type="text/javascript" src="response/response.min.js"></script> <!--response主程式-->
+<script type="text/javascript" src="response/custom.js"></script> <!--response客制設定-->
 <!--響應式設定-->
 
 =======================================================================================================================
@@ -56,7 +56,7 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 			$.JResponsive();
 			
 			//客製化設定
-			$.JResponsive({defaultResponse: '響應式啟動或關閉',
+			$.JResponsive({defaultResponse: 響應式啟動或關閉(布林) (預設true),
 						   setUILoadWidth: 載入介面尺寸,預設值為800 (注意: 此設定一旦修改,相對應css也要調整才會正常載入設定),
             			   printMediaSetupMode: 將網頁切換為列印模式 (預設:false),
 						   modulePath: '模組路徑',
@@ -115,7 +115,8 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 									scalePx: 手動縮放調整尺寸(px),
 									paddingAmt: 相對圖文間距(px),
 									extraSource: "放大後圖片路徑(預設為原圖)",
-									setUILoadWidth: 載入介面尺寸,預設值為800 (注意: 此設定一旦修改,相對應css也要調整才會正常載入設定)
+									setUILoadWidth: 載入介面尺寸,預設值為800 (注意: 此設定一旦修改,相對應css也要調整才會正常載入設定),
+									popupMode: 是否使用影視窗(布林) (預設false)
 								 });
 			
 			$(obj).addClass("resUnlarger"); //取消圖片放大
@@ -159,14 +160,14 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 
 			//Tab group建立
 			$(obj).JResContentTab({
-				init: 0,				//預設的顯示標籤 (預設:0)
-	            fx: 'fade',				//切換效果 (預設:fade / fade,slide,show)
-	            transitTime: 300,		//切換效果時間 (預設:300)
+				init: 預設的顯示標籤 (預設:0),
+	            fx: 切換效果 (預設:fade / fade,slide,show),
+	            transitTime: 切換效果時間 (預設:300),
 	            createTabs: {			//js寫入Tab
 	            	tab1:{				//新標籤編號
-	            		id: "ID",		//物件ID	
-						text: "文字",	//Tab按鈕顯示文字
-						content: "內容"	//Tab內容
+	            		id: "物件ID",
+						text: "Tab按鈕顯示文字",
+						content: "Tab內容"
 	            	}
 	            }		
 			});
@@ -187,6 +188,49 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
                         按鈕顯示內容
                 	</li>
                 </ul>
+            </div>
+
+            //slider功能
+            $(物件ID).JResContentSlider({
+            	autoPlay: 啟用自動輪播(布林) (預設:true),
+            	touchSwipAmt: 觸控捲動觸發移動量(數字) (預設:100),
+            	delayTime: 停留時間(毫秒) (預設:3000),
+            	transitionTime: 轉場時間(毫秒) (預設200)
+				listAmt: 顯示數量(數字) (預設5),
+				listPaddingAmt: 每個項目的間距(數字) (預設2),
+				btnSetup:{				//按鈕設定(物件)
+	                nextBtn:{			//往後按鈕(物件)
+	                    state: 是否顯示(布林)(預設true),
+	                    width: 按鈕寬度(數字)(預設20)
+	                },
+	                prevBtn:{			//往前按鈕(物件)
+	                    state: 是否顯示(布林)(預設true),
+	                    width: 按鈕寬度(數字)(預設20)
+	                }
+	            },
+				setupResposive: {		//響應式設定(物件)
+					800:{				//螢幕尺寸(物件:設定此物件名稱請以尺寸寬度來命名)
+						listAmt: 顯示項目(數字:預設5),
+						listPaddingAmt: 每個項目的間距(數字) (預設2)
+					},
+					600:{
+						listAmt: 顯示項目(數字:預設4),
+						listPaddingAmt: 每個項目的間距(數字) (預設2)
+					},
+					420:{
+						listAmt: 顯示項目(數字:預設2),
+						listPaddingAmt: 每個項目的間距(數字) (預設2)
+					}
+				}
+			});
+			//html結構
+			<div id="myItemSlider2">
+                <div class="sliderContainer">
+                    <ul>
+                        <li><a href=""><img src="圖片" alt="" /></a></li>
+                        <li><a href=""><img src="圖片" alt="" /></a></li>
+                    </ul>
+                </div>
             </div>
 
 			

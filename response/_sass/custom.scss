@@ -87,3 +87,17 @@
 @media (max-width:380px){
 
 }
+
+/* print style */
+@media print{
+	/* custom setup */
+	.thrColAbsHdr{
+		#container, #mainContent{
+			width:100%;
+		}
+		#container{border:0;}
+	} 
+
+	#nav{display:none;}
+	#sidebar1,#sidebar2{display:none;}
+}

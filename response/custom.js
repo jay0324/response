@@ -1,31 +1,31 @@
 $(function() {
 	$.JResponsive({
-					  	defaultMenuObj: "#nav",
-					  	res_langVarAdd1: "/vn/",
-					  	res_langArrayAdd1: ["language:ngôn ngữ","menu:thực đơn"],
-					  	additionalBtn: 
-					  				[
-					  					["menu_btn3","#","tPBtn","pannel",["top",$("#mainContent").html()]],
-					  					["menu_btn2","#","rPBtn","pannel",["left_under",$("#mainContent").html()]],
-					  					["menu_btn4","#","rPBtn","pannel",["right_under",$("#mainContent").html()]],
-					  					["menu_btn7","#","tsPBtn","pannel",["top_small",$("#searchBk").html()]],
-					  					["menu_btn5","#testImg1","tabBt1","tab"],
-					  					["menu_btn6","#testImg2","tabBt2","tab"],
-					  					["menu_tabs1","#myTab","tabg","tab"]
-					  				],
-					  	additionalBottomBtn: 
-					  				[
-					  					["menu_btn_btm2","#","rPBtn","pannel",["right",$("#mainContent").html()]],
-					  					["menu_btn_btm5","#testImg1","tabBt1","tab"]
-					  				],
-					  	additionalPage: 
-					  				[
-					  					["addPage_1","right","page1",$("#mainContent").html(),"addPage_2"],
-					  					["addPage_2","right","page2","this is page2",""],
-					  					["addPage_3","right","page3",$("#mainContent").html(),""]
-					  				],
-						resPageLoader:true
-				  });
+		defaultMenuObj: "#nav",
+		res_langVarAdd1: "/vn/",
+		res_langArrayAdd1: ["language:ngôn ngữ","menu:thực đơn"],
+		additionalBtn: 
+		[
+			["menu_btn3","#","tPBtn","pannel",["top",$("#mainContent").html()]],
+			["menu_btn2","#","rPBtn","pannel",["left_under",$("#mainContent").html()]],
+			["menu_btn4","#","rPBtn","pannel",["right_under",$("#mainContent").html()]],
+			["menu_btn7","#","tsPBtn","pannel",["top_small",$("#searchBk").html()]],
+			["menu_btn5","#testImg1","tabBt1","tab"],
+			["menu_btn6","#testImg2","tabBt2","tab"],
+			["menu_tabs1","#myTab","tabg","tab"]
+		],
+		additionalBottomBtn: 
+		[
+			["menu_btn_btm2","#","rPBtn","pannel",["right",$("#mainContent").html()]],
+			["menu_btn_btm5","#testImg1","tabBt1","tab"]
+		],
+		additionalPage: 
+		[
+			["addPage_1","right","page1",$("#mainContent").html(),"addPage_2"],
+			["addPage_2","right","page2","this is page2",""],
+			["addPage_3","right","page3",$("#mainContent").html(),""]
+		],
+		resPageLoader:true
+	});
 	
 	//橫向卷軸效果函式
 	$("#testImg1").JResOverflow({flow:true});
@@ -46,7 +46,7 @@ $(function() {
 	//放大圖片
 	$("#enlarge300").JResEnlarge();
 	$("#enlarge300_inCol").JResEnlarge();
-	$("#enlarge600").JResEnlarge({enlargeSize:"auto",scalePx: 50});
+	$("#enlarge600").JResEnlarge({enlargeSize:"auto",scalePx: 50, popupMode: true});
 
 	//啟用Tab (直接寫在本文)
 	$("#myTab").JResContentTab();
@@ -65,6 +65,49 @@ $(function() {
 				id: "tabs2",
 				text: "tabs2",
 				content: "tabs2 content"
+			}
+		}
+	});
+
+	//啟用ImageSlider
+	$("#myItemSlider").JResContentSlider({
+		autoPlay:false,
+		listAmt: 7,
+		btnSetup:{
+                nextBtn:{
+                    state: true,
+                    width: 40
+                },
+                prevBtn:{
+                    state: true,
+                    width: 40
+                }
+            },
+		setupResposive: {
+			800:{
+				listAmt: 5
+			},
+			600:{
+				listAmt: 4,
+				listPaddingAmt:10
+			},
+			420:{
+				listAmt: 2
+			}
+		}
+	});
+
+	$("#myItemSlider2").JResContentSlider({
+		listAmt: 2,
+		setupResposive: {
+			800:{
+				listAmt: 5
+			},
+			600:{
+				listAmt: 4
+			},
+			420:{
+				listAmt: 2
 			}
 		}
 	});
