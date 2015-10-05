@@ -112,4 +112,102 @@ $(function() {
 		}
 	});
 
+	//錯位效果
+	$("#ladderObj1").JResLadderObj({
+        path: {
+                0:{
+                    speed: 1,
+                    start:{
+                        ladder: 0,
+                        x: 50,
+                        y: 50,
+                        z: 0
+                    },
+                    end: {
+                        ladder: 600,
+                        x: 250,
+                        y: 250,
+                        z: 1
+                    } 
+                },
+                1:{
+                   speed: 1,
+                    start:{
+                        ladder: 800,
+                        x: 250,
+                        y: 250,
+                        z: 1
+                    },
+                    end: {
+                        ladder: 1800,
+                        x: 800,
+                        y: 500,
+                        z: 0
+                    }
+                },
+                2:{
+                   speed: 1,
+                    start:{
+                        ladder: 2000,
+                        x: 800,
+                        y: 500,
+                        z: 0
+                    },
+                    end: {
+                        ladder: 2800,
+                        x: 1200,
+                        y: 100,
+                        z: 0
+                    }
+                }
+        }
+	});
+
+	$("#ladderObj2").JResLadderObj({
+        path: {
+                0:{
+                    speed: 1,
+                    start:{
+                        ladder: 0,
+                        x: 1000,
+                        y: 600,
+                        z: 0
+                    },
+                    end: {
+                        ladder: 1000,
+                        x: 800,
+                        y: 400,
+                        z: 0
+                    } 
+                },
+                1:{
+                   speed: 1,
+                    start:{
+                        ladder: 1000,
+                        x: 800,
+                        y: 400,
+                        z: 0
+                    },
+                    end: {
+                        ladder: 2000,
+                        x: 100,
+                        y: 100,
+                        z: 0
+                    }
+                }
+        }
+	});
+
+
+
+	//跟屁蟲
+	$("#JResFollowObj").JResFollowObj({
+		position: 'absolute',
+		pos: {
+            top: 200,
+            left: 10
+        },
+        delay: 100
+	});
+
  })
