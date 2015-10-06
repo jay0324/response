@@ -4,11 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/09/23 修改:
-- 加入Response Slider功能,加入touch event
-- 因為原本css是由script載入，因此版抓物件尺吋會有問題，現在改為手動加入在文件中
-將style的文件合併為default.css和custom.css兩個檔案
-- Response Enlarger 加入800px以上的樣式，及touch event
+Date: 2015/10/06 修改:
+- 修正viewport設定為userscale = 1時，在放大時flip content會出現在畫面中,並在此設定狀態下的enlarge img內容停用touch event
+- enlarge img的內容改為top0,並在開啟時停止內頁內容的scroll動作
 	
 =======================================================================================================================
 套用方式及相關文件說明

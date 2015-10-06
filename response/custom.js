@@ -24,7 +24,10 @@ $(function() {
 			["addPage_2","right","page2","this is page2",""],
 			["addPage_3","right","page3",$("#mainContent").html(),""]
 		],
-		resPageLoader:true
+		resPageLoader:true,
+		res_mobileBottomNavBtnSetup:{
+			state: true
+		}
 	});
 	
 	//橫向卷軸效果函式

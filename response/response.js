@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/09/23
+    Date: 2015/10/06
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -1323,23 +1323,27 @@ var ladderObjAmt = 0;
                     });
                     return false;
                 }).on('touchstart','.resEnlargeContent',function(e){
-                    var touch1 = e.originalEvent.touches[0];
-                    var touch2 = e.originalEvent.touches[1];
-                    if (!(touch1 == undefined || touch2 == undefined)){
-                        touchOrangal = fnGetDistance(touch1.pageX,touch2.pageX,touch1.pageY,touch2.pageY);
+                    if (($("meta[name='viewport']").attr("content").search('user-scalable=1') == -1) || ($("meta[name='viewport']").attr("content").search('user-scalable=yes') == -1)){
+                        var touch1 = e.originalEvent.touches[0];
+                        var touch2 = e.originalEvent.touches[1];
+                        if (!(touch1 == undefined || touch2 == undefined)){
+                            touchOrangal = fnGetDistance(touch1.pageX,touch2.pageX,touch1.pageY,touch2.pageY);
+                        }
                     }
                     //alert(touchOrangal);
                 }).on('touchmove','.resEnlargeContent',function(e){
-                    var touch1 = e.originalEvent.touches[0];
-                    var touch2 = e.originalEvent.touches[1];
-                    if (!(touch1 == undefined || touch2 == undefined)){
-                        updateOrangal = fnGetDistance(touch1.pageX,touch2.pageX,touch1.pageY,touch2.pageY);
-                        JResEnlargeControl({
-                            id: $(this).attr("toggle"),
-                            action:'plus',
-                            scalePx: Math.round(((touchOrangal - updateOrangal)*-1)/5)
-                        });
-                        touchOrangal = updateOrangal; //更新touch間距
+                    if (($("meta[name='viewport']").attr("content").search('user-scalable=1') == -1) || ($("meta[name='viewport']").attr("content").search('user-scalable=yes') == -1)){
+                        var touch1 = e.originalEvent.touches[0];
+                        var touch2 = e.originalEvent.touches[1];
+                        if (!(touch1 == undefined || touch2 == undefined)){
+                            updateOrangal = fnGetDistance(touch1.pageX,touch2.pageX,touch1.pageY,touch2.pageY);
+                            JResEnlargeControl({
+                                id: $(this).attr("toggle"),
+                                action:'plus',
+                                scalePx: Math.round(((touchOrangal - updateOrangal)*-1)/5)
+                            });
+                            touchOrangal = updateOrangal; //更新touch間距
+                        }
                     }
                     //alert(touchOrangal - updateOrangal);
                 }).on('click','.resPopupBox',function(){
@@ -1382,7 +1386,8 @@ var ladderObjAmt = 0;
             case "open":
             $("#" + id + ">.resEnlargeContent").fadeIn(200);
             if ($("#mobile_nav_bottom").attr("resState") != "notUsed") {
-                $("#mobile_nav_bottom").hide();
+                $("#mobile_nav,#mobile_nav_bottom").fadeOut(100);
+                $("body").css({'overflow':'hidden'});
             }
             
             break;
@@ -1391,7 +1396,8 @@ var ladderObjAmt = 0;
             case "close":
             $("#" + id + ">.resEnlargeContent").fadeOut(200);
             if ($("#mobile_nav_bottom").attr("resState") != "notUsed") {
-                $("#mobile_nav_bottom").show();
+                $("#mobile_nav,#mobile_nav_bottom").fadeIn(100);
+                $("body").css({'overflow':'auto'});
             }
             break;
 
@@ -1475,22 +1481,24 @@ var ladderObjAmt = 0;
         switch (action) {
           //關閉頁面
             case "back":
-            $("html").removeClass("resHtmlOverflow");
-            if ($(id).hasClass("resFlipPageR")) {
-                $(id).animate({
-                    right: "-120%"
-                }, 300);
-            } else if ($(id).hasClass("resFlipPageT")) {
-                $(id).animate({
-                    top: "-120%"
-                }, 300);
-            } else {
-                $(id).animate({
-                    left: "-120%"
-                }, 300);
-            }
-            //關閉時清除url_loader內容
-            $("#resPageLoad_area").html("");
+                $("html").removeClass("resHtmlOverflow");
+                if ($(id).hasClass("resFlipPageR")) {
+                    $(id).animate({
+                        right: "-120%"
+                    }, 300);
+                } else if ($(id).hasClass("resFlipPageT")) {
+                    $(id).animate({
+                        top: "-120%"
+                    }, 300);
+                } else {
+                    $(id).animate({
+                        left: "-120%"
+                    }, 300);
+                }
+                //關閉時清除url_loader內容
+                $("#resPageLoad_area").html("");
+                $("body").css({"overflow":"auto"});
+                $(this).animate({"z-index":-1},300);
             break;
 
             //關閉全部頁面
@@ -1513,25 +1521,29 @@ var ladderObjAmt = 0;
                 })
                 //關閉時清除url_loader內容
                 $("#resPageLoad_area").html("");
+                $("body").css({"overflow":"auto"});
+                $(this).animate({"z-index":-1},300);
             break;
 
           //打開頁面
             case "open":
             default:
-            $("html").addClass("resHtmlOverflow");
-            if ($(id).hasClass("resFlipPageR")) {
-                $(id).animate({
-                    right: "0px"
-                }, 300);
-            } else if ($(id).hasClass("resFlipPageT")) {
-                $(id).animate({
-                    top: "0px"
-                }, 300);
-            } else {
-                $(id).animate({
-                    left: "0px"
-                }, 300);
-            }
+                $("html").addClass("resHtmlOverflow");
+                if ($(id).hasClass("resFlipPageR")) {
+                    $(id).animate({
+                        right: "0px"
+                    }, 300);
+                } else if ($(id).hasClass("resFlipPageT")) {
+                    $(id).animate({
+                        top: "0px"
+                    }, 300);
+                } else {
+                    $(id).animate({
+                        left: "0px"
+                    }, 300);
+                }
+                $("body").css({"overflow":"hidden"});
+                $(id).css({"z-index":1001});
             break;
         }
     };
