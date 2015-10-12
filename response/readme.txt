@@ -4,8 +4,8 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/10/08 修改:
-- 修正JResEnlarge尺寸問題並加入enablePluginMode設定參數來與shadowbox外掛共存
+Date: 2015/10/12 修改:
+- 修正JResEnlarge控制按鈕組的位置，因safari的介面會擋住下方定位區塊，故將按鈕組移至上方
 	
 =======================================================================================================================
 套用方式及相關文件說明

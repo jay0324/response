@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/10/08
+    Date: 2015/10/12
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
