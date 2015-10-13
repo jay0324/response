@@ -456,6 +456,40 @@ table {
 	}
 }
 
+//ladder
+.resLadderMode{
+	position:absolute;
+	top:-110px;
+	left:0;
+	border:1px solid #000;
+	background:#EDEDED;
+	width:150px;
+	height:auto;
+	@include box-shadow('0 0 5px #000');
+	.title{
+		padding:2px;
+		text-align:center;
+		background:#333;
+		color:#fff;
+	}
+	.content{
+		padding:2%;
+		width:96%;
+		height:80px;
+		overflow:auto;
+	}
+}
+
+#resGlobalInfo{
+	position:fixed;
+	top:auto;
+	left:auto;
+	bottom:0;
+	right:0;
+	width:150px;
+	height:50px;
+}
+
 
 /* 
 	- google nexus 10 landscape / galaxy tab 7.7,8,9,10.1 (1280px)
@@ -621,9 +655,9 @@ table {
 			
 			h1{
 				margin:10px 0 0 0;
-				padding:3px 0 3px 0;
+				padding:2%;
 				display:block;
-				width:90%;
+				width:96%;
 				height:auto;
 				float:left;
 				color:#333;
@@ -656,6 +690,10 @@ table {
 						padding:0 0 0 20px;
 						display:block;
 						width:90%;
+						width:-o-calc(90% - 20px);
+						width:-moz-calc(90% - 20px);
+						width:-webkit-calc(90% - 20px);
+						width:calc(90% - 20px);
 						height:auto;
 						font-size:15px;
 						text-decoration:none;

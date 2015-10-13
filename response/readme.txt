@@ -4,8 +4,8 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/10/12 修改:
-- 修正JResEnlarge控制按鈕組的位置，因safari的介面會擋住下方定位區塊，故將按鈕組移至上方
+Date: 2015/10/13 修改:
+- 加入JResFollowObj,JResLadderObj兩項功能
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -230,6 +230,43 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
                     </ul>
                 </div>
             </div>
+
+            //Ladder設定 (錯位效果)
+            $(物件).JResLadderObj({
+		        setupMode: 設定模式 (布林)(預設值false),
+		        state: 使用 (布林)(預設值true),
+		        position: 定位方式(字串)(預設'fixed',其他'absolute'),
+		        container: 若定位方式為'absolute'必須提供父層的容器物件ID,
+		        path: {			//路徑設定
+		                0:{		//路徑名稱或編號
+		                    speed: 1,			//卷軸速度
+		                    start:{				//點位設定(起點)
+		                        ladder: 0,		//點位開始的卷軸位置
+		                        x: 400,			//點位x位置
+		                        y: 1000,		//點位y位置
+		                        z: 2 			//點位z位置
+		                    },
+		                    end: {				//點位設定(終點)
+		                        ladder: 600,	//點位終點的卷軸位置
+		                        x: 800,			//點位x位置
+		                        y: 100,			//點位y位置
+		                        z: 2 			//點位z位置
+		                    } 
+		                }
+		        }
+		    });
+		    //定位連結
+		    <a href="#" class="resLadderJumper" toggle="物件ID" ladder="選擇物件的路徑名稱或編號">Link1</a>
+
+		    //Follow up設定 (跟屁蟲)
+		    $(物件).JResFollowObj({
+				position: 定位方式(字串)(預設'fixed',其他'absolute'),
+				pos: {			//定位位置 (top:位置(單位PX),left:位置(單位PX),...跟CSS一樣)
+		            top: 200,
+		            left: 10
+		        },
+		        delay: 100 		//延遲速度
+			});
 
 			
 		})

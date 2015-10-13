@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/10/12
+    Date: 2015/10/13
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -1237,6 +1237,7 @@ var ladderObjAmt = 0;
                                         }
                                     break;
                                     default:
+                                        enablePluginModeSource = $(this).attr('src');
                                         var doUsed = true;
                                     break;
                                 }
@@ -1311,6 +1312,7 @@ var ladderObjAmt = 0;
                                         }
                                     break;
                                     default:
+                                        options.extraSource = $(this).attr("src");
                                         var doUsed = true;
                                     break;
                                 }
@@ -1320,9 +1322,8 @@ var ladderObjAmt = 0;
                         }
                         if (doUsed) {
                             $(this).each(function() {
-                                var extraSource = options.extraSource != "" ? options.extraSource : $(this).attr("src");
                                 $(this).addClass("resPopupBox");
-                                $(this).attr("source",extraSource);
+                                $(this).attr("source",options.extraSource);
                             })
                         }
                     }
@@ -1917,6 +1918,10 @@ var ladderObjAmt = 0;
     //物件ladder定位功能
     $.fn.JResLadderObj = function(options) {
         var defaults = {
+            state: true,
+            setupMode: false,
+            position: 'fixed',
+            container: '',
             path: {
                 0:{
                     speed: 1,
@@ -1952,14 +1957,18 @@ var ladderObjAmt = 0;
         };
         options = $.extend(defaults, options);
         var obj = $(this);
+        var state = options.state;
+        var mode = options.setupMode;
         var path = options.path;
         var currentPoint = 0;
         var currentPosX,currentPosY,currentPosZ;
-        var position = 'fixed';
+        var position = options.position;
         var speed = 1;
         var pathArray = [];
-        var track = $(document).height();
+        var container = options.container;
+        var track = (position=="fixed" && container != "")?$(document).height():$(container).height();
         var winW = $(window).width();
+        var currentPath;
 
         //定位位置
         if(!$.isEmptyObject(path)){
@@ -1968,87 +1977,136 @@ var ladderObjAmt = 0;
             }
         }
 
-        //定義物件
-        $(obj).addClass("JResLadderObj");
+        //若有啟用
+        if (state) {
 
-        //定位物件
-        $(obj).css({'position':position,'top':path[pathArray[0]]['start']['y'],'left':path[pathArray[0]]['start']['x'],'z-index':path[pathArray[0]]['start']['z']});
+            //定義物件
+            $(obj).addClass("JResLadderObj");
 
-        //console.log(pathArray);
+            //定位物件
+            $(obj).css({'position':position,'top':path[pathArray[0]]['start']['y'],'left':path[pathArray[0]]['start']['x'],'z-index':path[pathArray[0]]['start']['z']});
 
-        //加入控制 
-        var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll" //FF doesn't recognize mousewheel as of FF3.x
-        $(window).on(mousewheelevt, function(e){
-            //取得目前物件位置
-            currentPosX = parseInt($(obj).position().left);
-            currentPosY = parseInt($(obj).position().top);
-            currentPosZ = parseInt($(obj).css("z-index"));
+            //if is setup mode, show position dialog
+            if (mode){
+                var showModeData = {'currScrollPos':currScrollPos,
+                                    'track':track,
+                                    'path':pathArray[0],
+                                    'start':path[pathArray[0]]['start']['ladder'],
+                                    'end':path[pathArray[0]]['end']['ladder'],
+                                    'currentPosX':Math.round(path[pathArray[0]]['start']['x']),
+                                    'currentPosY':Math.round(path[pathArray[0]]['start']['y']),
+                                    'currentPosZ':path[pathArray[0]]['start']['z']
+                                   };
+                fnSetupMode($(obj),showModeData);
+                fnGlobalInfo(showModeData);
+            }
 
-            //console.log(path['0']['start']['ladder']+","+$(this).scrollTop()+","+ (path['0']['end']['ladder'] <= $(this).scrollTop()));
-            //檢查動向
-            if (path[pathArray[pathArray.length-1]]['end']['ladder'] >= $(this).scrollTop()) {
-                for (var i = 0; i < pathArray.length; i++) {
-                //針對目前的scrollTop位置尋找適合的定位點
-                    if(path[pathArray[i]]['start']['ladder'] <= $(this).scrollTop() && path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop()){
+            //console.log(pathArray);
 
-                        //console.log("scroll: "+$(this).scrollTop()+" start:"+path[pathArray[i]]['start']['ladder']+" end:"+path[pathArray[i]]['end']['ladder']);
+            //加入控制 
+            var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll" //FF doesn't recognize mousewheel as of FF3.x
+            $(window).on(mousewheelevt, function(e){
+                    //取得目前物件位置
+                    currentPosX = parseInt($(obj).position().left);
+                    currentPosY = parseInt($(obj).position().top);
+                    currentPosZ = parseInt($(obj).css("z-index"));
 
-                        var pathTrack = path[pathArray[i]]['end']['ladder'] - path[pathArray[i]]['start']['ladder'];
-                        var xPath = path[pathArray[i]]['start']['x'] - path[pathArray[i]]['end']['x'];
-                        var yPath = path[pathArray[i]]['start']['y'] - path[pathArray[i]]['end']['y'];
-                        var xDirection = (xPath < 0) ? 1 : -1;
-                        var yDirection = (yPath < 0) ? 1 : -1;
-                        var xMoveAmt = Math.abs(xPath)/pathTrack;
-                        var yMoveAmt = Math.abs(yPath)/pathTrack;
-                        var scrollAmt = Math.abs($(this).scrollTop()-currScrollPos);
-                        var scrollDirection = ($(this).scrollTop() < currScrollPos)? -1 : 1 ;
+                    //console.log(path['0']['start']['ladder']+","+$(this).scrollTop()+","+ (path['0']['end']['ladder'] <= $(this).scrollTop()));
+                    //檢查動向
+                    if (path[pathArray[pathArray.length-1]]['end']['ladder'] >= $(this).scrollTop()) {
+                        if (path[pathArray[pathArray.length-1]]['start']['ladder'] <= $(this).scrollTop()) {
+                            for (var i = 0; i < pathArray.length; i++) {
+                            //針對目前的scrollTop位置尋找適合的定位點
+                                if(path[pathArray[i]]['start']['ladder'] <= $(this).scrollTop() && path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop()){
+                                    currentPath = i;
+                                    //console.log("scroll: "+$(this).scrollTop()+" start:"+path[pathArray[i]]['start']['ladder']+" end:"+path[pathArray[i]]['end']['ladder']);
 
-                        //console.log("xd: "+xDirection+" yd: "+yDirection);
+                                    var pathTrack = path[pathArray[i]]['end']['ladder'] - path[pathArray[i]]['start']['ladder'];
+                                    var xPath = path[pathArray[i]]['start']['x'] - path[pathArray[i]]['end']['x'];
+                                    var yPath = path[pathArray[i]]['start']['y'] - path[pathArray[i]]['end']['y'];
+                                    var xDirection = (xPath < 0) ? 1 : -1;
+                                    var yDirection = (yPath < 0) ? 1 : -1;
+                                    var xMoveAmt = Math.abs(xPath)/pathTrack;
+                                    var yMoveAmt = Math.abs(yPath)/pathTrack;
+                                    var scrollAmt = Math.abs($(this).scrollTop()-currScrollPos);
+                                    var scrollDirection = ($(this).scrollTop() < currScrollPos)? -1 : 1 ;
 
-                        //計算X軸位置
-                        currentPosX += (xMoveAmt*scrollAmt)*scrollDirection*xDirection;
-                        if (path[pathArray[i]]['start']['x'] < path[pathArray[i]]['end']['x']) {
-                            currentPosX = (currentPosX <= path[pathArray[i]]['start']['x']) ? path[pathArray[i]]['start']['x'] : currentPosX;
-                            currentPosX = (currentPosX >= path[pathArray[i]]['end']['x']) ? path[pathArray[i]]['end']['x'] : currentPosX;
+                                    //console.log("xp: "+xMoveAmt+" yp: "+yMoveAmt);
+
+                                    //計算X軸位置
+                                    currentPosX += (xMoveAmt*scrollAmt)*scrollDirection*xDirection;
+                                    if (path[pathArray[i]]['start']['x'] < path[pathArray[i]]['end']['x']) {
+                                        currentPosX = (currentPosX <= path[pathArray[i]]['start']['x']) ? path[pathArray[i]]['start']['x'] : currentPosX;
+                                        currentPosX = (currentPosX >= path[pathArray[i]]['end']['x']) ? path[pathArray[i]]['end']['x'] : currentPosX;
+                                    }else{
+                                        currentPosX = (currentPosX >= path[pathArray[i]]['start']['x']) ? path[pathArray[i]]['start']['x'] : currentPosX;
+                                        currentPosX = (currentPosX <= path[pathArray[i]]['end']['x']) ? path[pathArray[i]]['end']['x'] : currentPosX;
+                                    }
+
+                                    //計算y軸位置
+                                    currentPosY += (yMoveAmt*scrollAmt)*scrollDirection*yDirection;
+                                    //console.log("obj: "+$(obj).attr("id")+" y:"+scrollAmt+" x:"+currentPosX+" scroll: "+$(this).scrollTop());
+                                    if (path[pathArray[i]]['start']['y'] < path[pathArray[i]]['end']['y']) {
+                                        currentPosY = (currentPosY <= path[pathArray[i]]['start']['y']) ? path[pathArray[i]]['start']['y'] : currentPosY;
+                                        currentPosY = (currentPosY >= path[pathArray[i]]['end']['y']) ? path[pathArray[i]]['end']['y'] : currentPosY;
+                                    }else{
+                                        currentPosY = (currentPosY >= path[pathArray[i]]['start']['y']) ? path[pathArray[i]]['start']['y'] : currentPosY;
+                                        currentPosY = (currentPosY <= path[pathArray[i]]['end']['y']) ? path[pathArray[i]]['end']['y'] : currentPosY;
+                                    }
+
+                                    //計算z-index位置
+                                    currentPosZ = (path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop())? path[pathArray[i]]['start']['z'] : path[pathArray[i]]['end']['z'];
+                                    //console.log('currentScroll: '+$(this).scrollTop()+" endScroll: "+path[pathArray[i]]['end']['ladder']);
+
+                                    $(obj).css({'top':Math.round(currentPosY)+'px','left':Math.round(currentPosX)+'px','z-index':currentPosZ});
+                                }
+                            }
                         }else{
-                            currentPosX = (currentPosX >= path[pathArray[i]]['start']['x']) ? path[pathArray[i]]['start']['x'] : currentPosX;
-                            currentPosX = (currentPosX <= path[pathArray[i]]['end']['x']) ? path[pathArray[i]]['end']['x'] : currentPosX;
+                            //當定位在最初設定前，則將物件移到最初位置 (其他)
+                            currentPosX = path[pathArray[pathArray.length-1]]['start']['x'];
+                            currentPosY = path[pathArray[pathArray.length-1]]['start']['y'];
+                            $(obj).css({'top':Math.round(currentPosY)+'px','left':Math.round(currentPosX)+'px'});
                         }
 
-                        //計算y軸位置
-                        currentPosY += (yMoveAmt*scrollAmt)*scrollDirection*yDirection;
-                        //console.log("obj: "+$(obj).attr("id")+" y:"+scrollAmt+" x:"+currentPosX+" scroll: "+$(this).scrollTop());
-                        if (path[pathArray[i]]['start']['y'] < path[pathArray[i]]['end']['y']) {
-                            currentPosY = (currentPosY <= path[pathArray[i]]['start']['y']) ? path[pathArray[i]]['start']['y'] : currentPosY;
-                            currentPosY = (currentPosY >= path[pathArray[i]]['end']['y']) ? path[pathArray[i]]['end']['y'] : currentPosY;
+                    }else{
+                        if (position == "fixed"){
+                            //當定位已達最後設定，則將物件移動改為一般卷軸移動 (fixed)
+                            var scrollDirection = ($(this).scrollTop() < currScrollPos)? 1 : -1 ;
+                            var scrollAmt = Math.abs($(this).scrollTop()-currScrollPos);
+                            currentPosY = (currentPosY > path[pathArray[pathArray.length-1]]['end']['y']) ? path[pathArray[pathArray.length-1]]['end']['y'] : currentPosY;
+                            currentPosY += (scrollAmt)*scrollDirection;
+                            //console.log($(obj).attr("id")+": "+currentPosY);
+                            $(obj).css({'top':currentPosY+'px'});
                         }else{
-                            currentPosY = (currentPosY >= path[pathArray[i]]['start']['y']) ? path[pathArray[i]]['start']['y'] : currentPosY;
-                            currentPosY = (currentPosY <= path[pathArray[i]]['end']['y']) ? path[pathArray[i]]['end']['y'] : currentPosY;
+                            //當定位已達最後設定，則將物件移到最終位置 (其他)
+                            currentPosX = path[pathArray[pathArray.length-1]]['end']['x'];
+                            currentPosY = path[pathArray[pathArray.length-1]]['end']['y'];
+                            $(obj).css({'top':Math.round(currentPosY)+'px','left':Math.round(currentPosX)+'px'});
                         }
-
-                        //計算z-index位置
-                        currentPosZ = (path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop())? path[pathArray[i]]['start']['z'] : path[pathArray[i]]['end']['z'];
-                        //console.log('currentScroll: '+$(this).scrollTop()+" endScroll: "+path[pathArray[i]]['end']['ladder']);
-
-                        $(obj).css({'top':currentPosY+'px','left':currentPosX+'px','z-index':currentPosZ});
                     }
-                }
 
-            }else{
-                //當定位已達最後設定，則將物件移動改為一般卷軸移動
-                var scrollDirection = ($(this).scrollTop() < currScrollPos)? 1 : -1 ;
-                var scrollAmt = Math.abs($(this).scrollTop()-currScrollPos);
-                currentPosY = (currentPosY > path[pathArray[pathArray.length-1]]['end']['y']) ? path[pathArray[pathArray.length-1]]['end']['y'] : currentPosY;
-                currentPosY += (scrollAmt)*scrollDirection;
-                //console.log($(obj).attr("id")+": "+currentPosY);
-                $(obj).css({'top':currentPosY+'px'});
-            }
+                    if($(obj).attr("id") == $(".JResLadderObj").last().attr("id")) {
+                        currScrollPos = $(this).scrollTop();
+                    }
 
-            if($(obj).attr("id") == $(".JResLadderObj").last().attr("id")) {
-                currScrollPos = $(this).scrollTop();
-            }
+                    //if is setup mode, show position dialog
+                    if (mode){
+                        var showModeData = {'currScrollPos':currScrollPos,
+                                            'track':track,
+                                            'path':pathArray[currentPath],
+                                            'start':path[pathArray[currentPath]]['start']['ladder'],
+                                            'end':path[pathArray[currentPath]]['end']['ladder'],
+                                            'currentPosX':Math.round(currentPosX),
+                                            'currentPosY':Math.round(currentPosY),
+                                            'currentPosZ':currentPosZ
+                                            };
+                        fnSetupMode($(obj),showModeData);
+                        fnGlobalInfo(showModeData);
+                    }
 
-        });
+            });
+
+        }
 
 
         $(document).on('click','.resLadderJumper',function(){
@@ -2064,11 +2122,32 @@ var ladderObjAmt = 0;
             return false;
         })
 
+        //setup mode info box
+        function fnSetupMode(obj,showModeData){
+            var showModeContent = 'ScrollTrack: '+showModeData['track']+'<br>'+
+                'CurrentPath: '+showModeData['path']+'<br>'+
+                'PathStart: '+showModeData['start']+'<br>'+
+                'PathEnd: '+showModeData['end']+'<br>'+
+                'Obj1 X: '+showModeData['currentPosX']+'<br>'+
+                'Obj1 Y: '+showModeData['currentPosY']+'<br>'+
+                'Obj1 Z: '+showModeData['currentPosZ']+'<br>';
+            $(".resLadderMode",obj).remove();
+            $(obj).append('<div id="resLadderInfoBox_'+$(obj).attr("id")+'" class="resLadderMode"><div class="title">ID: '+$(obj).attr("id")+'</div><div class="content">'+showModeContent+'</div></div>');
+        }
+
+        //global info
+        function fnGlobalInfo(showModeData){
+            var showModeContent = 'CurrentScroll: '+showModeData['currScrollPos'];
+            $("#resGlobalInfo").remove();
+            $('body').append('<div id="resGlobalInfo" class="resLadderMode"><div class="title">Setup Mode: ON</div><div class="content">'+showModeContent+'</div></div>');
+        }
+
     }
 
     //物件Follow定位功能 (跟屁蟲)
     $.fn.JResFollowObj = function(options) {
         var defaults = {
+            state: true,
             position: 'absolute',
             pos: {
                 top: 0,
@@ -2079,36 +2158,40 @@ var ladderObjAmt = 0;
         };
         options = $.extend(defaults, options);
         var obj = $(this);
+        var state = options.state;
         var position = options.position;
         var pos = options.pos;
         var posY = 0;
         var delay = options.delay;
         var z = options.z;
 
-        //定義物件
-        $(obj).addClass("JResFollowObj");
+        //使用
+        if (state) {
+            //定義物件
+            $(obj).addClass("JResFollowObj");
 
-        //定位類型
-        $(obj).css({'position':position,'z-index':z});
+            //定位類型
+            $(obj).css({'position':position,'z-index':z});
 
-        //定位初始位置
-        if(!$.isEmptyObject(pos)){
-            for (var init in pos) {
-                $(obj).css(init,pos[init]);
-                if (init == "top"){
-                    posY = pos[init];
+            //定位初始位置
+            if(!$.isEmptyObject(pos)){
+                for (var init in pos) {
+                    $(obj).css(init,pos[init]);
+                    if (init == "top"){
+                        posY = pos[init];
+                    }
                 }
             }
-        }
 
-        //加入控制
-        if (position == "fixed"){
-            $(obj).css({top:($(this).scrollTop()+posY)+'px'});
-        }else{
-            var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll" //FF doesn't recognize mousewheel as of FF3.x
-            $(window).on(mousewheelevt, function(e){
-                $(obj).animate({top:($(this).scrollTop()+posY)+'px'},delay);
-            });
+            //加入控制
+            if (position == "fixed"){
+                $(obj).css({top:($(this).scrollTop()+posY)+'px'});
+            }else{
+                var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll" //FF doesn't recognize mousewheel as of FF3.x
+                $(window).on(mousewheelevt, function(e){
+                    $(obj).animate({top:($(this).scrollTop()+posY)+'px'},delay);
+                });
+            }
         }
     }
 
