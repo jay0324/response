@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/10/13
+    Date: 2015/10/19
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -975,6 +975,8 @@ var ladderObjAmt = 0;
             var objTag = $(this).prop("tagName");
             var paddingAmt = options.paddingAmt;
             var documentW = $(window).width() - paddingAmt;
+            var d = new Date();
+            var objWraperClass = "mobile_overflow_"+d.getTime();
             switch (objTag) {
               case "IMG":
                 $(this).each(function() {
@@ -1001,14 +1003,19 @@ var ladderObjAmt = 0;
                                 width: "auto",
                                 height: "auto"
                             });
-                            $(this).wrap('<div class="mobile_overflow" style="text-align:center">');
+                            $(this).wrap('<div class="'+objWraperClass+' mobile_overflow" style="text-align:center">');
                         }
                     } else {
-                        if (objW > documentW) {
-                            $(this).css({
-                                width: "100%",
-                                height: "auto"
-                            });
+                        //檢查看是否寬度偵測出來是0,如果是則直接包上overflow物件
+                        if (objW == 0) {
+                            $(this).wrap('<div class="'+objWraperClass+' mobile_overflow" style="text-align:center">');
+                        }else{
+                            if (objW > documentW) {
+                                $(this).css({
+                                    width: "100%",
+                                    height: "auto"
+                                });
+                            }
                         }
                     }
                 });
@@ -1020,7 +1027,7 @@ var ladderObjAmt = 0;
                         if ($(this).width() > (documentW-paddingAmt) && overflow == true) {
                             if (!$(this).hasClass("resUnwrap")) {
                                 $(this).width("600px");
-                                $(this).wrap('<div class="mobile_overflow">');
+                                $(this).wrap('<div class="'+objWraperClass+' mobile_overflow">');
                             }
                         }
                     });
@@ -1043,7 +1050,7 @@ var ladderObjAmt = 0;
 
             //800以下在把外框加入設備寬
             if ($(window).width() <= setUILoadWidth){
-                $(".mobile_overflow").css({"width":Math.round($(window).width()-paddingAmt)+"px"});
+                $("."+objWraperClass).css({"width":Math.round(documentW)+"px"});
             }
         }
     };
@@ -1225,21 +1232,26 @@ var ladderObjAmt = 0;
                         if (!$(this).hasClass("resUnlarger")) {
                             //再檢查是否有設定onclick event
                             if (!$(this).attr("onclick")) {
-                                //再檢查是否被a包覆，如果有則不使用此功能
-                                switch ($(this).parent("a").prop("tagName")) {
-                                    case "A":
-                                        if (enablePluginMode && fnCheckFormat($(this).parent("a").attr("href").toLowerCase())){
+                                //檢查圖片是否有usemap的attribute設定值，如果沒有才包覆此功能
+                                if ($(this).attr("usemap") == undefined) {
+                                    //再檢查是否被a包覆，如果有則不使用此功能
+                                    switch ($(this).parent("a").prop("tagName")) {
+                                        case "A":
+                                            if (enablePluginMode && fnCheckFormat($(this).parent("a").attr("href").toLowerCase())){
+                                                var doUsed = true;
+                                                enablePluginModeSource = $(this).parent("a").attr('href');
+                                                $(this).unwrap('a');
+                                            }else{
+                                                var doUsed = false;
+                                            }
+                                        break;
+                                        default:
+                                            enablePluginModeSource = $(this).attr('src');
                                             var doUsed = true;
-                                            enablePluginModeSource = $(this).parent("a").attr('href');
-                                            $(this).unwrap('a');
-                                        }else{
-                                            var doUsed = false;
-                                        }
-                                    break;
-                                    default:
-                                        enablePluginModeSource = $(this).attr('src');
-                                        var doUsed = true;
-                                    break;
+                                        break;
+                                    }
+                                }else{
+                                    var doUsed = false;
                                 }
                             } else {
                                 var doUsed = false;
@@ -1247,24 +1259,39 @@ var ladderObjAmt = 0;
                 
                             if (doUsed) {
                                 var objW,objH = 0;
+                                var d = new Date();
+                                var thisID = "resEnlarge_" + Math.floor(d.getTime()); //因為亂數會重複所以改成毫秒
+                                var wrapH = 'height:auto';
                                 $(this).load(function(){
                                     //若圖片尺寸取不到,則以100%的方式取得上層容器的尺寸
                                     $(this).css({width: "auto"});
                                     objW = $(this).width();
                                     objH = $(this).height();
-                                    if (objW >= documentW) {
-                                        objH = (documentW/objW)*objH;
+
+                                    //如果在寫入時該物件為隱藏物件，會導致物件無法偵測到尺寸，此時把該物件的寬度設定為預設外框的寬度，高度auto,設定在物件的樣式中
+                                    if (objW == 0) {
                                         objW = documentW;
+                                        $(this).css({
+                                            width: objW+"px",
+                                            height: "auto",
+                                            float: "none"
+                                        });
+                                    }else{
+                                        if (objW >= documentW) {
+                                            objH = (documentW/objW)*objH;
+                                            objW = documentW;
+                                        }
+                                        $(this).css({
+                                            width: objW+"px",
+                                            height: objH+"px",
+                                            float: "none"
+                                        });
+                                        wrapH = 'height:' + objH + 'px;';
                                     }
-                                    $(this).css({
-                                        width: objW+"px",
-                                        height: objH+"px",
-                                        float: "none"
-                                    });
+                                    
                                     
                                     //建立wrap內容
-                                    var thisID = "resEnlarge_" + Math.floor(Math.random() * 100 + 1);
-                                    $(this).wrap('<div class="resEnlargeWraper"><div id="' + thisID + '" class="resEnlarge" style="width:' + objW + 'px;height:' + objH + 'px;">');
+                                    $(this).wrap('<div class="resEnlargeWraper"><div id="' + thisID + '" class="resEnlarge" style="width:' + objW + 'px;' + wrapH + ';">');
                                     $(this).before('<div class="resEnlargeOpenIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'open',scalePx:" + scalePx + '});return false;"></div>');
                                     if (enlargeSize == "auto") {
                                         var FitIconVal = 'style="display:none"';
@@ -1929,29 +1956,16 @@ var ladderObjAmt = 0;
                         ladder: 0,
                         x: 0,
                         y: 0,
-                        z: 0
+                        z: 0,
+                        opacity: 0
                     },
                     end: {
                         ladder: 0,
                         x: 0,
                         y: 0,
-                        z: 0
+                        z: 0,
+                        opacity: 1
                     } 
-                },
-                1:{
-                   speed: 1,
-                    start:{
-                        ladder: 0,
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    },
-                    end: {
-                        ladder: 0,
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    }
                 }
             }
         };
@@ -1961,7 +1975,7 @@ var ladderObjAmt = 0;
         var mode = options.setupMode;
         var path = options.path;
         var currentPoint = 0;
-        var currentPosX,currentPosY,currentPosZ;
+        var currentPosX,currentPosY,currentPosZ,currentOpacity,scrollAmt = 0;
         var position = options.position;
         var speed = 1;
         var pathArray = [];
@@ -1984,7 +1998,15 @@ var ladderObjAmt = 0;
             $(obj).addClass("JResLadderObj");
 
             //定位物件
-            $(obj).css({'position':position,'top':path[pathArray[0]]['start']['y'],'left':path[pathArray[0]]['start']['x'],'z-index':path[pathArray[0]]['start']['z']});
+            $(obj).css({
+                'position':position,
+                'top':path[pathArray[0]]['start']['y'],
+                'left':path[pathArray[0]]['start']['x'],
+                'z-index':path[pathArray[0]]['start']['z'],
+                'opacity': path[pathArray[0]]['start']['opacity'],
+                '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity="+Math.round(path[pathArray[0]]['start']['opacity']*100)+")",
+                'filter': "alpha(opacity="+Math.round(path[pathArray[0]]['start']['opacity']*100)+")"
+            });
 
             //if is setup mode, show position dialog
             if (mode){
@@ -1995,7 +2017,9 @@ var ladderObjAmt = 0;
                                     'end':path[pathArray[0]]['end']['ladder'],
                                     'currentPosX':Math.round(path[pathArray[0]]['start']['x']),
                                     'currentPosY':Math.round(path[pathArray[0]]['start']['y']),
-                                    'currentPosZ':path[pathArray[0]]['start']['z']
+                                    'currentPosZ':path[pathArray[0]]['start']['z'],
+                                    'currentOpacity':path[pathArray[0]]['start']['opacity'],
+                                    'scrollAmt': scrollAmt
                                    };
                 fnSetupMode($(obj),showModeData);
                 fnGlobalInfo(showModeData);
@@ -2010,7 +2034,8 @@ var ladderObjAmt = 0;
                     currentPosX = parseInt($(obj).position().left);
                     currentPosY = parseInt($(obj).position().top);
                     currentPosZ = parseInt($(obj).css("z-index"));
-
+                    currentOpacity = parseFloat($(obj).css("opacity")); //parseFloat return value with floatpoint
+                    scrollAmt = 0;
                     //console.log(path['0']['start']['ladder']+","+$(this).scrollTop()+","+ (path['0']['end']['ladder'] <= $(this).scrollTop()));
                     //檢查動向
                     if (path[pathArray[pathArray.length-1]]['end']['ladder'] >= $(this).scrollTop()) {
@@ -2028,10 +2053,11 @@ var ladderObjAmt = 0;
                                     var yDirection = (yPath < 0) ? 1 : -1;
                                     var xMoveAmt = Math.abs(xPath)/pathTrack;
                                     var yMoveAmt = Math.abs(yPath)/pathTrack;
-                                    var scrollAmt = Math.abs($(this).scrollTop()-currScrollPos);
+                                    scrollAmt = Math.abs($(this).scrollTop()-currScrollPos);
                                     var scrollDirection = ($(this).scrollTop() < currScrollPos)? -1 : 1 ;
-
-                                    //console.log("xp: "+xMoveAmt+" yp: "+yMoveAmt);
+                                    var opacityAmt = Math.abs(path[pathArray[i]]['start']['opacity'] - path[pathArray[i]]['end']['opacity'])/pathTrack;
+                                    //console.log("currentOpacity: "+currentOpacity+" opacityAmt: "+opacityAmt*scrollAmt+" top: "+$(this).scrollTop()+" prev: "+currScrollPos);
+                                    //console.log("opacityAmt: "+opacityAmt);
 
                                     //計算X軸位置
                                     currentPosX += (xMoveAmt*scrollAmt)*scrollDirection*xDirection;
@@ -2058,17 +2084,39 @@ var ladderObjAmt = 0;
                                     currentPosZ = (path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop())? path[pathArray[i]]['start']['z'] : path[pathArray[i]]['end']['z'];
                                     //console.log('currentScroll: '+$(this).scrollTop()+" endScroll: "+path[pathArray[i]]['end']['ladder']);
 
-                                    $(obj).css({'top':Math.round(currentPosY)+'px','left':Math.round(currentPosX)+'px','z-index':currentPosZ});
+                                    //計算opacity值
+                                    currentOpacity += (opacityAmt*scrollAmt)*scrollDirection;
+                                    //console.log('currentScroll: '+currentOpacity);
+
+                                    $(obj).css({
+                                        'top':Math.round(currentPosY)+'px',
+                                        'left':Math.round(currentPosX)+'px',
+                                        'z-index':currentPosZ,
+                                        'opacity':currentOpacity,
+                                        '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity="+Math.round(currentOpacity*100)+")",
+                                        'filter': "alpha(opacity="+Math.round(currentOpacity*100)+")"
+                                    });
                                 }
                             }
                         }else{
                             //當定位在最初設定前，則將物件移到最初位置 (其他)
                             currentPosX = path[pathArray[pathArray.length-1]]['start']['x'];
                             currentPosY = path[pathArray[pathArray.length-1]]['start']['y'];
-                            $(obj).css({'top':Math.round(currentPosY)+'px','left':Math.round(currentPosX)+'px'});
+                            currentPosZ = path[pathArray[pathArray.length-1]]['start']['z'];
+                            currentOpacity = path[pathArray[pathArray.length-1]]['start']['opacity'];
+                            $(obj).css({
+                                'top':Math.round(currentPosY)+'px',
+                                'left':Math.round(currentPosX)+'px',
+                                'z-index':currentPosZ,
+                                'opacity':currentOpacity,
+                                '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity="+Math.round(currentOpacity*100)+")",
+                                'filter': "alpha(opacity="+Math.round(currentOpacity*100)+")"
+                            });
                         }
 
                     }else{
+                        //當定位已達最後設定
+                        currentOpacity = path[pathArray[pathArray.length-1]]['end']['opacity'];
                         if (position == "fixed"){
                             //當定位已達最後設定，則將物件移動改為一般卷軸移動 (fixed)
                             var scrollDirection = ($(this).scrollTop() < currScrollPos)? 1 : -1 ;
@@ -2076,15 +2124,27 @@ var ladderObjAmt = 0;
                             currentPosY = (currentPosY > path[pathArray[pathArray.length-1]]['end']['y']) ? path[pathArray[pathArray.length-1]]['end']['y'] : currentPosY;
                             currentPosY += (scrollAmt)*scrollDirection;
                             //console.log($(obj).attr("id")+": "+currentPosY);
-                            $(obj).css({'top':currentPosY+'px'});
+                            $(obj).css({
+                                'top':currentPosY+'px',
+                                'opacity':currentOpacity,
+                                '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity="+Math.round(currentOpacity*100)+")",
+                                'filter': "alpha(opacity="+Math.round(currentOpacity*100)+")"
+                            });
                         }else{
                             //當定位已達最後設定，則將物件移到最終位置 (其他)
                             currentPosX = path[pathArray[pathArray.length-1]]['end']['x'];
                             currentPosY = path[pathArray[pathArray.length-1]]['end']['y'];
-                            $(obj).css({'top':Math.round(currentPosY)+'px','left':Math.round(currentPosX)+'px'});
+                            $(obj).css({
+                                'top':Math.round(currentPosY)+'px',
+                                'left':Math.round(currentPosX)+'px',
+                                'opacity':currentOpacity,
+                                '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity="+Math.round(currentOpacity*100)+")",
+                                'filter': "alpha(opacity="+Math.round(currentOpacity*100)+")"
+                            });
                         }
                     }
 
+                    //update scrollPos global var
                     if($(obj).attr("id") == $(".JResLadderObj").last().attr("id")) {
                         currScrollPos = $(this).scrollTop();
                     }
@@ -2098,7 +2158,9 @@ var ladderObjAmt = 0;
                                             'end':path[pathArray[currentPath]]['end']['ladder'],
                                             'currentPosX':Math.round(currentPosX),
                                             'currentPosY':Math.round(currentPosY),
-                                            'currentPosZ':currentPosZ
+                                            'currentPosZ':currentPosZ,
+                                            'currentOpacity':currentOpacity,
+                                            'scrollAmt': scrollAmt
                                             };
                         fnSetupMode($(obj),showModeData);
                         fnGlobalInfo(showModeData);
@@ -2130,14 +2192,16 @@ var ladderObjAmt = 0;
                 'PathEnd: '+showModeData['end']+'<br>'+
                 'Obj1 X: '+showModeData['currentPosX']+'<br>'+
                 'Obj1 Y: '+showModeData['currentPosY']+'<br>'+
-                'Obj1 Z: '+showModeData['currentPosZ']+'<br>';
+                'Obj1 Z: '+showModeData['currentPosZ']+'<br>'+
+                'Opacity: '+showModeData['currentOpacity']+'<br>';
             $(".resLadderMode",obj).remove();
             $(obj).append('<div id="resLadderInfoBox_'+$(obj).attr("id")+'" class="resLadderMode"><div class="title">ID: '+$(obj).attr("id")+'</div><div class="content">'+showModeContent+'</div></div>');
         }
 
         //global info
         function fnGlobalInfo(showModeData){
-            var showModeContent = 'CurrentScroll: '+showModeData['currScrollPos'];
+            var showModeContent = 'CurrentScroll: '+showModeData['currScrollPos']+'<br>'+
+                'scrollAmt: '+showModeData['scrollAmt']+'<br>';
             $("#resGlobalInfo").remove();
             $('body').append('<div id="resGlobalInfo" class="resLadderMode"><div class="title">Setup Mode: ON</div><div class="content">'+showModeContent+'</div></div>');
         }
@@ -2648,6 +2712,13 @@ var ladderObjAmt = 0;
     //Jres 螢幕尺寸變換同步功能
     //-- check resCol img width --
     $(window).bind("load", function() {
+        //處理resTable
+        $(".resTable td").each(function(){
+            if ($(this).html() == "&nbsp;" || $(this).html() == "" || $(this).html() == " "){
+                $(this).addClass("resEmptyCol");
+            }
+        })
+
         //處理res排版圖片尺寸
         $('.resRow [class*="resCol"]').each(function() {
             $resColW = $(this).width();
