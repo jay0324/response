@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/10/19
+    Date: 2015/10/21
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -242,6 +242,25 @@ var ladderObjAmt = 0;
                     }
                     break;
 
+                    case "page":
+                        //開啟響應式頁面
+                        btnTarget = " class='resPageBtn' toggle='"+btnLink+"' ";
+                    break;
+
+                    case "loader":
+                        //開啟響應式載入頁面
+                        btnTarget = " class='resPageLoaderBtn' ";
+                        var addLoaderSetup = additionalBtnArray[i][4] != undefined ? additionalBtnArray[i][4] : "";
+                        //將其餘參數寫入
+                        if (addLoaderSetup != "") {
+                            for (var data in addLoaderSetup) {
+                                btnTarget += data + "='" + addLoaderSetup[data] + "' ";
+                            }
+                        }
+
+                    break;
+
+
                   case undefined:
                     btnTarget = "";
                     break;
@@ -308,6 +327,24 @@ var ladderObjAmt = 0;
                             showBtn = false;
                         }
                     }
+                    break;
+
+                    case "page":
+                        //開啟響應式頁面
+                        btnTarget = " class='resPageBtn' toggle='"+btnLink+"' ";
+                    break;
+
+                    case "loader":
+                        //開啟響應式載入頁面
+                        btnTarget = " class='resPageLoaderBtn' ";
+                        var addLoaderSetup = additionalBtnArray[i][4] != undefined ? additionalBtnArray[i][4] : "";
+                        //將其餘參數寫入
+                        if (addLoaderSetup != "") {
+                            for (var data in addLoaderSetup) {
+                                btnTarget += data + "='" + addLoaderSetup[data] + "' ";
+                            }
+                        }
+
                     break;
 
                   case undefined:
@@ -586,7 +623,7 @@ var ladderObjAmt = 0;
                         });
                         var pageTitle = $(this).attr("title") == "" || $(this).attr("title") == undefined ? "" : $(this).attr("title");
                         $("#resPageLoader .resAddPageTitle").text(pageTitle);
-                        if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined) {
+                        if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined || $(this).attr("toggle") == "iframe") {
                             //iframe loader
                             $("#resPageLoad_loading_icon").show();
                             // show Loading Div
@@ -617,7 +654,7 @@ var ladderObjAmt = 0;
                     });
                     var pageTitle = $(this).attr("title") == "" || $(this).attr("title") == undefined ? "" : $(this).attr("title");
                     $("#resPageLoader .resAddPageTitle").text(pageTitle);
-                    if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined) {
+                    if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined || $(this).attr("toggle") == "iframe") {
                         //iframe loader
                         $("#resPageLoad_loading_icon").show();
                         // show Loading Div
@@ -1022,11 +1059,18 @@ var ladderObjAmt = 0;
                 break;
 
               case "TABLE":
-                if (600 > documentW) {
+                if (setUILoadWidth > documentW) {
+                    var setWidth = "";
+                    if (documentW > 600 && documentW <= 1000) {
+                        setWidth = "1000px";
+                    }else{
+                        setWidth = "600px";
+                    }
+
                     $(this).each(function() {
                         if ($(this).width() > (documentW-paddingAmt) && overflow == true) {
                             if (!$(this).hasClass("resUnwrap")) {
-                                $(this).width("600px");
+                                $(this).width(setWidth);
                                 $(this).wrap('<div class="'+objWraperClass+' mobile_overflow">');
                             }
                         }
@@ -1036,10 +1080,9 @@ var ladderObjAmt = 0;
 
               default:
                 $(this).each(function() {
-                    //console.log('objW:'+$(this).width()+' activeW:'+(documentW-paddingAmt));
                     if ($(this).width() > (documentW-paddingAmt) && overflow == true) {
                         if (!$(this).hasClass("resUnwrap")) {
-                            $(this).wrap('<div class="mobile_overflow">');
+                            $(this).wrap('<div class="'+objWraperClass+' class="mobile_overflow">');
                         }
                     } else {
                         $(this).width("100%");
@@ -1412,7 +1455,7 @@ var ladderObjAmt = 0;
                             JResEnlargeControl({
                                 id: $(this).attr("toggle"),
                                 action:'plus',
-                                scalePx: Math.round(((touchOrangal - updateOrangal)*-1)/5)
+                                scalePx: Math.round((touchOrangal - updateOrangal)*-1)
                             });
                             touchOrangal = updateOrangal; //更新touch間距
                         }

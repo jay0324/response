@@ -4,10 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/10/19 修改:
-- 分析resTable的td資料如果為空值及隱藏
-- 修正如果讀不到值的情況，Enlarge及Overflow會以預設設備寬來做容器的尺寸
-- ladder加入opacity設定
+Date: 2015/10/21 修改:
+- additionalBtn按鈕加入page及loader的按鈕設定
+- 修正resEnlarge的touch,將其倍數改為1:1
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -85,9 +84,38 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 						   res_langSwitch:true/false (是否使用語言切換開關,預設true)
 						   res_tabJumperSetting: {} (設定Tab標籤頁面定位, 預設值 state:true,speed:3000),
             			   res_mobileTopNavBtnSetup: {} (設定上方主選單, 預設值 state:true,type:fixed,primary:true,width:50,height:50,margin:5),
-            			   additionalBtn: [["按鈕ID名稱","按鈕連結","按鈕顯示文字","按鈕目標 (一般target視窗目標如:target,new,blank等 或 pannel來啟動響應式視窗/tab來建立Tab標籤定位按鈕)",["pannel值啟動之響應式視窗位置(top,top_small,left,right,left_under,right_under)","pannel值啟動之響應式視窗內容"]],...],
-            			   res_mobileBottomNavBtnSetup: {} (設定下方主選單, 預設值 state:false,type:fixed,primary:true,width:50,height:50,margin:5),
-            			   additionalBottomBtn: [["按鈕ID名稱","按鈕連結","按鈕顯示文字","按鈕目標 (一般target視窗目標如:target,new,blank等 或 pannel來啟動響應式視窗/tab來建立Tab標籤定位按鈕)",["pannel值啟動之響應式視窗位置(top,top_small,left,right,left_under,right_under)","pannel值啟動之響應式視窗內容"]],...],
+            			   additionalBtn: [
+	            			   	[
+	            			   		"按鈕ID名稱",
+	            			   		"按鈕連結",
+	            			   		"按鈕顯示文字",
+	            			   		"按鈕目標 (一般target視窗目標如:target,new,blank等 或 pannel來啟動響應式視窗/tab來建立Tab標籤定位按鈕)",
+	            			   		[
+	            			   			"pannel值啟動之響應式視窗位置(top,top_small,left,right,left_under,right_under)",
+	            			   			"pannel值啟動之響應式視窗內容"
+	            			   		]
+	            			   	],
+	            			   	[
+	            			   		"按鈕ID名稱",
+	            			   		"自行建立響應式頁面的ID",
+	            			   		"按鈕顯示文字",
+	            			   		"page"
+	            			   	],
+	            			   	[
+	            			   		"按鈕ID名稱",
+	            			   		"預載入之URL",
+	            			   		"按鈕顯示文字",
+	            			   		"loader",
+	            			   		{
+	            			   			title: 頁面標題 (字串),
+										toggle: Loader類型 (字串 ajax/iframe 預設iframe),
+										toggleDom: ajax載入特定物件 (字串 ID或Class)
+	            			   		}
+	            			   	]
+
+            			   	],
+            			   res_mobileBottomNavBtnSetup: 請參照res_mobileTopNavBtnSetup的設定值,
+            			   additionalBottomBtn: 請參照additionalBtn的設定值,
             			   scrollTop: 使用ScrollToTop外掛功能 (預設:true)
 						  });
 			
