@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/10/21
+    Date: 2015/10/26
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -622,6 +622,7 @@ var ladderObjAmt = 0;
                             id: "#resPageLoader"
                         });
                         var pageTitle = $(this).attr("title") == "" || $(this).attr("title") == undefined ? "" : $(this).attr("title");
+                        var toggleParam = ($(this).attr("toggleParam") == undefined || $(this).attr("toggleParam") == "") ? "" : $(this).attr("toggleParam");
                         $("#resPageLoader .resAddPageTitle").text(pageTitle);
                         if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined || $(this).attr("toggle") == "iframe") {
                             //iframe loader
@@ -630,7 +631,7 @@ var ladderObjAmt = 0;
                             setTimeout("JResLoader({dom:'#resPageLoad_loading_icon'})", 800);
                             var url = $(this).attr("href");
                             var height = $(window).height() - 120;
-                            $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '">');
+                            $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '" '+toggleParam+'>');
                         } else {
                             //ajax loader
                             if ($(this).attr("toggle") == "ajax") {
@@ -653,6 +654,7 @@ var ladderObjAmt = 0;
                         id: "#resPageLoader"
                     });
                     var pageTitle = $(this).attr("title") == "" || $(this).attr("title") == undefined ? "" : $(this).attr("title");
+                    var toggleParam = ($(this).attr("toggleParam") == undefined || $(this).attr("toggleParam") == "") ? "" : $(this).attr("toggleParam");
                     $("#resPageLoader .resAddPageTitle").text(pageTitle);
                     if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined || $(this).attr("toggle") == "iframe") {
                         //iframe loader
@@ -661,7 +663,7 @@ var ladderObjAmt = 0;
                         setTimeout("JResLoader({dom:'#resPageLoad_loading_icon'})", 800);
                         var url = $(this).attr("href");
                         var height = $(window).height() - 120;
-                        $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '">');
+                        $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '" '+toggleParam+'>');
                     } else {
                         //ajax loader
                         if ($(this).attr("toggle") == "ajax") {
@@ -1106,7 +1108,9 @@ var ladderObjAmt = 0;
             transitTime: 3,
             holdTime: 5,
             paddingAmt: 20,
-            layout: "clear"
+            layout: "clear",
+            onTrans: false,
+            onHold: false
         };
         options = $.extend(defaults, options);
         if (options.childTag.toLowerCase() == "img") $(options.childTag, this).addClass("resUnlarger");
@@ -1142,14 +1146,18 @@ var ladderObjAmt = 0;
         $(options.disObj).addClass("resJSlideImg");
         //if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
         var paddingAmt = options.paddingAmt;
-        var maxAmt = $(options.childTag.toLowerCase(), this).length - 1;
-        var maxJSlideWidth = $(window).width() - paddingAmt;
+        var maxAmt = $(">"+options.childTag.toLowerCase(), this).length - 1;
         var resJSlideWidth, resJSlideHeight;
         var resContainer = $(this);
+        //螢幕寬與上層容器取得其最小值來作為最大寬度
+        var maxJSlideWidth = Math.min(($(window).width() - paddingAmt), ($(resContainer).parent().width() - paddingAmt));
+        if (maxJSlideWidth == 0) maxJSlideWidth = $(window).width() - paddingAmt;
+
         //設定物件長寬
         $(options.childTag.toLowerCase() + ":eq(0)", this).load(function() {
             resJSlideWidth = $(this).width();
             resJSlideHeight = $(this).height();
+
             if (resJSlideWidth >= maxJSlideWidth) {
                 resJSlideHeight = resJSlideHeight * (maxJSlideWidth / resJSlideWidth);
                 resJSlideWidth = maxJSlideWidth;
@@ -1174,7 +1182,9 @@ var ladderObjAmt = 0;
                     curr: 0,
                     maxAmt: maxAmt,
                     transitTime: options.transitTime,
-                    holdTime: options.holdTime
+                    holdTime: options.holdTime,
+                    onTrans: options.onTrans,
+                    onHold: options.onHold
                 });
             }
         }
@@ -1188,7 +1198,9 @@ var ladderObjAmt = 0;
             curr: 0,
             maxAmt: 0,
             transitTime: 0,
-            holdTime: 0
+            holdTime: 0,
+            onTrans: false,
+            onHold: false
         };
         options = $.extend(defaults, options);
         var disObj = options.disObj;
@@ -1197,22 +1209,66 @@ var ladderObjAmt = 0;
         var maxAmt = options.maxAmt;
         var transitTime = options.transitTime;
         var holdTime = options.holdTime;
-        if (curr != 0) {
-            var prev = curr - 1;
+        var prev = (curr > 0) ? curr - 1 : maxAmt; //prev obj
+        
+        //客製變換效果
+        if (options.onTrans != false) {
+            options.onTrans.call({
+                curr: $("#" + disObj + ">" + childTag + ":eq(" + curr + ")"),
+                prev: $("#" + disObj + ">" + childTag + ":eq(" + prev + ")")
+            });
+
+            //載入物件延伸
+            if (options.onHold != false) {
+                options.onHold.call( $("#" + disObj + ">" + childTag + ":eq(" + curr + ")") ); 
+            }
+            curr = (curr < maxAmt) ? curr+1 : 0;
+            //console.log(curr+","+prev);
+            setTimeout(function(){
+                setTimeout(function(){
+                    JResSlideShow({
+                        disObj:disObj,
+                        childTag:childTag,
+                        curr:curr,
+                        maxAmt:maxAmt,
+                        transitTime:transitTime,
+                        holdTime:holdTime,
+                        onTrans: options.onTrans,
+                        onHold: options.onHold
+                    });
+                }, holdTime * 1e3);
+            },transitTime * 1e3);
+
+        }else{
+            //out effect
             $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").animate({
                 opacity: "0"
-            }, transitTime * 1e3);
-        } else {
-            $("#" + disObj + ">" + childTag + ":eq(" + maxAmt + ")").animate({
-                opacity: "0"
-            }, transitTime * 1e3);
+            }, transitTime * 1e3, "linear");
+
+            //in effect
+            $("#" + disObj + ">" + childTag + ":eq(" + curr + ")").animate({
+                opacity: "1"
+            }, transitTime * 1e3, "linear", function() {
+                //載入物件延伸
+                if (options.onHold != false) {
+                    options.onHold.call( $("#" + disObj + ">" + childTag + ":eq(" + curr + ")") ); 
+                }
+                curr = (curr < maxAmt) ? curr+1 : 0;
+                setTimeout(function(){
+                    JResSlideShow({
+                        disObj:disObj,
+                        childTag:childTag,
+                        curr:curr,
+                        maxAmt:maxAmt,
+                        transitTime:transitTime,
+                        holdTime:holdTime,
+                        onTrans: options.onTrans,
+                        onHold: options.onHold
+                    });
+                }, holdTime * 1e3);
+            });
         }
-        $("#" + disObj + ">" + childTag + ":eq(" + curr + ")").animate({
-            opacity: "1"
-        }, transitTime * 1e3, function() {
-            curr < maxAmt ? curr++ : curr = 0;
-            setTimeout("JResSlideShow({disObj:'" + disObj + "',childTag:'" + childTag + "',curr:" + curr + ",maxAmt:" + maxAmt + ",transitTime:" + transitTime + ",holdTime:" + holdTime + "});", holdTime * 1e3);
-        });
+
     };
     //JSlideImg slideshow loop controller
     //取JRes Cookie參數值
@@ -1243,6 +1299,16 @@ var ladderObjAmt = 0;
             }
         }
     };
+
+    //取得是否為手持設備 (true: 手持設備 false: 非手持設備)
+    $.JRes_isMobile = function(){
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile|Android)/)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //JResEnlarge 放大圖功能
     $.fn.JResEnlarge = function(options) {
         //make img with enlarge formate
@@ -1265,7 +1331,11 @@ var ladderObjAmt = 0;
                 var enlargeSize = options.enlargeSize;
                 var scalePx = options.scalePx;
                 var paddingAmt = options.paddingAmt;
-                var documentW = $(window).width() - paddingAmt;
+                //var documentW = $(window).width() - paddingAmt;
+                //螢幕寬與上層容器取得其最小值來作為最大寬度
+                var documentW = Math.min(($(window).width() - paddingAmt), ($(this).parent().width() - paddingAmt));
+                if (documentW == 0) documentW = $(window).width() - paddingAmt;
+
                 var touchOrangal, updateOrangal = 0;
 
                 $(this).each(function() {
@@ -1307,7 +1377,7 @@ var ladderObjAmt = 0;
                                 var wrapH = 'height:auto';
                                 $(this).load(function(){
                                     //若圖片尺寸取不到,則以100%的方式取得上層容器的尺寸
-                                    $(this).css({width: "auto"});
+                                    $(this).css({width: "auto",height: "auto"});
                                     objW = $(this).width();
                                     objH = $(this).height();
 
@@ -1632,9 +1702,11 @@ var ladderObjAmt = 0;
             $(".resPopupBoxWrap").html(popupBox);
 
             $(".resPopupBoxWrap").fadeIn(500); 
+            $("body").css({'overflow':'hidden'});
             
         }else{
             $(".resPopupBoxWrap").fadeOut(500);
+            $("body").css({'overflow':'auto'});
         }
 
     }
@@ -1985,6 +2057,90 @@ var ladderObjAmt = 0;
         }
     };
 
+    //延遲載入功能
+    $.fn.JResDelayLoader = function(options) {
+        var defaults = {
+            state: true,
+            loadObj: '',
+            delay: 200,
+            transition: 500,
+            eventPos: 100,
+            onLoad: false
+        };
+        options = $.extend(defaults, options);
+        var obj = $(this);
+        var loadObj = options.loadObj;
+        var delay = options.delay;
+        var transition = options.transition;
+        var state = options.state;
+        var eventPos = options.eventPos;
+        var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll" //FF doesn't recognize mousewheel as of FF3.x
+        
+        //如果是啟用且有物件才執行
+        if (state && $(obj).length > 0) {            
+                if (loadObj != '') {
+                    //如果有設定欲執行延遲載入的子物件，則執行預設載入動作
+                    $(loadObj,obj).css({
+                                    'opacity': 0,
+                                    '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)",
+                                    'filter': 'alpha(opacity=0)',
+                                    '-khtml-opacity': 0,
+                                    '-moz-opacity': 0
+                    });
+                }
+
+                $(window).on(mousewheelevt, function(e){
+                    //if scroll to the end of page, then show all hidden items
+                    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                        fnTrggleEffect();
+                    }
+
+                    //init triggle when half browser height hit the scroll obj
+                    var trigglePos = $(window).scrollTop() + Math.round(($(window).height()/2)+eventPos);
+                    if ($(obj).position().top < trigglePos){
+                        fnTrggleEffect();
+                    }
+                })
+
+                //當文件載入時,先行偵測目前卷軸位置,並進行動作
+                $(window).on('load', function(){
+                    //init triggle when half browser height hit the scroll obj
+                    var trigglePos = $(window).scrollTop() + Math.round(($(window).height()/2)+eventPos);
+                    if ($(obj).position().top < trigglePos){
+                         fnTrggleEffect();
+                    }
+
+                    //if scroll to the end of page, then show all hidden items
+                    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                        fnTrggleEffect();
+                    }
+                })
+        }
+
+        //載入效果
+        function fnTrggleEffect(){
+            if (loadObj != '') {
+                if ($(loadObj,obj).attr("load") != "complete") {
+                    var maxAmt = $(loadObj,obj).length;
+                    var delayAmt = 0;
+                    for (var i = 0; i<maxAmt; i++ ){
+                        delayAmt+=delay;
+                        $(loadObj+":eq("+i+")",obj).delay(delayAmt).animate({
+                            'opacity': 1,
+                            '-ms-filter': "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)",
+                            'filter': 'alpha(opacity=100)',
+                            '-khtml-opacity': 1,
+                            '-moz-opacity': 1
+                        },transition).attr("load","complete");
+                    }
+                }
+            }
+            if (options.onLoad != false) {
+                options.onLoad.call( obj ); //執行其他客製的動作
+            }
+        }
+    }
+
     //物件ladder定位功能
     $.fn.JResLadderObj = function(options) {
         var defaults = {
@@ -2027,6 +2183,7 @@ var ladderObjAmt = 0;
         var winW = $(window).width();
         var currentPath;
 
+
         //定位位置
         if(!$.isEmptyObject(path)){
             for (var point in path) {
@@ -2034,8 +2191,12 @@ var ladderObjAmt = 0;
             }
         }
 
-        //若有啟用
-        if (state) {
+        //若有啟用且該頁面有此物件
+        if (state && $(obj).length > 0) {
+
+            //定義物件的預設ladder高度
+            var initStartLadderForGeneal = (position == "fixed") ? 0 : Math.round($(container).position().top)-Math.round($(window).height());
+            var initEndLadderForGeneal = (position == "fixed") ? 0 : Math.round($(container).position().top)+Math.round($(window).height());
 
             //定義物件
             $(obj).addClass("JResLadderObj");
@@ -2081,15 +2242,15 @@ var ladderObjAmt = 0;
                     scrollAmt = 0;
                     //console.log(path['0']['start']['ladder']+","+$(this).scrollTop()+","+ (path['0']['end']['ladder'] <= $(this).scrollTop()));
                     //檢查動向
-                    if (path[pathArray[pathArray.length-1]]['end']['ladder'] >= $(this).scrollTop()) {
-                        if (path[pathArray[pathArray.length-1]]['start']['ladder'] <= $(this).scrollTop()) {
+                    if ((path[pathArray[pathArray.length-1]]['end']['ladder'] + initEndLadderForGeneal) >= $(this).scrollTop()) {
+                        if ((path[pathArray[pathArray.length-1]]['start']['ladder'] + initStartLadderForGeneal) <= $(this).scrollTop()) {
                             for (var i = 0; i < pathArray.length; i++) {
                             //針對目前的scrollTop位置尋找適合的定位點
-                                if(path[pathArray[i]]['start']['ladder'] <= $(this).scrollTop() && path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop()){
+                                if((path[pathArray[i]]['start']['ladder'] + initStartLadderForGeneal) <= $(this).scrollTop() && (path[pathArray[i]]['end']['ladder'] + initEndLadderForGeneal) >= $(this).scrollTop()){
                                     currentPath = i;
                                     //console.log("scroll: "+$(this).scrollTop()+" start:"+path[pathArray[i]]['start']['ladder']+" end:"+path[pathArray[i]]['end']['ladder']);
 
-                                    var pathTrack = path[pathArray[i]]['end']['ladder'] - path[pathArray[i]]['start']['ladder'];
+                                    var pathTrack = (path[pathArray[i]]['end']['ladder'] + initEndLadderForGeneal) - (path[pathArray[i]]['start']['ladder'] + initStartLadderForGeneal);
                                     var xPath = path[pathArray[i]]['start']['x'] - path[pathArray[i]]['end']['x'];
                                     var yPath = path[pathArray[i]]['start']['y'] - path[pathArray[i]]['end']['y'];
                                     var xDirection = (xPath < 0) ? 1 : -1;
@@ -2124,7 +2285,7 @@ var ladderObjAmt = 0;
                                     }
 
                                     //計算z-index位置
-                                    currentPosZ = (path[pathArray[i]]['end']['ladder'] >= $(this).scrollTop())? path[pathArray[i]]['start']['z'] : path[pathArray[i]]['end']['z'];
+                                    currentPosZ = ((path[pathArray[i]]['end']['ladder'] + initEndLadderForGeneal) >= $(this).scrollTop())? path[pathArray[i]]['start']['z'] : path[pathArray[i]]['end']['z'];
                                     //console.log('currentScroll: '+$(this).scrollTop()+" endScroll: "+path[pathArray[i]]['end']['ladder']);
 
                                     //計算opacity值
@@ -2197,8 +2358,8 @@ var ladderObjAmt = 0;
                         var showModeData = {'currScrollPos':currScrollPos,
                                             'track':track,
                                             'path':pathArray[currentPath],
-                                            'start':path[pathArray[currentPath]]['start']['ladder'],
-                                            'end':path[pathArray[currentPath]]['end']['ladder'],
+                                            'start':(path[pathArray[currentPath]]['start']['ladder'] + initStartLadderForGeneal),
+                                            'end':(path[pathArray[currentPath]]['end']['ladder'] + initEndLadderForGeneal),
                                             'currentPosX':Math.round(currentPosX),
                                             'currentPosY':Math.round(currentPosY),
                                             'currentPosZ':currentPosZ,
@@ -2218,7 +2379,7 @@ var ladderObjAmt = 0;
             var getToggleObj = $(this).attr("toggle");
             var getLadderPoint = $(this).attr("ladder");
             if ($(obj).attr("id") == getToggleObj) {
-               var toMoveFromTop = path[pathArray[getLadderPoint]]['end']['ladder']; 
+               var toMoveFromTop = (path[pathArray[getLadderPoint]]['end']['ladder'] + initEndLadderForGeneal); 
             }
             //console.log(toMoveFromTop);
             $("html, body").animate({
@@ -2231,8 +2392,8 @@ var ladderObjAmt = 0;
         function fnSetupMode(obj,showModeData){
             var showModeContent = 'ScrollTrack: '+showModeData['track']+'<br>'+
                 'CurrentPath: '+showModeData['path']+'<br>'+
-                'PathStart: '+showModeData['start']+'<br>'+
-                'PathEnd: '+showModeData['end']+'<br>'+
+                'PathStart: '+(showModeData['start'] + initStartLadderForGeneal)+'<br>'+
+                'PathEnd: '+(showModeData['end'] + initEndLadderForGeneal)+'<br>'+
                 'Obj1 X: '+showModeData['currentPosX']+'<br>'+
                 'Obj1 Y: '+showModeData['currentPosY']+'<br>'+
                 'Obj1 Z: '+showModeData['currentPosZ']+'<br>'+
@@ -2273,7 +2434,7 @@ var ladderObjAmt = 0;
         var z = options.z;
 
         //使用
-        if (state) {
+        if (state && $(obj).length > 0) {
             //定義物件
             $(obj).addClass("JResFollowObj");
 
@@ -2755,6 +2916,7 @@ var ladderObjAmt = 0;
     //Jres 螢幕尺寸變換同步功能
     //-- check resCol img width --
     $(window).bind("load", function() {
+
         //處理resTable
         $(".resTable td").each(function(){
             if ($(this).html() == "&nbsp;" || $(this).html() == "" || $(this).html() == " "){
@@ -2788,5 +2950,12 @@ var ladderObjAmt = 0;
                 }
             });
         });
+
     });
+
+    //document ready action
+    $(document).ready(function(){
+        //取消a在IE中的focus
+        $("a").focus(function(){$(this).blur()})
+    })
 })(jQuery);

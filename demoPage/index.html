@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ladder demo</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <!--響應式設定-->
+    <link rel="stylesheet" type="text/css" href="../response/_css/default.css" media="all"> <!--響應式預設樣式-->
+    <link rel="stylesheet" type="text/css" href="response/_css/custom.css" media="all"> <!--客制設定樣式-->
+    <script type="text/javascript" src="../response/jquery.min.js"></script> <!--jQuery-->
+    <script type="text/javascript" src="../response/jquery.transform.min.js"></script> <!--jQuery Cross Browser Transform 外掛-->
+    <script type="text/javascript" src="../response/response.min.js"></script> <!--response主程式-->
+    <script type="text/javascript" src="response/custom.js"></script> <!--response客制設定-->
+    <!--響應式設定-->
+</head>
+<body>
+
+    <div class="resContainer">
+        <div class="resDocLayout">
+            <div id="row0" class="resRow">
+                <div class="resCol2 center">
+                    <div id="logo">
+                        <img src="_img/1920x600.jpg" />
+                    </div>
+                </div>
+                <div class="resCol10">
+                    <div id="lang" class="btn_group">
+                        <ul>
+                            <li id="link1"><a href="#">lang1</a></li>
+                            <li id="link2"><a href="#">lang2</a></li>
+                            <li id="link3"><a href="#">lang3</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="resCol10">
+                    <div id="nav" class="btn_group">
+                        <ul>
+                            <li id="link1"><a href="#row2" class="resTabJumper">Link1</a></li>
+                            <li id="link2"><a href="#row5" class="resTabJumper">Link2</a></li>
+                            <li id="link3"><a href="https://www.youtube.com/embed/J97WAK738fI" class="resPageLoaderBtn" title="test Windows" tigger="always" toggleParam="allowfullscreen">Link3</a></li>
+                            <li id="link4"><a href="#" class="resLadderJumper" toggle="ladderObj2" ladder="0" >Link4</a></li>
+                            <li id="link5"><a href="#" class="resLadderJumper" toggle="ladderObj2" ladder="0" >Link5</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="row1" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div class="resCol12">
+                    <div id="slideshow">
+                        <div class="slide">
+                            <a href="#">
+                                <img class="img" src="_img/1920x600.jpg" />
+                                <div class="des">Descript 1</div>
+                            </a>
+                        </div>
+                        <div class="slide">
+                            <a href="#">
+                                <img class="img" src="_img/1920x600.jpg" />
+                                <div class="des">Descript 2</div>
+                            </a>
+                        </div>
+                        <div class="slide">
+                            <a href="#">
+                                <img class="img" src="_img/1920x600.jpg" />
+                                <div class="des">Descript 3</div>
+                            </a>
+                        </div>
+                        <div class="slide">
+                            <a href="#">
+                                <img class="img" src="_img/1920x600.jpg" />
+                                <div class="des">Descript 4</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="row2" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div class="resCol6">
+                    <div class="resMargin">
+                        <div id="slideshow2">
+                            <img src="_img/1920x600.jpg" />
+                            <img src="_img/1920x600.jpg" />
+                            <img src="_img/1920x600.jpg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="resCol6">
+                    <div class="resMargin">
+                        <div id="slideshow3">
+                            <img src="_img/1920x600.jpg" />
+                            <img src="_img/1920x600.jpg" />
+                            <img src="_img/1920x600.jpg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row3" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div class="resCol4">
+                    <div class="resMargin"><img src="_img/1920x600.jpg" /></div>
+                </div>
+                <div class="resCol4">
+                    <div class="resMargin"><img src="_img/1920x600.jpg" /></div>
+                </div>
+                <div class="resCol4">
+                    <div class="resMargin"><img src="_img/1920x600.jpg" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row4" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div class="resCol3">
+                    <div class="resMargin"><img class="resEnlargeObj" src="_img/1920x600.jpg" /></div>
+                </div>
+                <div class="resCol3">
+                    <div class="resMargin"><img class="resEnlargeObj" src="_img/1920x600.jpg" /></div>
+                </div>
+                <div class="resCol3">
+                    <div class="resMargin"><img class="resEnlargeObj" src="_img/1920x600.jpg" /></div>
+                </div>
+                <div class="resCol3">
+                    <div class="resMargin"><img class="resEnlargeObj" src="_img/1920x600.jpg" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row5" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div class="resCol12">
+                    <div id="myItemSlider" class="resMargin">
+                        <div class="sliderContainer">
+                            <ul>
+                                <li><a href=""><img src="_img/1920x600.jpg" alt="" /></a></li>
+                                <li><a href=""><img src="_img/1920x600.jpg" alt="" /></a></li>
+                                <li><a href=""><img src="_img/1920x600.jpg" alt="" /></a></li>
+                                <li><a href=""><img src="_img/1920x600.jpg" alt="" /></a></li>
+                                <li><a href=""><img src="_img/1920x600.jpg" alt="" /></a></li>
+                                <li><a href=""><img src="_img/1920x600.jpg" alt="" /></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="row5" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div class="resCol6">
+                    <div id="myTabList" class="resMargin">
+                        <ul class="tabs">
+                            <li><a href="#tab1" class="tabsBtn">TAB 1</a></li>
+                            <li><a href="#tab2" class="tabsBtn">TAB 2</a></li>
+                        </ul>
+
+                        <ul class="tabs_content">
+                            <li id="tab1" class="tabsContent">
+
+        <h2>Tab1 Content</h2>              
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br>
+        <br>
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+                            </li>
+                            <li id="tab2" class="tabsContent">
+        <h2>Tab2 Content</h2>              
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br>
+        <br>
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="resCol6">
+                    <div id="myTabList2" class="resMargin">
+                        <ul class="tabs">
+                            <li><a href="#tab1" class="tabsBtn">TAB 1</a></li>
+                            <li><a href="#tab2" class="tabsBtn">TAB 2</a></li>
+                        </ul>
+
+                        <ul class="tabs_content">
+                            <li id="tab1" class="tabsContent">
+
+        <h2>Tab1 Content</h2>              
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br>
+        <br>
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+                            </li>
+                            <li id="tab2" class="tabsContent">
+        <h2>Tab2 Content</h2>              
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br>
+        <br>
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="footer" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow">
+                <div id="footer_1" class="resCol12 center">
+                    <div class="resMargin">
+                        Copyright &Copy Ladder Demo | JQuery Responsive Plugin
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="followUpObj">
+        This is A Box always follow the page scroll
+    </div>
+    
+</body>
+</html>

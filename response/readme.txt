@@ -4,9 +4,14 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/10/21 修改:
-- additionalBtn按鈕加入page及loader的按鈕設定
-- 修正resEnlarge的touch,將其倍數改為1:1
+Date: 2015/10/26 修改:
+- JResDelayLoader功能加入
+- JSlideImg加入onTrans及onHold參數
+- 加入cross browser jquery + css3 transform 外掛
+- 修正resEnlarge在resLayout下寬度無法正常偵測的問題
+- resLayout樣式加入.resContainer及.resDocLayout預設樣式,用來設定文件寬度
+- JResDelayLoader添加eventPos參數
+- 加入取消a標籤在IE中會有focus的效果，把img標籤在IE中預設的border取消
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -25,9 +30,10 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 如果沒有的人請直接編輯_css下的css檔案
 
 <!--響應式設定-->
-<link rel="stylesheet" type="text/css" href="response/_css/default.css" media="all"> <!--無響應式預設樣式-->
+<link rel="stylesheet" type="text/css" href="response/_css/default.css" media="all"> <!--響應式預設樣式-->
 <link rel="stylesheet" type="text/css" href="response/_css/custom.css" media="all"> <!--客制設定樣式-->
 <script type="text/javascript" src="response/jquery.min.js"></script> <!--jQuery-->
+<script type="text/javascript" src="response/jquery.transform.min.js"></script> <!--jQuery Cross Browser Transform 外掛-->
 <script type="text/javascript" src="response/response.min.js"></script> <!--response主程式-->
 <script type="text/javascript" src="response/custom.js"></script> <!--response客制設定-->
 <!--響應式設定-->
@@ -155,7 +161,9 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 								transitTime: 畫面切換秒數,
 								holdTime: 畫面停留秒數,
 								paddingAmt: 相對縮圖尺寸(px),
-								layout: 排版 如: left: 靠齊左 / right:靠其右 / 預設:清除
+								layout: 排版 如: left: 靠齊左 / right:靠其右 / 預設:清除,
+								onTrans: function(){}, //客製倫播效果 預設:false
+								onHold: function(){} //客製內容物件動態效果 預設:false
 							});
 			
 			//將表格Table轉格響應式格式
@@ -166,6 +174,9 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 			
 			//取得網站根目錄
 			$.JRes_modulePath()
+
+			//取得是否為手持設備
+			$.JRes_isMobile()
 			
 			//響應式選單按鈕設定值
 			$(obj).addClass("resBtn");
@@ -181,6 +192,7 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 			$(obj).attr("tigger","載入情況"); //選擇填寫 (always: 總是使用 / 預設: 只在800寬度下使用)
 			$(obj).attr("toggle","載入方式"); //選擇填寫 (ajax: 使用ajax載入 / 預設: 預設以iframe載入)
 			$(obj).attr("toggleDom","ajax載入特定物件"); //選擇填寫 (帶入ajax頁面中的ID,tag,或class)
+			$(obj).attr("toggleParam","iframe attribute"); //選擇填寫 (帶入iframe頁面中的參數如:allowfullscreen)
 
 			//Tab標籤頁面定位按鈕設定值
 			$(obj).addClass("resTabJumper");
@@ -299,6 +311,16 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 		        },
 		        delay: 100 		//延遲速度
 			});
+
+			//延遲載入動作偵測
+			$(containerID).JResDelayLoader({
+				state: 是否使用 (布林 預設true),
+            	loadObj: 延遲載入的物件ID或class (字串: 預設為空值),
+            	delay: 每個物件載入延遲的時間 (毫秒: 預設200),
+            	transition: 載入效果的時間 (毫秒: 500),
+            	eventPos: 觸發動作的位置(預設100,為瀏覽器高度的一半加100，您可以加減其數值),
+				onLoad: function () {} //其他延遲後載入的動作,預設false
+			})
 
 			
 		})

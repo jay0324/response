@@ -40,6 +40,9 @@
 	overflow-scrolling: $value;
 }
 
+img{
+	border:0;
+}
 
 #mobile_nav, .flipContent, #mobile_nav_bottom {
 	display: none;
@@ -187,10 +190,23 @@ table {
 .clear {
 	clear: both;
 }
+
+.resContainer{
+	width:100%;
+	position:relative;
+	z-index:1;
+	.resDocLayout{
+		position:relative;
+		margin:0 auto;
+		width:1280px;
+	}
+}
+
 .resRow {
 	display: block;
 	width: 100%;
 	height: auto;
+	position:relative;
 
 	&:after {
 		clear: both;
@@ -519,6 +535,11 @@ table {
 	- ipad portrait / general screen portrait (768px)
 */
 @media (max-width:800px){
+	/* res Document Width */
+	.resContainer{
+		position:static;
+	}
+
 	/*content close mask*/
 	#resContentMask{
 		width: 100%;
