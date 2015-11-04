@@ -4,14 +4,11 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/10/26 修改:
-- JResDelayLoader功能加入
-- JSlideImg加入onTrans及onHold參數
-- 加入cross browser jquery + css3 transform 外掛
-- 修正resEnlarge在resLayout下寬度無法正常偵測的問題
-- resLayout樣式加入.resContainer及.resDocLayout預設樣式,用來設定文件寬度
-- JResDelayLoader添加eventPos參數
-- 加入取消a標籤在IE中會有focus的效果，把img標籤在IE中預設的border取消
+Date: 2015/11/4 修改:
+- JSlideImg加入以下參數
+thumb: {}, setupResposive: {}
+- JResContentTab 樣式修改,將position設定刪除
+- $(img).load().each(function(){if(this.complete) {$(this).trigger('load');}}); 取代為 $(img).one('load', function() {}).each(function(){if(this.complete) {$(this).trigger('load');}});
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -162,9 +159,29 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 								holdTime: 畫面停留秒數,
 								paddingAmt: 相對縮圖尺寸(px),
 								layout: 排版 如: left: 靠齊左 / right:靠其右 / 預設:清除,
+								thumb: {						//小圖切換按鈕
+					                state: true,				//是否使用(預設false)
+					                amount: 4,					//一次顯示數量
+					                width:50,					//小圖寬度
+					                height:50,					//小圖高度
+					                type: 'horizontal',			//顯示方式(直式:vertical 橫式: horizontal)
+					                position: 'left:10px;bottom:10px;'	//位置(以style的方式來定位，結尾一定要有分號，不然會顯示不出來)
+					            },
+					            setupResposive: {				//小圖在不同尺寸下的設定
+					            	600:{						//尺寸
+					            								//設定參照thumb的設定項目
+					            	}
+					            },
 								onTrans: function(){}, //客製倫播效果 預設:false
 								onHold: function(){} //客製內容物件動態效果 預設:false
 							});
+			//html結構
+			<div id="mySlideshow">
+				<img src="img_path" toggle-thumb-source="thumb_img_path" toggle-thumb-title="thumb_title" />
+				.
+				.
+				.//除了img已外也可以用其他標籤來當子項目,childTag值請設定為該標籤即可
+			</div>
 			
 			//將表格Table轉格響應式格式
 			$(obj).addClass("resTable");

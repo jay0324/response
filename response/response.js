@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/10/26
+    Date: 2015/11/4
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -1021,7 +1021,7 @@ var ladderObjAmt = 0;
                 $(this).each(function() {
                     var objW = 0;
                     var objH = 0;
-                    $(this).load(function() {
+                    $(this).one('load', function() {
                         $(this).css({
                             width: "auto",
                             height: "auto"
@@ -1099,7 +1099,7 @@ var ladderObjAmt = 0;
             }
         }
     };
-    //JSOvflow 橫向卷軸功能
+
     //JSlideImg 功能
     $.fn.JSlideImg = function(options) {
         var defaults = {
@@ -1107,8 +1107,18 @@ var ladderObjAmt = 0;
             childTag: "img",
             transitTime: 3,
             holdTime: 5,
-            paddingAmt: 20,
+            paddingAmt: 0,
             layout: "clear",
+            thumb: {
+                state: false,
+                amount: 4,
+                width:100,
+                height:100,
+                type: 'vertical',
+                position: 'right:0;'
+            },
+            autoPlay: true,
+            setupResposive: {},
             onTrans: false,
             onHold: false
         };
@@ -1147,14 +1157,20 @@ var ladderObjAmt = 0;
         //if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
         var paddingAmt = options.paddingAmt;
         var maxAmt = $(">"+options.childTag.toLowerCase(), this).length - 1;
+        var maxAmtThumb = $(">"+options.childTag.toLowerCase(), this).length;
         var resJSlideWidth, resJSlideHeight;
         var resContainer = $(this);
+        var autoPlay = options.autoPlay;
+        var curr = 0;
+        var begin = true;
+        var loop;
+
         //螢幕寬與上層容器取得其最小值來作為最大寬度
         var maxJSlideWidth = Math.min(($(window).width() - paddingAmt), ($(resContainer).parent().width() - paddingAmt));
         if (maxJSlideWidth == 0) maxJSlideWidth = $(window).width() - paddingAmt;
 
         //設定物件長寬
-        $(options.childTag.toLowerCase() + ":eq(0)", this).load(function() {
+        $(options.childTag.toLowerCase() + ":eq(0)", this).one('load', function() {
             resJSlideWidth = $(this).width();
             resJSlideHeight = $(this).height();
 
@@ -1170,26 +1186,315 @@ var ladderObjAmt = 0;
             $(this).trigger('load');
           }
         });
+
+        var thumb = options.thumb;
+        var setupResposive = options.setupResposive;
+        //檢查是否有響應式設定
+        if(!$.isEmptyObject(setupResposive)){
+            var checkWinWArray = [];
+            for (var winW in setupResposive){
+                checkWinWArray.push(winW); //先建立Windows Index for sorting
+            }
+
+            checkWinWArray = checkWinWArray.sort(function(a, b){return b-a}); //DESC Sorting
+
+            //update listAmt
+            for (var i=0;i<checkWinWArray.length;i++) {
+                if ($(window).width() < checkWinWArray[i]) {
+                    thumb['state'] = (setupResposive[checkWinWArray[i]]['state'] != undefined)?setupResposive[checkWinWArray[i]]['state']:thumb['state'];
+                    thumb['amount'] = (setupResposive[checkWinWArray[i]]['amount'] != undefined)?setupResposive[checkWinWArray[i]]['amount']:thumb['amount'];
+                    thumb['width'] = (setupResposive[checkWinWArray[i]]['width'] != undefined)?setupResposive[checkWinWArray[i]]['width']:thumb['width'];
+                    thumb['height'] = (setupResposive[checkWinWArray[i]]['height'] != undefined)?setupResposive[checkWinWArray[i]]['height']:thumb['height'];
+                    thumb['type'] = (setupResposive[checkWinWArray[i]]['type'] != undefined)?setupResposive[checkWinWArray[i]]['type']:thumb['type'];
+                    thumb['position'] = (setupResposive[checkWinWArray[i]]['position'] != undefined)?setupResposive[checkWinWArray[i]]['position']:thumb['position'];
+                }
+            }
+        }
+
+        //取得物件小圖設定值
+        if(!$.isEmptyObject(thumb)){
+            if(thumb['state']) {
+                var ThumbScroller = (maxAmtThumb <= thumb['amount']) ? false : true;
+                if (thumb['type'] == 'vertical') {
+                    var btnW = (thumb['width']+12);
+                    var btnH = (ThumbScroller) ? 20 : 0;
+                    var positionPrev = "top:0;";
+                    var positionNext = "bottom:0;";
+                    var positionTrack = "top:"+btnH+"px;";
+                    var thumbW = (thumb['width']+12);
+                    var thumbH = (((thumb['height']+12) * thumb['amount']) + (btnH*2));
+                    var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbH)-((btnH*2)+(10*thumb['amount']));
+                    var thumbWUL = (thumb['width']+12) + 'px';
+                    var thumbHUL = "auto";
+                 }else{
+                    var btnW = (ThumbScroller) ? 20 : 0;
+                    var btnH = (thumb['height']+12);
+                    var positionPrev = "left:0;";
+                    var positionNext = "right:0;";
+                    var positionTrack = "left:"+btnW+"px;";
+                    var thumbW = (((thumb['width']+12) * thumb['amount']) + (btnW*2));
+                    var thumbH = (thumb['height']+12);
+                    var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbW)-((btnW*2)+(10*thumb['amount']));
+                    var thumbWUL = 'auto';
+                    var thumbHUL = (thumb['height']+12) + 'px';
+                 } 
+
+                var thumbDom = '<div class="resJSlideImgThumb" style="'+thumb['position']+'width:'+thumbW+'px;height:'+thumbH+'px">'+
+                '<a class="resJSlideImgThumbPrev end" href="#" style="'+positionPrev+'width:'+btnW+'px;height:'+btnH+'px"></a>'+
+                '<ul class="resJSlideImgThumbTrack" style="'+positionTrack+'width:'+thumbWUL+';height:'+thumbHUL+'">';
+                $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).each(function(){
+                    var source = ($(this).attr('toggle-thumb-source') == undefined || $(this).attr('toggle-thumb-source') == "") ? $(this).attr('src') : $(this).attr('toggle-thumb-source');
+                    var title = ($(this).attr('toggle-thumb-title') == undefined || $(this).attr('toggle-thumb-title') == "") ? $(this).attr('title') : $(this).attr('toggle-thumb-title');
+                    thumbDom += '<li class="resJSlideImgThumbItem" style="width:'+thumb['width']+'px;height:'+thumb['height']+'px;">'+
+                        '<img src="'+source+'" />'+
+                        '<span>'+title+'</span>'+
+                    '</li>';
+                })
+                thumbDom += '</ul><a class="resJSlideImgThumbNext" href="#" style="'+positionNext+'width:'+btnW+'px;height:'+btnH+'px"></a></div>';
+                $("#" + options.disObj.attr("id")).append(thumbDom);
+            }
+        }
+
         if ($("#" + options.disObj.attr("id")).length > 0 && $("#" + options.disObj.attr("id")).css("display") != "none") {
             if (maxAmt == 0) {
                 $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).animate({
                     opacity: "1"
                 }, options.transitTime * 1e3);
             } else {
+
+                //add current active class to thumb item
+                $("#" + options.disObj.attr("id") + " .resJSlideImgThumbItem").removeClass('active');
+                $("#" + options.disObj.attr("id") + " .resJSlideImgThumbItem:eq("+curr+")").addClass('active');
+
+                //start to slide the first slidshow
                 JResSlideShow({
-                    disObj: options.disObj.attr("id"),
-                    childTag: options.childTag.toLowerCase(),
-                    curr: 0,
-                    maxAmt: maxAmt,
-                    transitTime: options.transitTime,
-                    holdTime: options.holdTime,
-                    onTrans: options.onTrans,
-                    onHold: options.onHold
+                        disObj: options.disObj.attr("id"),
+                        childTag: options.childTag.toLowerCase(),
+                        curr: curr,
+                        maxAmt: maxAmt,
+                        transitTime: options.transitTime,
+                        holdTime: options.holdTime,
+                        begin: begin,
+                        onTrans: options.onTrans,
+                        onHold: options.onHold
                 });
+
+                begin = false; //進場預設值設為flase
+                curr = (curr < maxAmt) ? curr+1 : 0; //取得下一個項目
+
+                //如果有自訂transition延遲時間加上去
+                if (options.onTrans != false) {
+                    var loopTime = options.holdTime * 1e3 + options.transitTime * 1e3;
+                }else{
+                    var loopTime = options.holdTime * 1e3;
+                }
+
+                //start loop the slideshow
+                loop = setInterval(function(){
+                    //set loop for thumb track
+                    if (ThumbScroller && thumb['state']) {
+                        if (thumb['type'] == 'vertical') {
+                            var currentTrackPosition = (Math.floor(curr/thumb['amount'])*thumbH)-((btnH*2)+(10*thumb['amount']));
+                            var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("top").replace("px",""));
+                            //console.log(currentTrackPosition+','+(currentPosition*-1));
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
+                            if (currentTrackPosition > (currentPosition*-1)) {
+                                if ((maxThumbTrack*-1) < currentPosition) {
+                                    var newPos = (currentPosition-thumbH+(btnH*2));
+                                }
+                                $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                    top: newPos + "px"
+                                },500);
+                            }else if (curr == 0){
+                                $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                    top: btnH + "px"
+                                },500);
+                            }
+                        }else{
+                            var currentTrackPosition = (Math.floor(curr/thumb['amount'])*thumbW)-((btnW*2)+(10*thumb['amount']));
+                            var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("left").replace("px",""));
+                            //console.log(currentTrackPosition+','+(currentPosition*-1));
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
+                            if (currentTrackPosition > (currentPosition*-1)) {
+                                if ((maxThumbTrack*-1) < currentPosition) {
+                                    var newPos = (currentPosition-thumbW+(btnW*2));
+                                }
+                                $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                    left: newPos + "px"
+                                },500);
+                            }else if (curr == 0){
+                                $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                    left: btnW + "px"
+                                },500);
+                            }
+                        }
+                    }
+
+                    JResSlideShow({
+                        disObj: options.disObj.attr("id"),
+                        childTag: options.childTag.toLowerCase(),
+                        curr: curr,
+                        maxAmt: maxAmt,
+                        transitTime: options.transitTime,
+                        holdTime: options.holdTime,
+                        begin: begin,
+                        onTrans: options.onTrans,
+                        onHold: options.onHold
+                    });
+
+                    curr = (curr < maxAmt) ? curr+1 : 0; //取得下一個項目
+
+                }, loopTime);
             }
         }
+
+        //thumb controller
+        $("#" + options.disObj.attr("id")).on('click',".resJSlideImgThumbItem", function(){
+            //reset loop and all current state
+            clearTimeout(loop);
+            $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).each(function(){
+                if(!$(this).hasClass("resJSlideImgThumb")) {
+                    $(this).animate({
+                        opacity: "0"
+                    }, 500);
+                }
+            })
+            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbItem").removeClass('active');
+
+            //set click item to current state
+            curr = $(this).index();
+            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbItem:eq("+curr+")").addClass('active');
+            begin = true;
+            JResSlideShow({
+                        disObj: options.disObj.attr("id"),
+                        childTag: options.childTag.toLowerCase(),
+                        curr: curr,
+                        maxAmt: maxAmt,
+                        transitTime: options.transitTime,
+                        holdTime: options.holdTime,
+                        begin: begin,
+                        onTrans: options.onTrans,
+                        onHold: options.onHold
+            });
+            begin = false; //進場預設值設為flase
+            curr = (curr < maxAmt) ? curr+1 : 0; //取得下一個項目
+
+            //declear new loop
+            loop = setInterval(function(){
+                //set loop for thumb track
+                if (ThumbScroller && thumb['state']) {
+                    if (thumb['type'] == 'vertical') {
+                        var currentTrackPosition = (Math.floor(curr/thumb['amount'])*thumbH)-((btnH*2)+(10*thumb['amount']));
+                        var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("top").replace("px",""));
+                        //console.log(currentTrackPosition+','+(currentPosition*-1));
+                        $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
+                        $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
+                        if (currentTrackPosition > (currentPosition*-1)) {
+                            if ((maxThumbTrack*-1) < currentPosition) {
+                                var newPos = (currentPosition-thumbH+(btnH*2));
+                            }
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                top: newPos + "px"
+                            },500);
+                        }else if (curr == 0){
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                top: btnH + "px"
+                            },500);
+                        }
+                    }else{
+                        var currentTrackPosition = (Math.floor(curr/thumb['amount'])*thumbW)-((btnW*2)+(10*thumb['amount']));
+                        var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("left").replace("px",""));
+                        //console.log(currentTrackPosition+','+(currentPosition*-1));
+                        $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
+                        $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
+                        if (currentTrackPosition > (currentPosition*-1)) {
+                            if ((maxThumbTrack*-1) < currentPosition) {
+                                var newPos = (currentPosition-thumbW+(btnW*2));
+                            }
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                left: newPos + "px"
+                            },500);
+                        }else if (curr == 0){
+                            $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                                left: btnW + "px"
+                            },500);
+                        }
+                    }
+                }
+
+                    JResSlideShow({
+                        disObj: options.disObj.attr("id"),
+                        childTag: options.childTag.toLowerCase(),
+                        curr: curr,
+                        maxAmt: maxAmt,
+                        transitTime: options.transitTime,
+                        holdTime: options.holdTime,
+                        begin: begin,
+                        onTrans: options.onTrans,
+                        onHold: options.onHold
+                    });
+
+                    curr = (curr < maxAmt) ? curr+1 : 0; //取得下一個項目
+
+            }, loopTime);
+            return false;
+        })
+
+        //thumb prevBtn
+        $("#" + options.disObj.attr("id")).on('click',".resJSlideImgThumbPrev", function(){
+            if (thumb['type'] == 'vertical') {
+                var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("top").replace("px",""));
+                if (currentPosition < btnH) {
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                        top: (currentPosition+thumbH-(btnH*2)) + "px"
+                    },500);
+                }else{
+                    $(this).addClass('end');
+                }
+            }else{
+                var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("left").replace("px",""));
+                if (currentPosition < btnW) {
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                        left: (currentPosition+thumbW-(btnW*2)) + "px"
+                    },500);
+                }else{
+                    $(this).addClass('end');
+                }
+            }
+            return false;
+        })
+
+        //thumb nextBtn
+        $("#" + options.disObj.attr("id")).on('click',".resJSlideImgThumbNext", function(){
+            if (thumb['type'] == 'vertical') {
+                var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("top").replace("px",""));
+                if ((maxThumbTrack*-1) < currentPosition) {
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                        top: (currentPosition-thumbH+(btnH*2)) + "px"
+                    },500);
+                }else{
+                    $(this).addClass('end');
+                }
+            }else{
+                var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("left").replace("px",""));
+                if ((maxThumbTrack*-1) < currentPosition) {
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
+                    $("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").animate({
+                        left: (currentPosition-thumbW+(btnW*2)) + "px"
+                    },500);
+                }else{
+                    $(this).addClass('end');
+                }
+            }
+            return false;
+        })
     };
-    //JSlideImg 功能結束
+
     //JSlideImg slideshow loop controller
     JResSlideShow = function(options) {
         var defaults = {
@@ -1199,6 +1504,7 @@ var ladderObjAmt = 0;
             maxAmt: 0,
             transitTime: 0,
             holdTime: 0,
+            begin: false,
             onTrans: false,
             onHold: false
         };
@@ -1207,43 +1513,43 @@ var ladderObjAmt = 0;
         var childTag = options.childTag;
         var curr = options.curr;
         var maxAmt = options.maxAmt;
+        var begin = options.begin; //是否為第一次進場
         var transitTime = options.transitTime;
         var holdTime = options.holdTime;
+        //若不是第一次進場才進行上一張圖退場動作
         var prev = (curr > 0) ? curr - 1 : maxAmt; //prev obj
-        
+
+        $("#" + disObj + " .resJSlideImgThumbItem").removeClass('active');
+        $("#" + disObj + " .resJSlideImgThumbItem:eq("+curr+")").addClass('active');
+
         //客製變換效果
         if (options.onTrans != false) {
+
             options.onTrans.call({
                 curr: $("#" + disObj + ">" + childTag + ":eq(" + curr + ")"),
-                prev: $("#" + disObj + ">" + childTag + ":eq(" + prev + ")")
+                prev: $("#" + disObj + ">" + childTag + ":eq(" + prev + ")"),
+                begin: begin
             });
+            
 
             //載入物件延伸
-            if (options.onHold != false) {
-                options.onHold.call( $("#" + disObj + ">" + childTag + ":eq(" + curr + ")") ); 
-            }
-            curr = (curr < maxAmt) ? curr+1 : 0;
-            //console.log(curr+","+prev);
-            setTimeout(function(){
-                setTimeout(function(){
-                    JResSlideShow({
-                        disObj:disObj,
-                        childTag:childTag,
-                        curr:curr,
-                        maxAmt:maxAmt,
-                        transitTime:transitTime,
-                        holdTime:holdTime,
-                        onTrans: options.onTrans,
-                        onHold: options.onHold
-                    });
-                }, holdTime * 1e3);
-            },transitTime * 1e3);
+            setTimeout( 
+                function() {
+                    if (options.onHold != false) {
+                        options.onHold.call( $("#" + disObj + ">" + childTag + ":eq(" + curr + ")") );
+                    }
+                }
+            , transitTime * 1e3);
+
 
         }else{
             //out effect
-            $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").animate({
-                opacity: "0"
-            }, transitTime * 1e3, "linear");
+            //若不是第一次進場才進行上一張圖退場動作
+            if (!begin) {
+                $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").animate({
+                    opacity: "0"
+                }, transitTime * 1e3, "linear");
+            }
 
             //in effect
             $("#" + disObj + ">" + childTag + ":eq(" + curr + ")").animate({
@@ -1253,24 +1559,12 @@ var ladderObjAmt = 0;
                 if (options.onHold != false) {
                     options.onHold.call( $("#" + disObj + ">" + childTag + ":eq(" + curr + ")") ); 
                 }
-                curr = (curr < maxAmt) ? curr+1 : 0;
-                setTimeout(function(){
-                    JResSlideShow({
-                        disObj:disObj,
-                        childTag:childTag,
-                        curr:curr,
-                        maxAmt:maxAmt,
-                        transitTime:transitTime,
-                        holdTime:holdTime,
-                        onTrans: options.onTrans,
-                        onHold: options.onHold
-                    });
-                }, holdTime * 1e3);
+
             });
         }
 
     };
-    //JSlideImg slideshow loop controller
+
     //取JRes Cookie參數值
     $.JRes_getCookie = function(options) {
         var defaults = {
@@ -1285,7 +1579,7 @@ var ladderObjAmt = 0;
         }
         return "";
     };
-    //取JRes Cookie參數值結束
+
     //取得模組跟目錄參數路徑
     $.JRes_modulePath = function() {
         var scripts = document.getElementsByTagName("script");
@@ -1375,7 +1669,7 @@ var ladderObjAmt = 0;
                                 var d = new Date();
                                 var thisID = "resEnlarge_" + Math.floor(d.getTime()); //因為亂數會重複所以改成毫秒
                                 var wrapH = 'height:auto';
-                                $(this).load(function(){
+                                $(this).one('load', function() {
                                     //若圖片尺寸取不到,則以100%的方式取得上層容器的尺寸
                                     $(this).css({width: "auto",height: "auto"});
                                     objW = $(this).width();
@@ -1570,7 +1864,7 @@ var ladderObjAmt = 0;
             return checkFormat;
         }
     };
-    //JResEnlarge 放大圖功能
+
     //mobile enlarge control
     JResEnlargeControl = function(options) {
         var defaults = {
@@ -1638,6 +1932,7 @@ var ladderObjAmt = 0;
             break;
         }
     };
+
     //resPopup box
     $(function(){$('body').append('<div class="resPopupBoxWrap">');})
     $.fn.JResPopupBox = function(options) {
@@ -1659,7 +1954,7 @@ var ladderObjAmt = 0;
                 default:
                     var defaultW,defaultH;
                     var imgW,imgH; 
-                    $(this).load(function(){
+                    $(this).one('load', function() {
                         defaultW = $(this).css('width');
                         defaultH = $(this).css('height');
                         $(this).css({width: "auto",height: "auto"}); //先還原圖片
@@ -2561,17 +2856,7 @@ var ladderObjAmt = 0;
                     width: 20
                 }
             },
-            setupResposive: {
-                800:{
-                    listAmt: 5
-                },
-                600:{
-                    listAmt: 4
-                },
-                420:{
-                    listAmt: 2
-                }
-            }
+            setupResposive: {}
         };
         options = $.extend(defaults, options);
 

@@ -24,19 +24,25 @@ $(function() {
 
     //slideshow custom
     var setH = ($(window).width() <= 800) ? $(window).height() - 150 : $(window).height() -150;
+    var imgW,imgH,setL;
     $("#slideshow, #slideshow .slide, #slideshow .img").height(setH);
 
-    $("#slideshow .img:eq(0)").load(function(){
+    $("#slideshow .img:eq(0)").one('load', function() {
         if ($(this).width() < $(window).width()) {
             $("#slideShow .img").width($(window).width());
         }
-        var imgW = $(this).width();
-        var imgH = $(this).height();
-        var setL = (($(window).width() - imgW)/2);
+        imgW = $(this).width();
+        imgH = $(this).height();
+        setL = (($(window).width() - imgW)/2);
+
         $("#slideshow .img").css({
             left:setL+"px",
             width: imgW+"px",
             height: imgH+"px"
+        })
+
+        $('#slideshow .des').css({
+            'bottom': '-80px'
         })
 
         $("#slideshow").JSlideImg({
@@ -44,9 +50,19 @@ $(function() {
             childTag: 'div',
             transitTime:5,
             holdTime:5,
+            thumb: {
+                state: true,
+                amount: 4,
+                width:50,
+                height:50,
+                type: 'horizontal',
+                position: 'left:10px;bottom:10px;'
+            },
             onTrans: function(){
                 var curr = this.curr;
                 var prev = this.prev;
+                var begin = this.begin;
+
                 $(curr).css({
                     'opacity':'0'
                 }).animate({
@@ -61,47 +77,61 @@ $(function() {
                     height:(imgH*1.1)+'px'
                 },5000,"linear");
 
-                $(prev).css({
-                    'opacity':'1'
-                }).animate({
-                    'opacity':'0'
-                },5000,"linear");
+                if (!begin) {
+                    $(prev).css({
+                        'opacity':'1'
+                    }).animate({
+                        'opacity':'0'
+                    },5000,"linear");
 
-                $('.img',prev).css({
-                    width:(imgW*1.2)+'px',
-                    height:(imgH*1.2)+'px'
-                }).animate({
-                    width:(imgW*1.3)+'px',
-                    height:(imgH*1.3)+'px'
-                },5000,"linear");
+                    $('.img',prev).css({
+                        width:(imgW*1.2)+'px',
+                        height:(imgH*1.2)+'px'
+                    }).animate({
+                        width:(imgW*1.3)+'px',
+                        height:(imgH*1.3)+'px'
+                    },5000,"linear");
+                }
 
             },
             onHold: function(){
-                $('.img',this).css({
-                    width:(imgW*1.1)+'px',
-                    height:(imgH*1.1)+'px'
-                }).animate({
+                $('.img',this).animate({
                     width:(imgW*1.2)+'px',
                     height:(imgH*1.2)+'px'
                 },5000,"linear");
 
-                $('.des',this).css({
-                    'bottom': '-80px'
-                }).delay(3000).animate({
+                $('.des',this).animate({
                     'bottom': '0'
-                },2000);
+                },1000);
             }
         })
+
     }).each(function(){
         if(this.complete) $(this).trigger('load');
     });
 
     //slideshow
     $("#slideshow2").JSlideImg({
-        paddingAmt: 0
+        paddingAmt: 0,
+        thumb: {
+                state: true,
+                amount: 2,
+                width:50,
+                height:50,
+                type: 'vertical',
+                position: 'left:0;'
+            }
     })
     $("#slideshow3").JSlideImg({
-        paddingAmt: 0
+        paddingAmt: 0,
+        thumb: {
+                state: true,
+                amount: 2,
+                width:50,
+                height:50,
+                type: 'horizontal',
+                position: 'bottom:0;left:0;'
+            }
     })
 
     //slider
