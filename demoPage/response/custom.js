@@ -58,6 +58,12 @@ $(function() {
                 type: 'horizontal',
                 position: 'left:10px;bottom:10px;'
             },
+            slideBtn:{
+                state: true,
+                width: 60,
+                height: 100,
+                type: 'horizontal'
+            },
             onTrans: function(){
                 var curr = this.curr;
                 var prev = this.prev;
@@ -116,10 +122,27 @@ $(function() {
         thumb: {
                 state: true,
                 amount: 2,
-                width:50,
-                height:50,
+                width:30,
+                height:30,
                 type: 'vertical',
                 position: 'left:0;'
+            },
+            slideBtn:{
+                state: true,
+                width: 50,
+                height: 20,
+                type: 'vertical'
+            },
+            setupResposive: {
+                600:{
+                        width:50,
+                        height:50,
+                        amount: 1,
+                        slideBtn:{
+                            width: 100,
+                            height: 5
+                        }
+                    }
             }
     })
     $("#slideshow3").JSlideImg({
@@ -131,7 +154,13 @@ $(function() {
                 height:50,
                 type: 'horizontal',
                 position: 'bottom:0;left:0;'
-            }
+            },
+            slideBtn:{
+                state: true,
+                width: 20,
+                height: 50,
+                type: 'horizontal'
+            },
     })
 
     //slider

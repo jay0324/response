@@ -4,11 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/11/4 修改:
+Date: 2015/11/5 修改:
 - JSlideImg加入以下參數
-thumb: {}, setupResposive: {}
-- JResContentTab 樣式修改,將position設定刪除
-- $(img).load().each(function(){if(this.complete) {$(this).trigger('load');}}); 取代為 $(img).one('load', function() {}).each(function(){if(this.complete) {$(this).trigger('load');}});
+slideBtn:{}
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -154,6 +152,7 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 			
 			//簡易淡出淡入畫面切換效果函式
 			$(obj).JSlideImg({
+								autoPlay: true, //自動撥放 預設: ture
 								childTag: "畫面切換物件的tag, 如: img,div,a,...",
 								transitTime: 畫面切換秒數,
 								holdTime: 畫面停留秒數,
@@ -167,9 +166,16 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 					                type: 'horizontal',			//顯示方式(直式:vertical 橫式: horizontal)
 					                position: 'left:10px;bottom:10px;'	//位置(以style的方式來定位，結尾一定要有分號，不然會顯示不出來)
 					            },
+					            slideBtn:{
+					                state: true,				//是否使用上下項目切換按鈕組
+					                width: 100,					//按鈕寬
+					                height: 100,				//按鈕高
+					                type: 'horizontal'			//按鈕呈現方式(直式:vertical 橫式: horizontal) 
+					            },
 					            setupResposive: {				//小圖在不同尺寸下的設定
 					            	600:{						//尺寸
 					            								//設定參照thumb的設定項目
+					            		slideBtn:{}				//上下項目切換按鈕組設定值請參照上面設定方式
 					            	}
 					            },
 								onTrans: function(){}, //客製倫播效果 預設:false

@@ -226,6 +226,20 @@ img{
 			}
 		}
 	}
+
+	.resJSlideImgslideBtn{
+		position:absolute;
+		opacity: 1;
+		filter: alpha(opacity=100);
+		.resJSlideImgslideBtnPrev{
+			position:absolute;
+			background:#666;
+		}
+		.resJSlideImgslideBtnNext{
+			position:absolute;
+			background:#666;
+		}
+	}
 }
 
 /*enlarge 還原*/
