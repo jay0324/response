@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/5
+    Date: 2015/11/9
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
@@ -1645,6 +1645,24 @@ var ladderObjAmt = 0;
         }
     }
 
+    //取得是否有flash支援 (true: 有支援 false: 非支援)
+    $.JRes_isFlash = function(){
+        var hasFlash = false;
+        try {
+          var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+          if (fo) {
+            hasFlash = true;
+          }
+        } catch (e) {
+          if (navigator.mimeTypes
+                && navigator.mimeTypes['application/x-shockwave-flash'] != undefined
+                && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
+            hasFlash = true;
+          }
+        }
+        return hasFlash;
+    }
+
     //JResEnlarge 放大圖功能
     $.fn.JResEnlarge = function(options) {
         //make img with enlarge formate
@@ -1670,7 +1688,7 @@ var ladderObjAmt = 0;
                 //var documentW = $(window).width() - paddingAmt;
                 //螢幕寬與上層容器取得其最小值來作為最大寬度
                 var documentW = Math.min(($(window).width() - paddingAmt), ($(this).parent().width() - paddingAmt));
-                if (documentW == 0) documentW = $(window).width() - paddingAmt;
+                if (documentW <= 100) documentW = $(window).width() - paddingAmt;
 
                 var touchOrangal, updateOrangal = 0;
 
@@ -1708,14 +1726,16 @@ var ladderObjAmt = 0;
                 
                             if (doUsed) {
                                 var objW,objH = 0;
-                                var d = new Date();
-                                var thisID = "resEnlarge_" + Math.floor(d.getTime()); //因為亂數會重複所以改成毫秒
                                 var wrapH = 'height:auto';
                                 $(this).one('load', function() {
+                                    var d = new Date();
+                                    var thisID = "resEnlarge_" + Math.floor(d.getTime()); //因為亂數會重複所以改成毫秒
+                                    
                                     //若圖片尺寸取不到,則以100%的方式取得上層容器的尺寸
                                     $(this).css({width: "auto",height: "auto"});
                                     objW = $(this).width();
                                     objH = $(this).height();
+                                    
 
                                     //如果在寫入時該物件為隱藏物件，會導致物件無法偵測到尺寸，此時把該物件的寬度設定為預設外框的寬度，高度auto,設定在物件的樣式中
                                     if (objW == 0) {
@@ -1738,9 +1758,10 @@ var ladderObjAmt = 0;
                                         wrapH = 'height:' + objH + 'px;';
                                     }
                                     
+                                    //console.log(documentW+','+objW+','+objH);
                                     
                                     //建立wrap內容
-                                    $(this).wrap('<div class="resEnlargeWraper"><div id="' + thisID + '" class="resEnlarge" style="width:' + objW + 'px;' + wrapH + ';">');
+                                    $(this).wrap('<div class="resEnlargeWraper"><div id="' + thisID + '" class="resEnlarge" style="width:' + objW + 'px;' + wrapH + '">');
                                     $(this).before('<div class="resEnlargeOpenIcon" onclick="JResEnlargeControl({id:\'' + thisID + "',action:'open',scalePx:" + scalePx + '});return false;"></div>');
                                     if (enlargeSize == "auto") {
                                         var FitIconVal = 'style="display:none"';
@@ -1760,6 +1781,7 @@ var ladderObjAmt = 0;
                                                             '<div class="resEnlargeControlBar">' + resEnlargeControl + "</div>" + 
                                                             '<img id="' + thisID + '_enObj" src="' + extraSource + '" style="width:' + enlargeSize + ';height:auto;" />' + "</div>";
                                     $(this).after(resEnlargeContent);
+
                                 }).each(function(){
                                   if(this.complete) {
                                     $(this).trigger('load');
@@ -1991,12 +2013,24 @@ var ladderObjAmt = 0;
 
         //effect
         if (action == "open"){
+            //建立pupup up物件
+            var popupBox = '<div class="resPopupBoxContent">'+
+                                '<div class="resPopupBoxCloseBtn"></div>'+
+                                '<div class="resPopupBoxContentArea">'+
+                                '</div>'+
+                            '</div>';
+            //將popup物件寫入
+            $(".resPopupBoxWrap").html(popupBox);
+
+            //判斷要開啟的物件
             switch(type){
                 case "img":
                 default:
                     var defaultW,defaultH;
-                    var imgW,imgH; 
-                    $(this).one('load', function() {
+                    var imgW,imgH;
+                    var source = $(this).attr("source"); //先取得我們要放大的圖
+                    $('body').append('<img class="resTmpImgObj" src="'+source+'" />'); //建立放大物件已取得尺寸
+                    $(".resTmpImgObj").one('load', function() {
                         defaultW = $(this).css('width');
                         defaultH = $(this).css('height');
                         $(this).css({width: "auto",height: "auto"}); //先還原圖片
@@ -2004,39 +2038,35 @@ var ladderObjAmt = 0;
                         imgH = $(this).height(); 
                         $(this).css({width: defaultW,height: defaultH});//在復原原設定
 
+                        //console.log('W:'+imgW+', H:'+imgH+' WinW:'+$(window).width()+' WinH:'+$(window).height());
+
+                         if (imgH > imgW){
+                            //如果圖片是直的
+                            if (imgH > $(window).height()) {
+                                setStyle = 'style="width:auto;height:'+($(window).height()-100)+'px;"';
+                            }
+                         }else{
+                            //如果圖片是橫的或方的
+                            if (imgW > $(window).width()) {
+                                setStyle = 'style="width:'+($(window).width()-100)+'px;height:auto;"';
+                            }else if (imgH > $(window).height()) {
+                                setStyle = 'style="width:auto;height:'+($(window).height()-100)+'px;"';
+                            }
+                         }
+                            
+                         content = '<img src="'+source+'" '+setStyle+' />';
+
+                         $(this).remove(); //取得尺寸後移除
+                         $(".resPopupBoxContentArea").append(content); //將內容寫入
+
                     }).each(function(){
                       if(this.complete) {
                         $(this).trigger('load');
                       }
                     });
-
-                     if (imgH > imgW){
-                        //如果圖片是直的
-                        if (imgH > $(window).height()) {
-                            setStyle = 'style="width:auto;height:'+($(window).height()-200)+'px;"';
-                        }
-                        //console.log('W:'+imgW+', H:'+imgH+' WinW:'+$(window).width()+' WinH:'+$(window).height());
-                     }else{
-                        //如果圖片是橫的或方的
-                        if (imgW > $(window).width()) {
-                            setStyle = 'style="width:'+($(window).width()-200)+'px;height:auto;"';
-                        }else if (imgH > $(window).height()) {
-                            setStyle = 'style="width:auto;height:'+($(window).height()-200)+'px;"';
-                        }
-                     }
-                        
-                     content = '<img src="'+$(this).attr("source")+'" '+setStyle+' />';
-
+                    
                 break;
             }
-            var popupBox = '<div class="resPopupBoxContent">'+
-                                '<div class="resPopupBoxCloseBtn"></div>'+
-                                '<div class="resPopupBoxContentArea">'+
-                                    content+
-                                '</div>'+
-                            '</div>';
-
-            $(".resPopupBoxWrap").html(popupBox);
 
             $(".resPopupBoxWrap").fadeIn(500); 
             $("body").css({'overflow':'hidden'});
