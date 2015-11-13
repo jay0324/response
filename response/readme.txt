@@ -4,9 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/11/9 修改:
-- 加入flash外掛偵測參數: $.JRes_isFlash()
-- 修正JResEnlarge外掛的popupMode參數, 亂數編碼ID
+Date: 2015/11/13 修改:
+- 修正JResOverflow
+- 修正windows resize in fullscreen mode
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -28,10 +28,12 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 <link rel="stylesheet" type="text/css" href="response/_css/default.css" media="all"> <!--響應式預設樣式-->
 <link rel="stylesheet" type="text/css" href="response/_css/custom.css" media="all"> <!--客制設定樣式-->
 <script type="text/javascript" src="response/jquery.min.js"></script> <!--jQuery-->
-<script type="text/javascript" src="response/jquery.transform.min.js"></script> <!--jQuery Cross Browser Transform 外掛-->
 <script type="text/javascript" src="response/response.min.js"></script> <!--response主程式-->
 <script type="text/javascript" src="response/custom.js"></script> <!--response客制設定-->
 <!--響應式設定-->
+
+如果需要做css transition特效可以加入下列外掛
+<script type="text/javascript" src="response/jquery.transform.min.js"></script> <!--jQuery Cross Browser Transform 外掛-->
 
 =======================================================================================================================
 響應式設定相關參數說明

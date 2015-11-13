@@ -1,11 +1,164 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/9
+    Date: 2015/11/13
+*/
+
+/*!
+* include plugin
+* screenfull
+* v2.0.0 - 2014-12-22
+* (c) Sindre Sorhus; MIT License
+*/
+(function () {
+    'use strict';
+
+    var isCommonjs = typeof module !== 'undefined' && module.exports;
+    var keyboardAllowed = typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
+
+    var fn = (function () {
+        var val;
+        var valLength;
+
+        var fnMap = [
+            [
+                'requestFullscreen',
+                'exitFullscreen',
+                'fullscreenElement',
+                'fullscreenEnabled',
+                'fullscreenchange',
+                'fullscreenerror'
+            ],
+            // new WebKit
+            [
+                'webkitRequestFullscreen',
+                'webkitExitFullscreen',
+                'webkitFullscreenElement',
+                'webkitFullscreenEnabled',
+                'webkitfullscreenchange',
+                'webkitfullscreenerror'
+
+            ],
+            // old WebKit (Safari 5.1)
+            [
+                'webkitRequestFullScreen',
+                'webkitCancelFullScreen',
+                'webkitCurrentFullScreenElement',
+                'webkitCancelFullScreen',
+                'webkitfullscreenchange',
+                'webkitfullscreenerror'
+
+            ],
+            [
+                'mozRequestFullScreen',
+                'mozCancelFullScreen',
+                'mozFullScreenElement',
+                'mozFullScreenEnabled',
+                'mozfullscreenchange',
+                'mozfullscreenerror'
+            ],
+            [
+                'msRequestFullscreen',
+                'msExitFullscreen',
+                'msFullscreenElement',
+                'msFullscreenEnabled',
+                'MSFullscreenChange',
+                'MSFullscreenError'
+            ]
+        ];
+
+        var i = 0;
+        var l = fnMap.length;
+        var ret = {};
+
+        for (; i < l; i++) {
+            val = fnMap[i];
+            if (val && val[1] in document) {
+                for (i = 0, valLength = val.length; i < valLength; i++) {
+                    ret[fnMap[0][i]] = val[i];
+                }
+                return ret;
+            }
+        }
+
+        return false;
+    })();
+
+    var screenfull = {
+        request: function (elem) {
+            var request = fn.requestFullscreen;
+
+            elem = elem || document.documentElement;
+
+            // Work around Safari 5.1 bug: reports support for
+            // keyboard in fullscreen even though it doesn't.
+            // Browser sniffing, since the alternative with
+            // setTimeout is even worse.
+            if (/5\.1[\.\d]* Safari/.test(navigator.userAgent)) {
+                elem[request]();
+            } else {
+                elem[request](keyboardAllowed && Element.ALLOW_KEYBOARD_INPUT);
+            }
+        },
+        exit: function () {
+            document[fn.exitFullscreen]();
+        },
+        toggle: function (elem) {
+            if (this.isFullscreen) {
+                this.exit();
+            } else {
+                this.request(elem);
+            }
+        },
+        raw: fn
+    };
+
+    if (!fn) {
+        if (isCommonjs) {
+            module.exports = false;
+        } else {
+            window.screenfull = false;
+        }
+
+        return;
+    }
+
+    Object.defineProperties(screenfull, {
+        isFullscreen: {
+            get: function () {
+                return !!document[fn.fullscreenElement];
+            }
+        },
+        element: {
+            enumerable: true,
+            get: function () {
+                return document[fn.fullscreenElement];
+            }
+        },
+        enabled: {
+            enumerable: true,
+            get: function () {
+                // Coerce to boolean in case of old WebKit
+                return !!document[fn.fullscreenEnabled];
+            }
+        }
+    });
+
+    if (isCommonjs) {
+        module.exports = screenfull;
+    } else {
+        window.screenfull = screenfull;
+    }
+})();
+
+
+/*
+*
+*main program
+*
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
-
 (function($) {
     $.JResponsive = function(options) {
         //-- 設定響應式開拉式內容 --////////////////////////////////////////////////////////////////
@@ -1084,7 +1237,7 @@ var ladderObjAmt = 0;
                 $(this).each(function() {
                     if ($(this).width() > (documentW-paddingAmt) && overflow == true) {
                         if (!$(this).hasClass("resUnwrap")) {
-                            $(this).wrap('<div class="'+objWraperClass+' class="mobile_overflow">');
+                            $(this).wrap('<div class="'+objWraperClass+' mobile_overflow">');
                         }
                     } else {
                         $(this).width("100%");
@@ -3219,6 +3372,7 @@ var ladderObjAmt = 0;
     //orientationchange reload
     //if in print mode or desktop mode, reload the page
     var resPrintActive = false;
+    var resFullscreen = false;
     //default value set false
     if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
         $(window).resize(function() {
@@ -3226,17 +3380,27 @@ var ladderObjAmt = 0;
                 if (!resPrintActive) {
                     //if not print event then reload when browser resize
                     //if browser in full screen than do not auto reload
-                    if (navigator.userAgent.match(/(Firefox)/)) {
-                        //if in firefox
-                        if (!window.fullScreen) {
+                    //using screenfull plugin to check fullscreen mode
+                    if (screenfull.enabled) {
+                        if (screenfull.isFullscreen) {
+                            resFullscreen = screenfull.isFullscreen;
+                        }else{
+                            window.setTimeout(function() {
+                                resFullscreen = screenfull.isFullscreen;
+                            }, 100);
+                        } 
+                    }
+
+                    //if is not full screen then reload the page
+                    if (!resFullscreen) {
+                        if (navigator.userAgent.match(/(Firefox)/)) {
+                            //if in firefox
                             window.location.href = window.location.href;
-                        }
-                    } else {
-                        //if in other browsers
-                        if (!(Math.abs(screen.width - window.innerWidth) < 10)) {
+                        } else {
                             location.reload();
                         }
                     }
+                    
                 }
             }
         });
