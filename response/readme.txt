@@ -4,9 +4,8 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/11/13 修改:
-- 修正JResOverflow
-- 修正windows resize in fullscreen mode
+Date: 2015/11/18 修改:
+- 修正JResEnlarge在響應式下圖片會變形的問題
 	
 =======================================================================================================================
 套用方式及相關文件說明

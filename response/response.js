@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/13
+    Date: 2015/11/18
 */
 
 /*!
@@ -3466,7 +3466,9 @@ var ladderObjAmt = 0;
                         }
                     } else {
                         $(this).parent(".resEnlarge").css("width", "100%");
-                        $(this).css("width", "100%");
+                        if($(this).parent(".resEnlarge").width() < $(this).width()) {
+                            $(this).css({"width":"100%","height":"auto"});
+                        }
                     }
                 }
             });
