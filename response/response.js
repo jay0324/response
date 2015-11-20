@@ -1,155 +1,29 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/18
+    Date: 2015/11/20
 */
 
+/*! Respond.js v1.4.2: min/max-width media query polyfill
+ * Copyright 2014 Scott Jehl
+ * Licensed under MIT
+ * http://j.mp/respondjs */
+/*
+!function(a){"use strict";a.matchMedia=a.matchMedia||function(a){var b,c=a.documentElement,d=c.firstElementChild||c.firstChild,e=a.createElement("body"),f=a.createElement("div");return f.id="mq-test-1",f.style.cssText="position:absolute;top:-100em",e.style.background="none",e.appendChild(f),function(a){return f.innerHTML='&shy;<style media="'+a+'"> #mq-test-1 { width: 42px; }</style>',c.insertBefore(e,d),b=42===f.offsetWidth,c.removeChild(e),{matches:b,media:a}}}(a.document)}(this),function(a){"use strict";if(a.matchMedia&&a.matchMedia("all").addListener)return!1;var b=a.matchMedia,c=b("only all").matches,d=!1,e=0,f=[],g=function(){a.clearTimeout(e),e=a.setTimeout(function(){for(var c=0,d=f.length;d>c;c++){var e=f[c].mql,g=f[c].listeners||[],h=b(e.media).matches;if(h!==e.matches){e.matches=h;for(var i=0,j=g.length;j>i;i++)g[i].call(a,e)}}},30)};a.matchMedia=function(e){var h=b(e),i=[],j=0;return h.addListener=function(b){c&&(d||(d=!0,a.addEventListener("resize",g,!0)),0===j&&(j=f.push({mql:h,listeners:i})),i.push(b))},h.removeListener=function(a){for(var b=0,c=i.length;c>b;b++)i[b]===a&&i.splice(b,1)},h}}(this),function(a){"use strict";function b(){v(!0)}var c={};a.respond=c,c.update=function(){};var d=[],e=function(){var b=!1;try{b=new a.XMLHttpRequest}catch(c){b=new a.ActiveXObject("Microsoft.XMLHTTP")}return function(){return b}}(),f=function(a,b){var c=e();c&&(c.open("GET",a,!0),c.onreadystatechange=function(){4!==c.readyState||200!==c.status&&304!==c.status||b(c.responseText)},4!==c.readyState&&c.send(null))},g=function(a){return a.replace(c.regex.minmaxwh,"").match(c.regex.other)};if(c.ajax=f,c.queue=d,c.unsupportedmq=g,c.regex={media:/@media[^\{]+\{([^\{\}]*\{[^\}\{]*\})+/gi,keyframes:/@(?:\-(?:o|moz|webkit)\-)?keyframes[^\{]+\{(?:[^\{\}]*\{[^\}\{]*\})+[^\}]*\}/gi,comments:/\/\*[^*]*\*+([^/][^*]*\*+)*\//gi,urls:/(url\()['"]?([^\/\)'"][^:\)'"]+)['"]?(\))/g,findStyles:/@media *([^\{]+)\{([\S\s]+?)$/,only:/(only\s+)?([a-zA-Z]+)\s?/,minw:/\(\s*min\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/,maxw:/\(\s*max\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/,minmaxwh:/\(\s*m(in|ax)\-(height|width)\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/gi,other:/\([^\)]*\)/g},c.mediaQueriesSupported=a.matchMedia&&null!==a.matchMedia("only all")&&a.matchMedia("only all").matches,!c.mediaQueriesSupported){var h,i,j,k=a.document,l=k.documentElement,m=[],n=[],o=[],p={},q=30,r=k.getElementsByTagName("head")[0]||l,s=k.getElementsByTagName("base")[0],t=r.getElementsByTagName("link"),u=function(){var a,b=k.createElement("div"),c=k.body,d=l.style.fontSize,e=c&&c.style.fontSize,f=!1;return b.style.cssText="position:absolute;font-size:1em;width:1em",c||(c=f=k.createElement("body"),c.style.background="none"),l.style.fontSize="100%",c.style.fontSize="100%",c.appendChild(b),f&&l.insertBefore(c,l.firstChild),a=b.offsetWidth,f?l.removeChild(c):c.removeChild(b),l.style.fontSize=d,e&&(c.style.fontSize=e),a=j=parseFloat(a)},v=function(b){var c="clientWidth",d=l[c],e="CSS1Compat"===k.compatMode&&d||k.body[c]||d,f={},g=t[t.length-1],p=(new Date).getTime();if(b&&h&&q>p-h)return a.clearTimeout(i),i=a.setTimeout(v,q),void 0;h=p;for(var s in m)if(m.hasOwnProperty(s)){var w=m[s],x=w.minw,y=w.maxw,z=null===x,A=null===y,B="em";x&&(x=parseFloat(x)*(x.indexOf(B)>-1?j||u():1)),y&&(y=parseFloat(y)*(y.indexOf(B)>-1?j||u():1)),w.hasquery&&(z&&A||!(z||e>=x)||!(A||y>=e))||(f[w.media]||(f[w.media]=[]),f[w.media].push(n[w.rules]))}for(var C in o)o.hasOwnProperty(C)&&o[C]&&o[C].parentNode===r&&r.removeChild(o[C]);o.length=0;for(var D in f)if(f.hasOwnProperty(D)){var E=k.createElement("style"),F=f[D].join("\n");E.type="text/css",E.media=D,r.insertBefore(E,g.nextSibling),E.styleSheet?E.styleSheet.cssText=F:E.appendChild(k.createTextNode(F)),o.push(E)}},w=function(a,b,d){var e=a.replace(c.regex.comments,"").replace(c.regex.keyframes,"").match(c.regex.media),f=e&&e.length||0;b=b.substring(0,b.lastIndexOf("/"));var h=function(a){return a.replace(c.regex.urls,"$1"+b+"$2$3")},i=!f&&d;b.length&&(b+="/"),i&&(f=1);for(var j=0;f>j;j++){var k,l,o,p;i?(k=d,n.push(h(a))):(k=e[j].match(c.regex.findStyles)&&RegExp.$1,n.push(RegExp.$2&&h(RegExp.$2))),o=k.split(","),p=o.length;for(var q=0;p>q;q++)l=o[q],g(l)||m.push({media:l.split("(")[0].match(c.regex.only)&&RegExp.$2||"all",rules:n.length-1,hasquery:l.indexOf("(")>-1,minw:l.match(c.regex.minw)&&parseFloat(RegExp.$1)+(RegExp.$2||""),maxw:l.match(c.regex.maxw)&&parseFloat(RegExp.$1)+(RegExp.$2||"")})}v()},x=function(){if(d.length){var b=d.shift();f(b.href,function(c){w(c,b.href,b.media),p[b.href]=!0,a.setTimeout(function(){x()},0)})}},y=function(){for(var b=0;b<t.length;b++){var c=t[b],e=c.href,f=c.media,g=c.rel&&"stylesheet"===c.rel.toLowerCase();e&&g&&!p[e]&&(c.styleSheet&&c.styleSheet.rawCssText?(w(c.styleSheet.rawCssText,e,f),p[e]=!0):(!/^([a-zA-Z:]*\/\/)/.test(e)&&!s||e.replace(RegExp.$1,"").split("/")[0]===a.location.host)&&("//"===e.substring(0,2)&&(e=a.location.protocol+e),d.push({href:e,media:f})))}x()};y(),c.update=y,c.getEmValue=u,a.addEventListener?a.addEventListener("resize",b,!1):a.attachEvent&&a.attachEvent("onresize",b)}}(this);
+*/
+/*! Respond.js v1.4.2: min/max-width media query polyfill
+ * Copyright 2014 Scott Jehl
+ * Licensed under MIT
+ * http://j.mp/respondjs */
+/*
+!function(a){"use strict";a.matchMedia=a.matchMedia||function(a){var b,c=a.documentElement,d=c.firstElementChild||c.firstChild,e=a.createElement("body"),f=a.createElement("div");return f.id="mq-test-1",f.style.cssText="position:absolute;top:-100em",e.style.background="none",e.appendChild(f),function(a){return f.innerHTML='&shy;<style media="'+a+'"> #mq-test-1 { width: 42px; }</style>',c.insertBefore(e,d),b=42===f.offsetWidth,c.removeChild(e),{matches:b,media:a}}}(a.document)}(this),function(a){"use strict";function b(){v(!0)}var c={};a.respond=c,c.update=function(){};var d=[],e=function(){var b=!1;try{b=new a.XMLHttpRequest}catch(c){b=new a.ActiveXObject("Microsoft.XMLHTTP")}return function(){return b}}(),f=function(a,b){var c=e();c&&(c.open("GET",a,!0),c.onreadystatechange=function(){4!==c.readyState||200!==c.status&&304!==c.status||b(c.responseText)},4!==c.readyState&&c.send(null))},g=function(a){return a.replace(c.regex.minmaxwh,"").match(c.regex.other)};if(c.ajax=f,c.queue=d,c.unsupportedmq=g,c.regex={media:/@media[^\{]+\{([^\{\}]*\{[^\}\{]*\})+/gi,keyframes:/@(?:\-(?:o|moz|webkit)\-)?keyframes[^\{]+\{(?:[^\{\}]*\{[^\}\{]*\})+[^\}]*\}/gi,comments:/\/\*[^*]*\*+([^/][^*]*\*+)*\//gi,urls:/(url\()['"]?([^\/\)'"][^:\)'"]+)['"]?(\))/g,findStyles:/@media *([^\{]+)\{([\S\s]+?)$/,only:/(only\s+)?([a-zA-Z]+)\s?/,minw:/\(\s*min\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/,maxw:/\(\s*max\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/,minmaxwh:/\(\s*m(in|ax)\-(height|width)\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/gi,other:/\([^\)]*\)/g},c.mediaQueriesSupported=a.matchMedia&&null!==a.matchMedia("only all")&&a.matchMedia("only all").matches,!c.mediaQueriesSupported){var h,i,j,k=a.document,l=k.documentElement,m=[],n=[],o=[],p={},q=30,r=k.getElementsByTagName("head")[0]||l,s=k.getElementsByTagName("base")[0],t=r.getElementsByTagName("link"),u=function(){var a,b=k.createElement("div"),c=k.body,d=l.style.fontSize,e=c&&c.style.fontSize,f=!1;return b.style.cssText="position:absolute;font-size:1em;width:1em",c||(c=f=k.createElement("body"),c.style.background="none"),l.style.fontSize="100%",c.style.fontSize="100%",c.appendChild(b),f&&l.insertBefore(c,l.firstChild),a=b.offsetWidth,f?l.removeChild(c):c.removeChild(b),l.style.fontSize=d,e&&(c.style.fontSize=e),a=j=parseFloat(a)},v=function(b){var c="clientWidth",d=l[c],e="CSS1Compat"===k.compatMode&&d||k.body[c]||d,f={},g=t[t.length-1],p=(new Date).getTime();if(b&&h&&q>p-h)return a.clearTimeout(i),i=a.setTimeout(v,q),void 0;h=p;for(var s in m)if(m.hasOwnProperty(s)){var w=m[s],x=w.minw,y=w.maxw,z=null===x,A=null===y,B="em";x&&(x=parseFloat(x)*(x.indexOf(B)>-1?j||u():1)),y&&(y=parseFloat(y)*(y.indexOf(B)>-1?j||u():1)),w.hasquery&&(z&&A||!(z||e>=x)||!(A||y>=e))||(f[w.media]||(f[w.media]=[]),f[w.media].push(n[w.rules]))}for(var C in o)o.hasOwnProperty(C)&&o[C]&&o[C].parentNode===r&&r.removeChild(o[C]);o.length=0;for(var D in f)if(f.hasOwnProperty(D)){var E=k.createElement("style"),F=f[D].join("\n");E.type="text/css",E.media=D,r.insertBefore(E,g.nextSibling),E.styleSheet?E.styleSheet.cssText=F:E.appendChild(k.createTextNode(F)),o.push(E)}},w=function(a,b,d){var e=a.replace(c.regex.comments,"").replace(c.regex.keyframes,"").match(c.regex.media),f=e&&e.length||0;b=b.substring(0,b.lastIndexOf("/"));var h=function(a){return a.replace(c.regex.urls,"$1"+b+"$2$3")},i=!f&&d;b.length&&(b+="/"),i&&(f=1);for(var j=0;f>j;j++){var k,l,o,p;i?(k=d,n.push(h(a))):(k=e[j].match(c.regex.findStyles)&&RegExp.$1,n.push(RegExp.$2&&h(RegExp.$2))),o=k.split(","),p=o.length;for(var q=0;p>q;q++)l=o[q],g(l)||m.push({media:l.split("(")[0].match(c.regex.only)&&RegExp.$2||"all",rules:n.length-1,hasquery:l.indexOf("(")>-1,minw:l.match(c.regex.minw)&&parseFloat(RegExp.$1)+(RegExp.$2||""),maxw:l.match(c.regex.maxw)&&parseFloat(RegExp.$1)+(RegExp.$2||"")})}v()},x=function(){if(d.length){var b=d.shift();f(b.href,function(c){w(c,b.href,b.media),p[b.href]=!0,a.setTimeout(function(){x()},0)})}},y=function(){for(var b=0;b<t.length;b++){var c=t[b],e=c.href,f=c.media,g=c.rel&&"stylesheet"===c.rel.toLowerCase();e&&g&&!p[e]&&(c.styleSheet&&c.styleSheet.rawCssText?(w(c.styleSheet.rawCssText,e,f),p[e]=!0):(!/^([a-zA-Z:]*\/\/)/.test(e)&&!s||e.replace(RegExp.$1,"").split("/")[0]===a.location.host)&&("//"===e.substring(0,2)&&(e=a.location.protocol+e),d.push({href:e,media:f})))}x()};y(),c.update=y,c.getEmValue=u,a.addEventListener?a.addEventListener("resize",b,!1):a.attachEvent&&a.attachEvent("onresize",b)}}(this);
+*/
 /*!
-* include plugin
 * screenfull
 * v2.0.0 - 2014-12-22
 * (c) Sindre Sorhus; MIT License
 */
-(function () {
-    'use strict';
-
-    var isCommonjs = typeof module !== 'undefined' && module.exports;
-    var keyboardAllowed = typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
-
-    var fn = (function () {
-        var val;
-        var valLength;
-
-        var fnMap = [
-            [
-                'requestFullscreen',
-                'exitFullscreen',
-                'fullscreenElement',
-                'fullscreenEnabled',
-                'fullscreenchange',
-                'fullscreenerror'
-            ],
-            // new WebKit
-            [
-                'webkitRequestFullscreen',
-                'webkitExitFullscreen',
-                'webkitFullscreenElement',
-                'webkitFullscreenEnabled',
-                'webkitfullscreenchange',
-                'webkitfullscreenerror'
-
-            ],
-            // old WebKit (Safari 5.1)
-            [
-                'webkitRequestFullScreen',
-                'webkitCancelFullScreen',
-                'webkitCurrentFullScreenElement',
-                'webkitCancelFullScreen',
-                'webkitfullscreenchange',
-                'webkitfullscreenerror'
-
-            ],
-            [
-                'mozRequestFullScreen',
-                'mozCancelFullScreen',
-                'mozFullScreenElement',
-                'mozFullScreenEnabled',
-                'mozfullscreenchange',
-                'mozfullscreenerror'
-            ],
-            [
-                'msRequestFullscreen',
-                'msExitFullscreen',
-                'msFullscreenElement',
-                'msFullscreenEnabled',
-                'MSFullscreenChange',
-                'MSFullscreenError'
-            ]
-        ];
-
-        var i = 0;
-        var l = fnMap.length;
-        var ret = {};
-
-        for (; i < l; i++) {
-            val = fnMap[i];
-            if (val && val[1] in document) {
-                for (i = 0, valLength = val.length; i < valLength; i++) {
-                    ret[fnMap[0][i]] = val[i];
-                }
-                return ret;
-            }
-        }
-
-        return false;
-    })();
-
-    var screenfull = {
-        request: function (elem) {
-            var request = fn.requestFullscreen;
-
-            elem = elem || document.documentElement;
-
-            // Work around Safari 5.1 bug: reports support for
-            // keyboard in fullscreen even though it doesn't.
-            // Browser sniffing, since the alternative with
-            // setTimeout is even worse.
-            if (/5\.1[\.\d]* Safari/.test(navigator.userAgent)) {
-                elem[request]();
-            } else {
-                elem[request](keyboardAllowed && Element.ALLOW_KEYBOARD_INPUT);
-            }
-        },
-        exit: function () {
-            document[fn.exitFullscreen]();
-        },
-        toggle: function (elem) {
-            if (this.isFullscreen) {
-                this.exit();
-            } else {
-                this.request(elem);
-            }
-        },
-        raw: fn
-    };
-
-    if (!fn) {
-        if (isCommonjs) {
-            module.exports = false;
-        } else {
-            window.screenfull = false;
-        }
-
-        return;
-    }
-
-    Object.defineProperties(screenfull, {
-        isFullscreen: {
-            get: function () {
-                return !!document[fn.fullscreenElement];
-            }
-        },
-        element: {
-            enumerable: true,
-            get: function () {
-                return document[fn.fullscreenElement];
-            }
-        },
-        enabled: {
-            enumerable: true,
-            get: function () {
-                // Coerce to boolean in case of old WebKit
-                return !!document[fn.fullscreenEnabled];
-            }
-        }
-    });
-
-    if (isCommonjs) {
-        module.exports = screenfull;
-    } else {
-        window.screenfull = screenfull;
-    }
-})();
+!function(){"use strict";var a="undefined"!=typeof module&&module.exports,b="undefined"!=typeof Element&&"ALLOW_KEYBOARD_INPUT"in Element,c=function(){for(var a,b,c=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],d=0,e=c.length,f={};e>d;d++)if(a=c[d],a&&a[1]in document){for(d=0,b=a.length;b>d;d++)f[c[0][d]]=a[d];return f}return!1}(),d={request:function(a){var d=c.requestFullscreen;a=a||document.documentElement,/5\.1[\.\d]* Safari/.test(navigator.userAgent)?a[d]():a[d](b&&Element.ALLOW_KEYBOARD_INPUT)},exit:function(){document[c.exitFullscreen]()},toggle:function(a){this.isFullscreen?this.exit():this.request(a)},raw:c};return c?(Object.defineProperties(d,{isFullscreen:{get:function(){return!!document[c.fullscreenElement]}},element:{enumerable:!0,get:function(){return document[c.fullscreenElement]}},enabled:{enumerable:!0,get:function(){return!!document[c.fullscreenEnabled]}}}),void(a?module.exports=d:window.screenfull=d)):void(a?module.exports=!1:window.screenfull=!1)}();
 
 
 /*
@@ -642,83 +516,87 @@ var ladderObjAmt = 0;
         //加入響應式預設樣式
         //fnLoadCSS('response_default',modulePath + 'response/_css/default.css','all');
         //$("head").append('<link id="response_default" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/default.css"/>');
-        $(".resRow").append("<div class='clear'></div>");
         //將每組row之後都加上clear
-        //check the response cookie
-        if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
-            //-- add response meta --
-            $("head").prepend('<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0' + viewPortSetup + '">');
-            //fnLoadCSS('response',modulePath + 'response/_css/response.css','all');
-            //fnLoadCSS('response_custom',modulePath + 'response/_css/custom.css','all');
-            //$("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
-            //var swapBtn = (noServer== false)?'<li id="swap_btn" '+responsiveSwitch+'><a href="#"></a></li>':'';
-            var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> | <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
-            //-- loader --
-            if (resPageLoader) {
-                //如果resPageLoaderTigger設定always，則總是使用
-                if (resPageLoaderTigger == "always") {
-                    $("body").append('<div id="resLoader"></div>');
-                    $(window).load(function() {
-                        setTimeout("JResLoader({dom:'#resLoader'})", 800);
-                    });
-                } else {
-                    //如果resPageLoaderTigger設定在某一尺寸下才使用
-                    if ($(window).width() <= resPageLoaderTigger) {
+        $(".resRow").append("<div class='clear'></div>");
+        
+        //若不是IE9以下才進行響應式設定
+        if (!$.JRes_isLtIE9()){
+            //check the response cookie
+            if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
+                //-- add response meta --
+                $("head").prepend('<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0' + viewPortSetup + '">');
+                //fnLoadCSS('response',modulePath + 'response/_css/response.css','all');
+                //fnLoadCSS('response_custom',modulePath + 'response/_css/custom.css','all');
+                //$("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
+                //var swapBtn = (noServer== false)?'<li id="swap_btn" '+responsiveSwitch+'><a href="#"></a></li>':'';
+                var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> | <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
+                //-- loader --
+                if (resPageLoader) {
+                    //如果resPageLoaderTigger設定always，則總是使用
+                    if (resPageLoaderTigger == "always") {
                         $("body").append('<div id="resLoader"></div>');
                         $(window).load(function() {
                             setTimeout("JResLoader({dom:'#resLoader'})", 800);
                         });
+                    } else {
+                        //如果resPageLoaderTigger設定在某一尺寸下才使用
+                        if ($(window).width() <= resPageLoaderTigger) {
+                            $("body").append('<div id="resLoader"></div>');
+                            $(window).load(function() {
+                                setTimeout("JResLoader({dom:'#resLoader'})", 800);
+                            });
+                        }
                     }
                 }
-            }
 
-            //-- 計算resMainWrap css設定
-            var resMainWrap_miniHight = $(window).height(); //min-height
-            var body_margin_top = ''; //padding-top
-            var body_margin_bottom = ''; //padding-bottom
+                //-- 計算resMainWrap css設定
+                var resMainWrap_miniHight = $(window).height(); //min-height
+                var body_margin_top = ''; //padding-top
+                var body_margin_bottom = ''; //padding-bottom
 
-            //-- 計算導覽按鈕群長度 (上方) --
-            var mobile_nav_btn_width = mobile_nav_BtnAmt * (resMobileNavSetupWidth + resMobileNavSetupMargin);
-            var mobile_nav = resMenuState == true ? ' style="position:'+resMenuType+';width:' + $(window).width() + "px;height:" + resMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
-            var mobile_nav_width = $(window).width() > mobile_nav_btn_width ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width + 'px;" ';
-            if (resMenuState == true) {
-                body_margin_top = 'padding-top:' + resMobileNavSetupHeight + 'px;'; //上選單有使用進行resMainWrap padding-top設定
-                resMainWrap_miniHight -= resMobileNavSetupHeight; //如果有padding則需要把resMainWrap min-height相對減去
-            }
+                //-- 計算導覽按鈕群長度 (上方) --
+                var mobile_nav_btn_width = mobile_nav_BtnAmt * (resMobileNavSetupWidth + resMobileNavSetupMargin);
+                var mobile_nav = resMenuState == true ? ' style="position:'+resMenuType+';width:' + $(window).width() + "px;height:" + resMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
+                var mobile_nav_width = $(window).width() > mobile_nav_btn_width ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width + 'px;" ';
+                if (resMenuState == true) {
+                    body_margin_top = 'padding-top:' + resMobileNavSetupHeight + 'px;'; //上選單有使用進行resMainWrap padding-top設定
+                    resMainWrap_miniHight -= resMobileNavSetupHeight; //如果有padding則需要把resMainWrap min-height相對減去
+                }
 
-            //-- 計算導覽按鈕群長度 (下方) --
-            var mobile_nav_btn_width_bottom = mobile_nav_BottomBtnAmt * (resBottomMobileNavSetupWidth + resBottomMobileNavSetupMargin);
-            var mobile_nav_bottom = resBottomMenuState == true ? ' style="position:'+resBottomMenuType+';width:' + $(window).width() + "px;height:" + resBottomMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
-            var mobile_nav_width_bottom = $(window).width() > mobile_nav_btn_width_bottom ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width_bottom + 'px;" ';
-            var body_margin_bottom = (resBottomMenuState == true) ? 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;' : ''; //下選單有使用進行padding-bottom
-            if (resBottomMenuState == true) {
-                body_margin_bottom = 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;'; //下選單有使用進行resMainWrap padding-bottom設定
-                resMainWrap_miniHight -= resBottomMobileNavSetupHeight; //如果有padding則需要把resMainWrap min-height相對減去
-            }
+                //-- 計算導覽按鈕群長度 (下方) --
+                var mobile_nav_btn_width_bottom = mobile_nav_BottomBtnAmt * (resBottomMobileNavSetupWidth + resBottomMobileNavSetupMargin);
+                var mobile_nav_bottom = resBottomMenuState == true ? ' style="position:'+resBottomMenuType+';width:' + $(window).width() + "px;height:" + resBottomMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
+                var mobile_nav_width_bottom = $(window).width() > mobile_nav_btn_width_bottom ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width_bottom + 'px;" ';
+                var body_margin_bottom = (resBottomMenuState == true) ? 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;' : ''; //下選單有使用進行padding-bottom
+                if (resBottomMenuState == true) {
+                    body_margin_bottom = 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;'; //下選單有使用進行resMainWrap padding-bottom設定
+                    resMainWrap_miniHight -= resBottomMobileNavSetupHeight; //如果有padding則需要把resMainWrap min-height相對減去
+                }
 
-            //螢幕在800以下進行選單物件狀態偵測
-            var body_margin = $(window).width() <= setUILoadWidth ? ' style="' + body_margin_top + body_margin_bottom + '" ' : '';
+                //螢幕在800以下進行選單物件狀態偵測
+                var body_margin = $(window).width() <= setUILoadWidth ? ' style="' + body_margin_top + body_margin_bottom + '" ' : '';
 
-            //-- mobile menu interface --
-            $("body").wrapInner('<div id="resMainWrap" '+body_margin+'></div>');
-            $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "</div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "</div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
-            //上下區主選單控制
-            $("#menu_btn,#menu_btn_bottom").click(function() {
-                JResMobileTopNav({
-                    btnId: "#menu_btn,#menu_btn_bottom",
-                    contentId: "#mobile_nav_content",
-                    position: flipDirection,
-                    resetEvt: false
+                //-- mobile menu interface --
+                $("body").wrapInner('<div id="resMainWrap" '+body_margin+'></div>');
+                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "</div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "</div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
+                //上下區主選單控制
+                $("#menu_btn,#menu_btn_bottom").click(function() {
+                    JResMobileTopNav({
+                        btnId: "#menu_btn,#menu_btn_bottom",
+                        contentId: "#mobile_nav_content",
+                        position: flipDirection,
+                        resetEvt: false
+                    });
+                    return false;
                 });
-                return false;
-            });
-            //-- content close mask --
-            $("body").append('<div id="resContentMask"></div>');
-            //-- give content container a mini-height
-            $("#resMainWrap").css("min-height", resMainWrap_miniHight + "px");
-        } else {
-            //切換為桌面版
-            $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
+                //-- content close mask --
+                $("body").append('<div id="resContentMask"></div>');
+                //-- give content container a mini-height
+                $("#resMainWrap").css("min-height", resMainWrap_miniHight + "px");
+            } else {
+                //切換為桌面版
+                $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
+            }
         }
         //--add print media style sheet --
         //fnLoadCSS('resprint',modulePath + 'response/_css/print.css',printMediaSetupMode);
@@ -1797,6 +1675,15 @@ var ladderObjAmt = 0;
             return false;
         }
     }
+
+    //檢查是否為IE9以下版本 (true: IE9以下 false: 非IE9以下)
+    $.JRes_isLtIE9 = function(){
+        if (navigator.userAgent.match(/(MSIE 8|MSIE 7|MSIE 6)/)) {
+            return true;
+        }else{
+            return false;
+        }
+    }   
 
     //取得是否有flash支援 (true: 有支援 false: 非支援)
     $.JRes_isFlash = function(){
@@ -2993,7 +2880,8 @@ var ladderObjAmt = 0;
         };
         options = $.extend(defaults, options);
         var tabObj = $(this);
-        var getHashIndex = $(".tabsContent"+window.location.hash,tabObj).index(); //取得網址參數
+        var targetTab = (window.location.hash != "#")?window.location.hash:"";
+        var getHashIndex = $(targetTab,tabObj).index(); //取得網址參數
         var tabInit = (getHashIndex != -1)?getHashIndex:options.init;
         var fx = options.fx;
         var transitTime = options.transitTime;
@@ -3397,7 +3285,18 @@ var ladderObjAmt = 0;
                             //if in firefox
                             window.location.href = window.location.href;
                         } else {
-                            location.reload();
+                            //IE 9以下不進行重整
+                            if (!$.JRes_isLtIE9()){
+                                //console.log($.JRes_isLtIE9());
+                                if (navigator.userAgent.match(/(IE 9|IE 10)/)){
+                                    //IE 9 或 IE 10 則只在瀏覽器不等於螢幕寬的時候重整
+                                    if ($(window).width() != window.innerWidth) {
+                                        location.reload();
+                                    }
+                                }else{
+                                    location.reload();
+                                }
+                            }
                         }
                     }
                     

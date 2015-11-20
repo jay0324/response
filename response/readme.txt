@@ -4,8 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/11/18 修改:
-- 修正JResEnlarge在響應式下圖片會變形的問題
+Date: 2015/11/20 修改:
+- 修正在IE9以下不進行重整及不進行響應式的設定
+- 修正IE9 和 IE10瀏覽器fullscreen的相容性問題
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -59,14 +60,17 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 			//取得網站根目錄
 			$.JRes_modulePath()
 
-			//取得是否為手持設備
+			//取得是否為手持設備 (true: 手持設備 false: 非手持設備)
 			$.JRes_isMobile()
 
-			//偵測是否有flash支援
+			//取得是否有flash支援 (true: 有支援 false: 非支援)
 			$.JRes_isFlash()
 
 			//以預設值直接啟動功能
 			$.JResponsive()
+
+			//檢查是否為IE9以下版本 (true: IE9以下 false: 非IE9以下)
+    		$.JRes_isLtIE9()
 			
 			//客製化設定
 			$.JResponsive({defaultResponse: 響應式啟動或關閉(布林) (預設true),

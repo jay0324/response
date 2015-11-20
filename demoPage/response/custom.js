@@ -160,7 +160,7 @@ $(function() {
                 width: 20,
                 height: 50,
                 type: 'horizontal'
-            },
+            }
     })
 
     //slider
