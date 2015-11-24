@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/20
+    Date: 2015/11/24
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -1810,11 +1810,11 @@ var ladderObjAmt = 0;
                                         var FitIconVal = "";
                                         var OrangIconVal = 'style="display:none"';
                                     }
-                                    var resEnlargeControl = '<div class="resEnlargeCloseIcon" toggle="' + thisID + '"></div>' +
-                                                             '<div class="resEnlargeFitIcon" toggle="' + thisID + '" ' + FitIconVal + "></div>" + 
-                                                             '<div class="resEnlargeOraginalIcon" toggle="' + thisID + '" ' + OrangIconVal + "></div>" + 
-                                                             '<div class="resEnlargePlusIcon" toggle="' + thisID + '"></div>' + 
-                                                             '<div class="resEnlargeDisIcon" toggle="' + thisID + '"></div>';
+                                    var resEnlargeControl = '<div class="resEnlargeCloseIcon" toggle="' + thisID + '" onclick=""></div>' +
+                                                             '<div class="resEnlargeFitIcon" toggle="' + thisID + '" ' + FitIconVal + ' onclick=""></div>' + 
+                                                             '<div class="resEnlargeOraginalIcon" toggle="' + thisID + '" ' + OrangIconVal + ' onclick=""></div>' + 
+                                                             '<div class="resEnlargePlusIcon" toggle="' + thisID + '" onclick=""></div>' + 
+                                                             '<div class="resEnlargeDisIcon" toggle="' + thisID + '" onclick=""></div>';
                                     var extraSource = options.extraSource != "" ? options.extraSource : $(this).attr("src");
                                     extraSource = (enablePluginMode) ? enablePluginModeSource : extraSource;
                                     var resEnlargeContent = '<div class="resEnlargeContent" toggle="' + thisID + '">' + 

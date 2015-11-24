@@ -211,7 +211,25 @@ $(function() {
         },
         delay: 100
     });
-        
+       
+    //testTabGroup
+    $("#testTabGroup").JResContentTab({
+        init: 0,
+                fx: 'show',
+                transitTime: 1000,
+                createTabs: {           //js寫入Tab
+                    tab1:{              //新標籤編號
+                        id: "tab1_btn",
+                        text: 'test',
+                        content: '<img src="_img/1920x600.jpg" />'
+                    },
+                    tab2:{              //新標籤編號
+                        id: "tab2_btn",
+                        text: "this is tab2",
+                        content: "this is the content for tab 2"
+                    }
+                }       
+    });
 
 
  })
