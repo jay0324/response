@@ -225,9 +225,61 @@
     <div id="test" class="resContainer">
         <div class="resDocLayout">
             <div class="resRow">
-                <div class="resCol12 center">
+                <div class="resCol6 center">
                     <div class="resMargin">
                         <div id="testTabGroup"></div>
+                    </div>
+                </div>
+                <div class="resCol6">
+                    <div class="resMargin">
+                        <form>
+                            <input type="hidden" name="hidden" value="hiddenValue" />
+                            <table width="100%" class="resTable">
+                                <tr>
+                                    <td>input1:</td>
+                                    <td><input type="text" name="input1" /></td>
+                                </tr>
+                                <tr>
+                                    <td>input2:</td>
+                                    <td><input type="date" name="input2" /></td>
+                                </tr>
+                                <tr>
+                                    <td>input3:</td>
+                                    <td><input type="number" name="input3" /></td>
+                                </tr>
+                                <tr>
+                                    <td>select1:</td>
+                                    <td>
+                                        <select name="select1" id="select1">
+                                            <option value="select_val1">val1</option>
+                                            <option value="select_val2">val2</option>
+                                            <option value="select_val3">val3</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>select2:</td>
+                                    <td>
+                                        <select name="select2" id="select2">
+                                            <option value="select_val1">val1</option>
+                                            <option value="select_val2">val2</option>
+                                            <option value="select_val3">val3</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>textarea:</td>
+                                    <td><textarea name="txtarea" id="txtarea" cols="30" rows="10"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="button" value="button" /> 
+                                        <input type="submit" value="submit" /> 
+                                        <input type="reset" value="reset" /> 
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>

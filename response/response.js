@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/24
+    Date: 2015/11/27
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -1703,6 +1703,33 @@ var ladderObjAmt = 0;
         return hasFlash;
     }
 
+    //自動重整 auto refresh mode
+    var resRefreshMode = true;
+    $.JRes_autoRefresh = function(options){
+        var defaults = {
+            state: true,
+            ignore: ''
+        };
+        options = $.extend(defaults, options);
+        resRefreshMode = options.state;
+        if (options.ignore != ""){
+            if(options.ignore.indexOf(",") != -1){
+                var ignorePage = options.ignore.split(",");
+                for (var i=0; i< ignorePage.length; i++){
+                    if (window.location.href.indexOf(ignorePage[i]) != -1){
+                        resRefreshMode = false;
+                    }
+                }
+            }else{
+                if (window.location.href.indexOf(options.ignore) != -1){
+                    resRefreshMode = false;console.log(resRefreshMode);
+                }
+            }
+        }
+
+        return resRefreshMode;
+    }
+
     //JResEnlarge 放大圖功能
     $.fn.JResEnlarge = function(options) {
         //make img with enlarge formate
@@ -3264,55 +3291,95 @@ var ladderObjAmt = 0;
     //default value set false
     if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
         $(window).resize(function() {
-            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile|Android)/)) {
-                if (!resPrintActive) {
-                    //if not print event then reload when browser resize
-                    //if browser in full screen than do not auto reload
-                    //using screenfull plugin to check fullscreen mode
-                    if (screenfull.enabled) {
-                        if (screenfull.isFullscreen) {
-                            resFullscreen = screenfull.isFullscreen;
-                        }else{
-                            window.setTimeout(function() {
-                                resFullscreen = screenfull.isFullscreen;
-                            }, 100);
-                        } 
-                    }
 
-                    //if is not full screen then reload the page
-                    if (!resFullscreen) {
-                        if (navigator.userAgent.match(/(Firefox)/)) {
-                            //if in firefox
-                            window.location.href = window.location.href;
-                        } else {
-                            //IE 9以下不進行重整
-                            if (!$.JRes_isLtIE9()){
-                                //console.log($.JRes_isLtIE9());
-                                if (navigator.userAgent.match(/(IE 9|IE 10)/)){
-                                    //IE 9 或 IE 10 則只在瀏覽器不等於螢幕寬的時候重整
-                                    if ($(window).width() != window.innerWidth) {
+                
+            if (resRefreshMode) {
+                if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile|Android)/)) {
+                    if (!resPrintActive) {
+                        //if not print event then reload when browser resize
+                        //if browser in full screen than do not auto reload
+                        //using screenfull plugin to check fullscreen mode
+                        if (screenfull.enabled) {
+                            if (screenfull.isFullscreen) {
+                                resFullscreen = screenfull.isFullscreen;
+                            }else{
+                                window.setTimeout(function() {
+                                    resFullscreen = screenfull.isFullscreen;
+                                }, 100);
+                            } 
+                        }
+
+                        //if is not full screen then reload the page
+                        if (!resFullscreen) {
+                            if (navigator.userAgent.match(/(Firefox)/)) {
+                                //if in firefox
+                                window.location.href = window.location.href;
+                            } else {
+                                //IE 9以下不進行重整
+                                if (!$.JRes_isLtIE9()){
+                                    //console.log($.JRes_isLtIE9());
+                                    if (navigator.userAgent.match(/(IE 9|IE 10)/)){
+                                        //IE 9 或 IE 10 則只在瀏覽器不等於螢幕寬的時候重整
+                                        if ($(window).width() != window.innerWidth) {
+                                            location.reload();
+                                        }
+                                    }else{
                                         location.reload();
                                     }
-                                }else{
-                                    location.reload();
                                 }
                             }
                         }
+                        
                     }
-                    
                 }
             }
         });
         $(window).on("orientationchange", function() {
-            if (navigator.userAgent.match(/(Firefox)/)) {
-                //if in firefox
-                window.location.href = window.location.href;
-            } else {
-                //if in other browsers
-                location.reload();
+            if (resRefreshMode) {
+                if (navigator.userAgent.match(/(Firefox)/)) {
+                    //if in firefox
+                    window.location.href = window.location.href;
+                } else {
+                    //if in other browsers
+                    location.reload();
+                }
             }
         });
     }
+
+    //save form data
+    function resFnSaveForm(){
+        //清掉原本存取的session
+        sessionStorage.clear();
+
+        //把form值暫存起來
+        $("input,select,textarea").each(function(){
+            if ($(this).attr('type') == "hidden" || $(this).attr('type') == "submit" || $(this).attr('type') == "reset") {
+                //如果input為hidden,submit,reset則不進行存取
+            }else{
+                if ($(this).attr('name') != undefined) {
+                    sessionStorage.setItem($(this).attr("name"), $(this).val());
+                }
+            }
+        })
+
+
+    }
+
+    //read form data
+    function resFnReadForm(){
+        //把form值讀取出來
+        $("input,select,textarea").each(function(){
+            var value = sessionStorage.getItem($(this).attr("name"));
+
+            if($(this).val() == "" && $(this).val() != value){
+                if (value !== null) $(this).val(value);
+            }
+
+        })
+    }
+
+
     //detect print event: if active set resPrintActive with value true
     var beforePrint = function() {
         resPrintActive = true;
@@ -3376,8 +3443,22 @@ var ladderObjAmt = 0;
     });
 
     //document ready action
+    var resStoreData = true;
     $(document).ready(function(){
         //取消a在IE中的focus
         $("a").focus(function(){$(this).blur()})
     })
+
+    // Run on page load
+    $(window).on('load',function() {
+        //把form值讀取出來
+        //resFnReadForm();
+    });
+
+    // Before refreshing the page, save the form data to sessionStorage
+    $(window).unload(function() {
+        //把form值暫存起來
+        //resFnSaveForm();
+    });
+
 })(jQuery);

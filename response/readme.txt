@@ -4,8 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/11/24 修改:
-- 修正ResEnlarge功能在Safari mobile下控制鍵無反應問題
+Date: 2015/11/27 修改:
+- 加入JRes_autoRefresh()參數設定
+- 修改重整時，將表單資料存入sessionStorage中，使得表單填入的資料不會消失 (有問題停用)
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -70,6 +71,12 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 
 			//檢查是否為IE9以下版本 (true: IE9以下 false: 非IE9以下)
     		$.JRes_isLtIE9()
+
+    		//重整頁面動作
+    		$.JRes_autoRefresh({
+    			state: (是否要啟用頁面重整動作,預設值true),
+    			ignore: '' (排除不需要重整動作的頁面,可以用整個頁面的網址路徑或路徑中特殊字串,一個以上用","隔開)
+    		})
 			
 			//客製化設定
 			$.JResponsive({defaultResponse: 響應式啟動或關閉(布林) (預設true),
