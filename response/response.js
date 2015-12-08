@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/11/27
+    Date: 2015/12/08
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -635,7 +635,7 @@ var ladderObjAmt = 0;
         //});
         //加入響應式Ajax載入頁面按鈕
         $("#resPageLoad_loading_icon").hide();
-        $(document).ajaxStart(function() {
+        $("#resPageLoader").ajaxStart(function() {
             $("#resPageLoad_loading_icon").show();
         }).ajaxComplete(function() {
             setTimeout("JResLoader({dom:'#resPageLoad_loading_icon'})", 800);

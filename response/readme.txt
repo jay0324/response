@@ -4,9 +4,8 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2015/11/27 修改:
-- 加入JRes_autoRefresh()參數設定
-- 修改重整時，將表單資料存入sessionStorage中，使得表單填入的資料不會消失 (有問題停用)
+Date: 2015/12/08 修改:
+- 修正ajaxload effect只在resPageLoader的區域會啟用
 	
 =======================================================================================================================
 套用方式及相關文件說明
@@ -14,6 +13,7 @@ Date: 2015/11/27 修改:
 
 在head所有加入下面幾行幾可啟用
 jquery.min.js看情形加入，如果該頁面已經有用jQuery則不用加入
+如果jquery用的是v1.7.1請取代為v1.11.1版 (因為1.7.x版會有重複執行的狀況)
 
 * 調整響應式內容
 檔案: custom.js
