@@ -179,6 +179,54 @@ $(function() {
                 }
     })
 
+    //slider2
+    $("#myItemSlider2").JResContentSlider({
+        listAmt:1,
+        from:2,
+        btnSetup:{
+            nextBtn:{
+                state: true,
+                width: (($(".resDocLayout").width() / 2) - 200)
+            },
+            prevBtn:{
+                state: true,
+                width: (($(".resDocLayout").width() / 2) - 200)
+            }
+        },
+        setupResposive: {       //響應式設定(物件)
+            800:{
+                listAmt: 1,
+                listPaddingAmt: 20,
+                autoPlay: false,
+                btnSetup:{
+                    nextBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 200)
+                    },
+                    prevBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 200)
+                    }
+                }
+            },
+            500:{
+                listAmt: 1,
+                listPaddingAmt: 20,
+                autoPlay: false,
+                btnSetup:{
+                    nextBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 120)
+                    },
+                    prevBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 120)
+                    }
+                }
+            }
+        }
+    })
+
     //tab group list
     $("#myTabList").JResContentTab({
         fx: 'slide'
@@ -229,6 +277,24 @@ $(function() {
                         content: "this is the content for tab 2"
                     }
                 }       
+    });
+
+    //resMenu2
+    $("#nav").JResMenu({
+        view: 'horizontal',
+        action: 'hover'
+    });
+
+    $("#lang").JResMenu({
+        view: 'horizontal'
+    });
+
+    //resMenu1
+    $("#resMenu1").JResMenu();
+
+    //resMenu3
+    $("#resMenu2").JResMenu({
+        action: 'hover'
     });
 
  })

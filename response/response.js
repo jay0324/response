@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2015/12/08
+    Date: 2016/01/08
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -2977,15 +2977,130 @@ var ladderObjAmt = 0;
         }
     };
 
+    //選單功能功能
+    $.fn.JResMenu = function(options) {
+        var defaults = {
+            view: 'vertical',
+            action: 'click'
+        };
+        options = $.extend(defaults, options);
+        var obj = $(this);
+        var view = options.view;
+        var action = options.action;
+
+        //如針對目前在操作中的menu，將其z-index設為上層
+        $(obj).on('mouseenter',function(){
+            $(this).css("z-index","2");
+        }).on('mouseleave',function(){
+            $(this).css("z-index","1");
+        });
+
+        //將有子層級的按鈕加入class
+        $("li",obj).each(function(){
+            if ($(this).children('ul').length > 0) {
+                $('>a',this).addClass('hasChild');
+            }
+        })
+
+        //判斷view類型
+        switch (view){
+            case 'horizontal':
+                //add style
+                $(obj).addClass("resMenu2");
+
+                //add event
+                if (action == 'hover') {
+                    //hover event
+                    $(obj).on('mouseenter','li',function(e){
+                        $(">ul",this).slideDown(10);
+                    }).on('mouseleave','li',function(e){
+                        $(this).parent().children().each(function(){
+                            $(this).children('ul').slideUp(10);
+                        })
+                    })
+                }else{
+                    //click event
+                    $(obj).on('click','li',function(e){
+                        //偵測同層目錄下的物件就收起來
+                        $(this).parent().children().each(function(){
+                            $(this).children('ul').slideUp(200);
+                        })
+
+                        //偵測目前點擊的物件是否有子目錄，有的話就開啟
+                        if($(">ul",this).length > 0){
+                            if ($(">ul",this).css('display') == 'none') {
+                                $(">ul",this).slideDown(200);
+                            }else{
+                                $(">ul",this).slideUp(200);
+                            }
+                            return false;
+                        }
+
+                        //只偵測到目前的物件
+                        e.stopPropagation(); 
+                    }).on('mouseleave',function(){
+                        $('li>ul',this).slideUp(200);
+                    });
+                }
+
+            break;
+            case 'vertical':
+                //add style
+                $(obj).addClass("resMenu");
+
+                //add event
+                if (action == 'hover') {
+                    //hover event
+                    $(obj).on('mouseenter','li',function(e){
+                        $(">ul",this).slideDown(500);
+                    }).on('mouseleave','li',function(e){
+                        //偵測同層目錄下的物件是否有active,沒有的話就收起來
+                        $(this).parent().children().each(function(){
+                            if(!$(this).hasClass('active')){
+                                $(this).children('ul').slideUp(500);
+                            }
+                        })
+                    })
+
+                }else{
+                    //click event
+                    $(obj).on('click','li',function(e){
+                        //偵測同層目錄下的物件是否有active,沒有的話就收起來
+                        $(this).parent().children().each(function(){
+                            if(!$(this).hasClass('active')){
+                                $(this).children('ul').slideUp(200);
+                            }
+                        })
+
+                        //偵測目前點擊的物件是否有子目錄，有的話就開啟
+                        if($(">ul",this).length > 0){
+                            if ($(">ul",this).css('display') == 'none') {
+                                $(">ul",this).slideDown(200);
+                            }else{
+                                $(">ul",this).slideUp(200);
+                            }
+                            return false;
+                        }
+
+                        //只偵測到目前的物件
+                        e.stopPropagation(); 
+                    })
+                }
+            break;
+        }
+
+    }
+
     //slider功能
     $.fn.JResContentSlider = function(options) {
         var defaults = {
             autoPlay: true,
             delayTime: 3000,
             touchSwipAmt: 100, 
-            transitionTime: 200,
+            transitionTime: 1000,
             listAmt: 5,
             listPaddingAmt: 2,
+            from:0,
             btnSetup:{
                 nextBtn:{
                     state: true,
@@ -3010,6 +3125,29 @@ var ladderObjAmt = 0;
         var listPaddingAmt = parseInt(options.listPaddingAmt);
         var btnSetup = options.btnSetup;
         var paddingAmt = options.paddingAmt;
+        var from = options.from;
+
+        var setupResposive = options.setupResposive;
+        //檢查是否有響應式設定
+        if(!$.isEmptyObject(setupResposive)){
+            var checkWinWArray = [];
+            for (var winW in setupResposive){
+                checkWinWArray.push(winW); //先建立Windows Index for sorting
+            }
+
+            checkWinWArray = checkWinWArray.sort(function(a, b){return b-a}); //DESC Sorting
+
+            //update listAmt
+            for (var i=0;i<checkWinWArray.length;i++) {
+                if ($(window).width() < checkWinWArray[i]) {
+                    listAmt = (setupResposive[checkWinWArray[i]]['listAmt'] != undefined)?setupResposive[checkWinWArray[i]]['listAmt']:listAmt;
+                    listPaddingAmt = (setupResposive[checkWinWArray[i]]['listPaddingAmt'] != undefined)?setupResposive[checkWinWArray[i]]['listPaddingAmt']:listPaddingAmt;
+                    btnSetup = (setupResposive[checkWinWArray[i]]['btnSetup'] != undefined)?setupResposive[checkWinWArray[i]]['btnSetup']:btnSetup;
+                    autoPlay = (setupResposive[checkWinWArray[i]]['autoPlay'] != undefined)?setupResposive[checkWinWArray[i]]['autoPlay']:btnSetup;
+                }
+            }
+        }
+
         //創建按鈕組
         if(!$.isEmptyObject(btnSetup)){
             for (var btn in btnSetup) {
@@ -3031,37 +3169,22 @@ var ladderObjAmt = 0;
         var prevWidth = $(".sliderContainer .sliderContainerPrevBtn",obj).width();
         var nextWidth = $(".sliderContainer .sliderContainerNextBtn",obj).width();
 
-        var setupResposive = options.setupResposive;
-        //檢查是否有響應式設定
-        if(!$.isEmptyObject(setupResposive)){
-            var checkWinWArray = [];
-            for (var winW in setupResposive){
-                checkWinWArray.push(winW); //先建立Windows Index for sorting
-            }
-
-            checkWinWArray = checkWinWArray.sort(function(a, b){return b-a}); //DESC Sorting
-
-            //update listAmt
-            for (var i=0;i<checkWinWArray.length;i++) {
-                if ($(window).width() < checkWinWArray[i]) {
-                    listAmt = (setupResposive[checkWinWArray[i]]['listAmt'] != undefined)?setupResposive[checkWinWArray[i]]['listAmt']:listAmt;
-                    listPaddingAmt = (setupResposive[checkWinWArray[i]]['listPaddingAmt'] != undefined)?setupResposive[checkWinWArray[i]]['listPaddingAmt']:listPaddingAmt;
-                }
-            }
-        }
-        //console.log(listPaddingAmt);
         var amountOfItem = $(".sliderContainer>ul>li",obj).length;
         //var containerWidth = ($(window).width() > 800)?$(".sliderContainer",obj).width() - (nextWidth+prevWidth+paddingAmt):$(window).width() - (nextWidth+prevWidth+paddingAmt);
         var containerWidth = $(".sliderContainer",obj).width() - (nextWidth+prevWidth);
         //console.log(containerWidth);
         var itemWidth = (containerWidth/listAmt) - (listPaddingAmt*2);
+        var startPOS = containerWidth*from*-1;
         var currentPOS = 0;
         var setContainerWidth = (itemWidth+(listPaddingAmt*2))*amountOfItem;
         var swipToNextPOS = 0;
         var swipToPrevPOS = 0;
         var trackSwipEvent = false;
+        var startLimited = containerWidth*from;
+        var endLimited = setContainerWidth-(startLimited);
+        //console.log(currentPOS);
         //設定container樣式
-        $(".sliderContainer>ul",obj).width(setContainerWidth).css({"margin-left":prevWidth+"px","margin-right":nextWidth+"px"}); 
+        $(".sliderContainer>ul",obj).width(setContainerWidth).css({"margin-left":(prevWidth+startPOS)+"px","margin-right":nextWidth+"px"}); 
         //設定item樣式
         $(".sliderContainer>ul>li",obj).width(itemWidth).css({"margin":"0 "+listPaddingAmt+"px"});
 
@@ -3073,21 +3196,23 @@ var ladderObjAmt = 0;
         //設定control
         //prev btn event
         $(obj).on('click',".sliderContainerPrevBtn", function(){
-            if ((currentPOS*-1) > 0){
+            if ((currentPOS*-1) > (startLimited*-1)){
                 currentPOS+=containerWidth;
-                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
             }else{
-                currentPOS = 0;
+                currentPOS = -(endLimited-containerWidth);
             }
+            $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
             //console.log(currentPOS);
         })
 
         //next btn event
         $(obj).on('click',".sliderContainerNextBtn", function(){
-            if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+            if (((currentPOS*-1) < endLimited) && (endLimited+currentPOS) > containerWidth ){
                 currentPOS-=containerWidth;
-                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+            }else{
+                currentPOS = startLimited;
             }
+            $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
             //console.log(currentPOS);
         })
         
@@ -3103,10 +3228,10 @@ var ladderObjAmt = 0;
             //mouseleave
             if(autoPlay) {
                 timeID = setInterval(function() {
-                    if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                    if (((currentPOS*-1) < endLimited) && (endLimited+currentPOS) > containerWidth ){
                         currentPOS-=containerWidth;
                     }else{
-                        currentPOS = 0;
+                        currentPOS = startLimited;
                     }
                     $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
                     //console.log(currentPOS);
@@ -3125,21 +3250,23 @@ var ladderObjAmt = 0;
             var touch = e.originalEvent.touches[0];
             //swip to next
             if (trackSwipEvent && swipToNextPOS > touch.pageX){
-                if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                if (((currentPOS*-1) < endLimited) && (endLimited+currentPOS) > containerWidth ){
                     currentPOS-=containerWidth;
-                    $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
+                }else{
+                    currentPOS = startLimited;
                 }
+                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
                 trackSwipEvent = false;
             }
 
             //swip to prev
             if (trackSwipEvent && swipToPrevPOS < touch.pageX){
-                if ((currentPOS*-1) > 0){
+                if ((currentPOS*-1) > (startLimited*-1)){
                     currentPOS+=containerWidth;
-                    $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
                 }else{
-                    currentPOS = 0;
+                    currentPOS = -(endLimited-containerWidth);
                 }
+                $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
                 trackSwipEvent = false;
             }
         });
@@ -3147,10 +3274,10 @@ var ladderObjAmt = 0;
         //循環播放
         if(autoPlay) {
             var timeID = setInterval(function() {
-                if (((currentPOS*-1) < setContainerWidth) && (setContainerWidth+currentPOS) > containerWidth ){
+                if (((currentPOS*-1) < endLimited) && (endLimited+currentPOS) > containerWidth ){
                     currentPOS-=containerWidth;
                 }else{
-                    currentPOS = 0;
+                    currentPOS = startLimited;
                 }
                 $(".sliderContainer>ul",obj).animate({"left":currentPOS+"px"},transitionTime);
                 //console.log(currentPOS);
