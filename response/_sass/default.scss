@@ -869,12 +869,12 @@ table {
                 background-size: 100% 100%;
             }
             a {
-                display: block;
-                height: 100%;
-                width: 100%;
+                display: table-cell;
                 overflow: hidden;
                 color: #fff;
                 text-decoration: none;
+                text-align: center;
+                vertical-align: middle;
             }
             .closeTop_btn,
             .closeRight_btn,
@@ -977,12 +977,12 @@ table {
                         background: url("../_img/list.png") top left no-repeat !important;
                     }
                     ul {
-                        display: block !important;
-                        margin-left: 15px !important;
+                        display: block;
+                        margin-left: 15px;
                         li {
-                            border: none !important;
+                            border: none;
                             a {
-                                color: #333 !important;
+                                color: #333;
                                 background: url("../_img/rootlist.png") top left no-repeat !important;
                             }
                         }
@@ -1156,6 +1156,37 @@ table {
                     background: url("../_img/EnlargeDis_btn.png");
                     float: left;
                     background-size: 100% 100%;
+                }
+            }
+        }
+    }
+
+    /* 排除圖片最大尺寸樣式 */
+    img.resIgnoreImgReSizer{
+        max-width:none;
+    }
+
+    /* 伸縮選單 */
+    .flipContent{
+        .menuList{
+            &.resMenu,.resMenu{
+                a.hasChild{
+                    background: url("../_img/hasChild.png") left 2px no-repeat !important;
+                    @include border-radius(0);
+                }
+
+                li {
+
+                    ul{
+                        display:none;
+                    }
+
+                    &.active {
+                        >ul {
+                            display: block;
+                        }
+                    }
+                    
                 }
             }
         }

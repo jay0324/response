@@ -19,7 +19,19 @@ $(function() {
                     $("#followUpObj").html()
                 ]
             ]
-        ]
+        ],
+        additionalBtn: [
+            [
+                "submenu_btn",
+                "#",
+                "SUB",
+                "pannel",
+                [
+                    "right",
+                    $("#resMenu1").html()
+                ]
+            ]
+        ],
 	});
 
     //slideshow custom
@@ -232,7 +244,10 @@ $(function() {
         fx: 'slide'
     })
     $("#myTabList2").JResContentTab({
-        fx: 'show'
+        fx: 'show',
+        onClick: function(){
+            alert('custom setting!');
+        }
     })
 
     //resEnlarge obj
@@ -290,11 +305,14 @@ $(function() {
     });
 
     //resMenu1
-    $("#resMenu1").JResMenu();
+    $("#resMenu1,#resPrimery,#submenu_btn_pannelContent .menuList").JResMenu();
 
     //resMenu3
     $("#resMenu2").JResMenu({
         action: 'hover'
     });
+
+    //resOverflow
+    $(".overflowObj").JResOverflow();
 
  })

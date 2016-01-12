@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/08
+    Date: 2016/01/12
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -225,7 +225,7 @@ var ladderObjAmt = 0;
         var mobile_nav_BtnAmt = 0;
         //若主選單按鈕有啟用在上選單
         if (resPrimM) {
-            additionalBtn += '<li id="menu_btn" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + "px;margin-right:" + resMobileNavSetupMargin + 'px"><a href="#"></a></li>';
+            additionalBtn += '<li id="menu_btn" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + "px;margin-right:" + resMobileNavSetupMargin + 'px"><a href="#" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + 'px;"></a></li>';
             mobile_nav_BtnAmt = 1;
         }
         
@@ -298,7 +298,7 @@ var ladderObjAmt = 0;
                 }
                 //showBtn value with false than don't show the button
                 if (showBtn) {
-                    additionalBtn += '<li id="' + btnId + '" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + "px;margin-right:" + resMobileNavSetupMargin + 'px"><a href="' + btnLink + '" ' + btnTarget + ">" + btnText + "</a></li>";
+                    additionalBtn += '<li id="' + btnId + '" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + "px;margin-right:" + resMobileNavSetupMargin + 'px"><a href="' + btnLink + '" ' + btnTarget + 'style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + 'px;">' + btnText + '</a></li>';
                 }
                 mobile_nav_BtnAmt++;
             }
@@ -312,7 +312,7 @@ var ladderObjAmt = 0;
         var mobile_nav_BottomBtnAmt = 0;
         //若主選單按鈕有啟用在下選單
         if (resBottomPrimM) {
-            additionalBottomBtn += '<li id="menu_btn_bottom" style="width:' + resBottomMobileNavSetupWidth + "px;height:" + resBottomMobileNavSetupHeight + "px;margin-right:" + resBottomMobileNavSetupMargin + 'px"><a href="#"></a></li>';
+            additionalBottomBtn += '<li id="menu_btn_bottom" style="width:' + resBottomMobileNavSetupWidth + "px;height:" + resBottomMobileNavSetupHeight + "px;margin-right:" + resBottomMobileNavSetupMargin + 'px"><a href="#" style="width:' + resBottomMobileNavSetupWidth + "px;height:" + resBottomMobileNavSetupHeight + 'px;"></a></li>';
             mobile_nav_BottomBtnAmt = 1;
         }
 
@@ -384,7 +384,7 @@ var ladderObjAmt = 0;
                 }
                 //showBtn value with false than don't show the button
                 if (showBtn) {
-                    additionalBottomBtn += '<li id="' + btnId + '" style="width:' + resBottomMobileNavSetupWidth + "px;height:" + resBottomMobileNavSetupHeight + "px;margin-right:" + resBottomMobileNavSetupMargin + 'px"><a href="' + btnLink + '" ' + BottombtnTarget + ">" + btnText + "</a></li>";
+                    additionalBottomBtn += '<li id="' + btnId + '" style="width:' + resBottomMobileNavSetupWidth + "px;height:" + resBottomMobileNavSetupHeight + "px;margin-right:" + resBottomMobileNavSetupMargin + 'px"><a href="' + btnLink + '" ' + BottombtnTarget + 'style="width:' + resBottomMobileNavSetupWidth + "px;height:" + resBottomMobileNavSetupHeight + 'px;">' + btnText + "</a></li>";
                 }
                 mobile_nav_BottomBtnAmt++;
             }
@@ -1050,6 +1050,7 @@ var ladderObjAmt = 0;
             switch (objTag) {
               case "IMG":
                 $(this).each(function() {
+                    $(this).addClass('resIgnoreImgReSizer'); //加上class來避免res排版又再次處理物件
                     var objW = 0;
                     var objH = 0;
                     $(this).one('load', function() {
@@ -2903,7 +2904,8 @@ var ladderObjAmt = 0;
             init: 0,
             fx: 'fade',
             transitTime: 300,
-            createTabs: {}
+            createTabs: {},
+            onClick: false
         };
         options = $.extend(defaults, options);
         var tabObj = $(this);
@@ -2942,6 +2944,12 @@ var ladderObjAmt = 0;
                     //console.log(tabObj);
                     fnFx($(targetObj, tabObj), fx, 'show', transitTime);
                     $(this).addClass("active");
+
+                    //執行客製動作
+                    if (options.onClick != false) {
+                        options.onClick.call( $(tabObj) );
+                    }
+
                 }
                 return false;
             }
