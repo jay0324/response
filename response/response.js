@@ -3046,10 +3046,13 @@ var ladderObjAmt = 0;
                                 }
                                 return false;
                             }
+
+                            //只偵測到目前的物件
+                            e.stopPropagation(); 
+
                         }
 
-                        //只偵測到目前的物件
-                        //e.stopPropagation(); 
+                        
                     }).on('mouseleave',function(){
                         $('li>ul',this).slideUp(200);
                     });
@@ -3094,12 +3097,11 @@ var ladderObjAmt = 0;
                                 }
                                 return false;
                             }
+
+                            //只偵測到目前的物件
+                            //console.log($(e.target).hasClass("hasChild"));
+                            e.stopPropagation();
                         }
-
-                        //只偵測到目前的物件
-                        //console.log($(e.target).hasClass("hasChild"));
-                        //e.stopPropagation();
-
                     })
                 }
             break;
