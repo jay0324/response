@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/12
+    Date: 2016/01/14
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -2567,11 +2567,13 @@ var ladderObjAmt = 0;
                             '-khtml-opacity': 1,
                             '-moz-opacity': 1
                         },transition).attr("load","complete");
+
+                        if (options.onLoad != false) {
+                            options.onLoad.call( $(loadObj+":eq("+i+")",obj) ); //執行其他客製的動作
+                        }
+                        
                     }
                 }
-            }
-            if (options.onLoad != false) {
-                options.onLoad.call( obj ); //執行其他客製的動作
             }
         }
     }
@@ -3029,23 +3031,25 @@ var ladderObjAmt = 0;
                 }else{
                     //click event
                     $(obj).on('click','li',function(e){
-                        //偵測同層目錄下的物件就收起來
-                        $(this).parent().children().each(function(){
-                            $(this).children('ul').slideUp(200);
-                        })
+                        if ($(e.target).hasClass("hasChild")) {
+                            //偵測同層目錄下的物件就收起來
+                            $(this).parent().children().each(function(){
+                                $(this).children('ul').slideUp(200);
+                            })
 
-                        //偵測目前點擊的物件是否有子目錄，有的話就開啟
-                        if($(">ul",this).length > 0){
-                            if ($(">ul",this).css('display') == 'none') {
-                                $(">ul",this).slideDown(200);
-                            }else{
-                                $(">ul",this).slideUp(200);
+                            //偵測目前點擊的物件是否有子目錄，有的話就開啟
+                            if($(">ul",this).length > 0){
+                                if ($(">ul",this).css('display') == 'none') {
+                                    $(">ul",this).slideDown(200);
+                                }else{
+                                    $(">ul",this).slideUp(200);
+                                }
+                                return false;
                             }
-                            return false;
                         }
 
                         //只偵測到目前的物件
-                        e.stopPropagation(); 
+                        //e.stopPropagation(); 
                     }).on('mouseleave',function(){
                         $('li>ul',this).slideUp(200);
                     });
@@ -3074,24 +3078,28 @@ var ladderObjAmt = 0;
                     //click event
                     $(obj).on('click','li',function(e){
                         //偵測同層目錄下的物件是否有active,沒有的話就收起來
-                        $(this).parent().children().each(function(){
-                            if(!$(this).hasClass('active')){
-                                $(this).children('ul').slideUp(200);
-                            }
-                        })
+                        if ($(e.target).hasClass("hasChild")) {
+                            $(this).parent().children().each(function(){
+                                if(!$(this).hasClass('active')){
+                                    $(this).children('ul').slideUp(200);
+                                }
+                            })
 
-                        //偵測目前點擊的物件是否有子目錄，有的話就開啟
-                        if($(">ul",this).length > 0){
-                            if ($(">ul",this).css('display') == 'none') {
-                                $(">ul",this).slideDown(200);
-                            }else{
-                                $(">ul",this).slideUp(200);
+                            //偵測目前點擊的物件是否有子目錄，有的話就開啟
+                            if($(">ul",this).length > 0){
+                                if ($(">ul",this).css('display') == 'none') {
+                                    $(">ul",this).slideDown(200);
+                                }else{
+                                    $(">ul",this).slideUp(200);
+                                }
+                                return false;
                             }
-                            return false;
                         }
 
                         //只偵測到目前的物件
-                        e.stopPropagation(); 
+                        //console.log($(e.target).hasClass("hasChild"));
+                        //e.stopPropagation();
+
                     })
                 }
             break;

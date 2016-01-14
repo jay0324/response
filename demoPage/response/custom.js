@@ -260,7 +260,22 @@ $(function() {
     $("div[class*='resCol']").addClass('resDelay');
     $(".resContainer").each(function(){
         $(this).JResDelayLoader({
-            loadObj: ".resDelay"
+            loadObj: ".resDelay",
+            onLoad:function(){
+                //客製效果
+                $(this).css({
+                    position:"relative",
+                    left: "2000px"
+                });
+                $(this).animate({
+                    left: "0"
+                },1000,function() {
+                    //動畫完成後執行
+                    $(this).css({
+                        position:"static"
+                    })
+                });
+            }
         })
     })
 
