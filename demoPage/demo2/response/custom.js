@@ -1,0 +1,251 @@
+$(function() {
+	$.JResponsive({
+		defaultMenuObj: "#nav",
+        defaultLangMenuObj: "#lang",
+        resPageLoader: true,
+        resPageLoaderTigger: 'always',
+        additionalBtn: [
+            [
+                "submenu_btn",
+                "#",
+                "SUB",
+                "pannel",
+                [
+                    "right",
+                    $("#resMenu1").html(),
+                    ""
+                ]
+            ]
+        ],
+        pannelStyle: 'style1',
+        menuCollapse: '#resPrimery,#submenu_btn_pannelContent .menuList',
+        pannelPosition: 'left_under'
+	});
+
+
+    $("#slideshow").JSlideImg({
+            paddingAmt: 0,
+            childTag: 'a',
+            thumb: {
+                state: true,
+                amount: 4,
+                width:50,
+                height:50,
+                type: 'horizontal',
+                position: 'auto'
+            },
+            slideBtn:{
+                state: true,
+                width: 60,
+                height: 100,
+                type: 'horizontal'
+            },
+            setupResposive: {
+                800:{
+                    width:30,
+                    height:30,
+                    position: 'auto',
+                    slideBtn:{
+                        width: 20,
+                        height: 'auto'
+                    }
+                }
+            }
+        })
+
+    //slideshow
+    $("#slideshow2").JSlideImg({
+        paddingAmt: 0,
+        thumb: {
+                state: true,
+                amount: 2,
+                width:30,
+                height:30,
+                type: 'vertical',
+                position: 'left:0;'
+        },
+        slideBtn:{
+            state: true,
+            width: 50,
+            height: 20,
+            type: 'vertical'
+        },
+        setupResposive: {
+            800:{
+                state: false,
+                slideBtn:{
+                    width: 'auto',
+                    height: 20
+                }
+            }
+        }
+    })
+
+    $("#slideshow3").JSlideImg({
+        paddingAmt: 0,
+        thumb: {
+            state: true,
+            amount: 2,
+            width:50,
+            height:50,
+            type: 'horizontal',
+            position: 'bottom:0;left:0;'
+        },
+        slideBtn:{
+            state: true,
+            width: 20,
+            height: 50,
+            type: 'horizontal'
+        },
+        setupResposive: {
+            800:{
+                state: false,
+                slideBtn:{
+                    width: 20,
+                    height: 'auto'
+                }
+            }
+        }
+    })
+
+    //slider
+    $("#myItemSlider").JResContentSlider({
+        listAmt: 3,
+        setupResposive: {
+                    800:{
+                        listAmt: 3
+                    },
+                    600:{
+                        listAmt: 2
+                    },
+                    420:{
+                        listAmt: 1
+                    }
+                }
+    })
+
+    //slider2
+    $("#myItemSlider2").JResContentSlider({
+        listAmt:1,
+        from:2,
+        btnSetup:{
+            nextBtn:{
+                state: true,
+                width: (($(".resDocLayout").width() / 2) - 200)
+            },
+            prevBtn:{
+                state: true,
+                width: (($(".resDocLayout").width() / 2) - 200)
+            }
+        },
+        setupResposive: {       //響應式設定(物件)
+            800:{
+                listAmt: 1,
+                listPaddingAmt: 20,
+                autoPlay: false,
+                btnSetup:{
+                    nextBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 200)
+                    },
+                    prevBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 200)
+                    }
+                }
+            },
+            500:{
+                listAmt: 1,
+                listPaddingAmt: 20,
+                autoPlay: false,
+                btnSetup:{
+                    nextBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 120)
+                    },
+                    prevBtn:{
+                        state: true,
+                        width: (($(window).width() / 2) - 120)
+                    }
+                }
+            }
+        }
+    })
+
+    //tab group list
+    $("#myTabList").JResContentTab({
+        fx: 'slide'
+    })
+    $("#myTabList2").JResContentTab({
+        fx: 'show',
+        onClick: function(){
+            alert('custom setting!');
+        }
+    })
+
+    //resEnlarge obj
+    $(".resEnlargeObj").JResEnlarge({
+        popupMode: true,
+        paddingAmt: 0
+    })
+
+    //delay show
+    $("div[class*='resCol']").addClass('resDelay');
+    $(".resContainer").each(function(){
+        $(this).JResDelayLoader({
+            loadObj: ".resDelay",
+            onLoad:function(){
+                //客製效果
+                $(this).css({
+                    position:"relative",
+                    top: "1000px"
+                });
+                $(this).animate({
+                    top: "0"
+                },1000,function() {
+                    //動畫完成後執行
+                    $(this).css({
+                        position:"static"
+                    })
+                });
+            }
+        })
+    })
+       
+    //testTabGroup
+    $("#testTabGroup").JResContentTab({
+        init: 0,
+                fx: 'show',
+                transitTime: 1000,
+                createTabs: {           //js寫入Tab
+                    tab1:{              //新標籤編號
+                        id: "tab1_btn",
+                        text: 'test',
+                        content: '<img src="_img/1920x600.jpg" />'
+                    },
+                    tab2:{              //新標籤編號
+                        id: "tab2_btn",
+                        text: "this is tab2",
+                        content: "this is the content for tab 2"
+                    }
+                }       
+    });
+
+    //resMenu2
+    $("#nav").JResMenu({
+        view: 'horizontal',
+        action: 'hover'
+    });
+
+    //resMenu1
+    $("#resMenu1").JResMenu();
+
+    //resMenu3
+    $("#resMenu2").JResMenu({
+        action: 'hover'
+    });
+
+    //resOverflow
+    $(".overflowObj").JResOverflow();
+
+ })

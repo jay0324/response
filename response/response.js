@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/14
+    Date: 2016/01/15
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -66,6 +66,8 @@ var ladderObjAmt = 0;
             customSubMenu: "",
             additionalPage: "",
             pannelPosition: "left",
+            pannelStyle: '',
+            menuCollapse:'',
             resPageLoader: false,
             resPageLoaderTigger: 800,
             responsiveSwitch: true,
@@ -79,6 +81,12 @@ var ladderObjAmt = 0;
         };
 
         options = $.extend(defaults, options);
+
+        //預設全域的響應式視窗風格
+        var pannelStyle = options.pannelStyle;
+
+        //啟用伸縮選單的物件ID
+        var menuCollapse = options.menuCollapse;
 
         //scroll to top plugin 控制
         var scroll_to_top = options.scrollTop;
@@ -247,8 +255,16 @@ var ladderObjAmt = 0;
                         addPanelPosition = pannelPosition;
                         addflipDirection = flipDirection;
                     }
+
+                    //pannel風格
+                    if (additionalBtnArray[i][4][2] != undefined) {
+                        addPannelStyle = additionalBtnArray[i][4][2];
+                    }else{
+                        addPannelStyle = pannelStyle;
+                    }
+
                     var addPanelContent = additionalBtnArray[i][4][1] != undefined ? additionalBtnArray[i][4][1] : "";
-                    additionalPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
+                    additionalPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPannelStyle + ' ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
                     btnTarget = " onclick=\"JResMobileTopNav({btnId:'#" + btnId + "',contentId:'#" + btnId + "_pannelContent',position:'" + addflipDirection + "',resetEvt:false});return false;\"";
                     //trim whitespace from pannel content, then check if it is empty return value false to showBtn
                     if ($.trim(addPanelContent) == "") {
@@ -334,8 +350,16 @@ var ladderObjAmt = 0;
                         addPanelPosition = pannelPosition;
                         addflipDirection = flipDirection;
                     }
+
+                    //pannel風格
+                    if (additionalBtnArray[i][4][2] != undefined) {
+                        addPannelStyle = additionalBtnArray[i][4][2];
+                    }else{
+                        addPannelStyle = pannelStyle;
+                    }
+
                     var addPanelContent = additionalBottomBtnArray[i][4][1] != undefined ? additionalBottomBtnArray[i][4][1] : "";
-                    additionalBottomPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
+                    additionalBottomPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPannelStyle + ' ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
                     BottombtnTarget = " onclick=\"JResMobileTopNav({btnId:'#" + btnId + "',contentId:'#" + btnId + "_pannelContent',position:'" + addflipDirection + "',resetEvt:false});return false;\"";
                     //trim whitespace from pannel content, then check if it is empty return value false to showBtn
                     if ($.trim(addPanelContent) == "") {
@@ -529,7 +553,7 @@ var ladderObjAmt = 0;
                 //fnLoadCSS('response_custom',modulePath + 'response/_css/custom.css','all');
                 //$("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
                 //var swapBtn = (noServer== false)?'<li id="swap_btn" '+responsiveSwitch+'><a href="#"></a></li>':'';
-                var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> | <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
+                var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> <span class="split">|</span> <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
                 //-- loader --
                 if (resPageLoader) {
                     //如果resPageLoaderTigger設定always，則總是使用
@@ -578,7 +602,7 @@ var ladderObjAmt = 0;
 
                 //-- mobile menu interface --
                 $("body").wrapInner('<div id="resMainWrap" '+body_margin+'></div>');
-                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "</div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "</div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
+                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelStyle + ' ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "</div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "</div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
                 //上下區主選單控制
                 $("#menu_btn,#menu_btn_bottom").click(function() {
                     JResMobileTopNav({
@@ -593,6 +617,12 @@ var ladderObjAmt = 0;
                 $("body").append('<div id="resContentMask"></div>');
                 //-- give content container a mini-height
                 $("#resMainWrap").css("min-height", resMainWrap_miniHight + "px");
+
+                //使用伸縮選單的物件ID
+                if (menuCollapse != ""){
+                    $(menuCollapse).JResMenu();
+                }
+
             } else {
                 //切換為桌面版
                 $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
@@ -1210,8 +1240,11 @@ var ladderObjAmt = 0;
         var maxJSlideWidth = Math.min(($(window).width() - paddingAmt), ($(resContainer).parent().width() - paddingAmt));
         if (maxJSlideWidth == 0) maxJSlideWidth = $(window).width() - paddingAmt;
 
+        //如果物件是連結,則抓取子物件img來判斷長寬
+        var getChildImg = (options.childTag.toLowerCase() == 'a')?">img":"";
+
         //設定物件長寬
-        $(options.childTag.toLowerCase() + ":eq(0)", this).one('load', function() {
+        $(options.childTag.toLowerCase() + ":eq(0)" + getChildImg, this).one('load', function() {
             resJSlideWidth = $(this).width();
             resJSlideHeight = $(this).height();
 
@@ -1251,6 +1284,12 @@ var ladderObjAmt = 0;
                     var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbH)-((btnH*2)+(10*thumb['amount']));
                     var thumbWUL = (thumb['width']+12) + 'px';
                     var thumbHUL = "auto";
+                    if (thumb['position'] === 'auto'){
+                        var posH = (resJSlideHeight - thumbH)/2; 
+                        var thumbPos = 'left:10px;top:'+posH+'px;';
+                    }else{
+                        var thumbPos = thumb['position'];
+                    }
                  }else{
                     var btnW = (ThumbScroller) ? 20 : 0;
                     var btnH = (thumb['height']+12);
@@ -1262,9 +1301,15 @@ var ladderObjAmt = 0;
                     var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbW)-((btnW*2)+(10*thumb['amount']));
                     var thumbWUL = 'auto';
                     var thumbHUL = (thumb['height']+12) + 'px';
+                    if (thumb['position'] === 'auto'){
+                        var posW = (resJSlideWidth - thumbW)/2; 
+                        var thumbPos = 'left:'+posW+'px;bottom:10px;';
+                    }else{
+                        var thumbPos = thumb['position'];
+                    }
                  } 
 
-                var thumbDom = '<div class="resJSlideImgThumb resJSlideImgController" style="'+thumb['position']+'width:'+thumbW+'px;height:'+thumbH+'px">'+
+                var thumbDom = '<div class="resJSlideImgThumb resJSlideImgController" style="'+thumbPos+'width:'+thumbW+'px;height:'+thumbH+'px">'+
                 '<a class="resJSlideImgThumbPrev end" href="#" style="'+positionPrev+'width:'+btnW+'px;height:'+btnH+'px"></a>'+
                 '<ul class="resJSlideImgThumbTrack" style="'+positionTrack+'width:'+thumbWUL+';height:'+thumbHUL+'">';
                 $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).each(function(){
@@ -1284,21 +1329,25 @@ var ladderObjAmt = 0;
         if(!$.isEmptyObject(slideBtn)){
             if(slideBtn['state']) {
                 if (slideBtn['type'] == 'vertical') {
-                    var setSlideBtnContainerPos = 'top:0;left:' + ((resJSlideWidth - slideBtn['width'])/2) + 'px;';
-                    var setSlideBtnContainerWidth = slideBtn['width'];
+                    var setSlideBtnContainerPos = 'left:' + ((resJSlideWidth - slideBtn['width'])/2) + 'px;';
+                    var setSlideBtnContainerWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
                     var setSlideBtnContainerHeight = resJSlideHeight;
-                    var setSlideBtnPrevPos = 'top:0;left:0px;';
-                    var setSlideBtnNextPos = 'bottom:0;left:0px;';
+                    var setSlideBtnWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
+                    var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
+                    var setSlideBtnPrevPos = 'top:0;';
+                    var setSlideBtnNextPos = 'bottom:0;';
                 }else{
-                    var setSlideBtnContainerPos = 'left:0;top:' + ((resJSlideHeight - slideBtn['height'])/2) + 'px;';
+                    var setSlideBtnContainerPos = 'top:' + ((resJSlideHeight - slideBtn['height'])/2) + 'px;';
                     var setSlideBtnContainerWidth = resJSlideWidth;
-                    var setSlideBtnContainerHeight = slideBtn['height'];
-                    var setSlideBtnPrevPos = 'top:0;left:0px;';
-                    var setSlideBtnNextPos = 'top:0;right:0px;';
+                    var setSlideBtnContainerHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
+                    var setSlideBtnWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
+                    var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
+                    var setSlideBtnPrevPos = 'left:0px;';
+                    var setSlideBtnNextPos = 'right:0px;';
                 }
-                var slideBtnDom = '<div class="resJSlideImgslideBtn resJSlideImgController" style="'+setSlideBtnContainerPos+'width:'+setSlideBtnContainerWidth+'px;height:'+setSlideBtnContainerHeight+'px">'+
-                    '<a class="resJSlideImgslideBtnPrev" href="#" style="'+setSlideBtnPrevPos+'width:'+slideBtn['width']+'px;height:'+slideBtn['height']+'px"></a>'+
-                    '<a class="resJSlideImgslideBtnNext" href="#" style="'+setSlideBtnNextPos+'width:'+slideBtn['width']+'px;height:'+slideBtn['height']+'px"></a>'+
+                var slideBtnDom = '<div class="resJSlideImgslideBtn resJSlideImgController" style="width:'+setSlideBtnContainerWidth+';height:'+setSlideBtnContainerHeight+'">'+
+                    '<a class="resJSlideImgslideBtnPrev" href="#" style="'+setSlideBtnContainerPos+setSlideBtnPrevPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
+                    '<a class="resJSlideImgslideBtnNext" href="#" style="'+setSlideBtnContainerPos+setSlideBtnNextPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
                 '</div>';
                 $(options.disObj).append(slideBtnDom);
             }
