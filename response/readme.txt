@@ -4,10 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2016/01/15 修改:
-- 修正JSlideImg除了子項目為img可以自動偵測長寬之外，也可以包覆在a標籤內
-- 修正JSlideImg前後項目切換按鈕的樣式設定
-- JResponsive加入pannelStyle,menuCollapse及additionalBtn的樣式參數設定值
+Date: 2016/01/18 修改:
+- 修正mobile_nav_content中各物件間容器長度問題
+- 修正響應式排版樣式
 
 =======================================================================================================================
 套用方式及相關文件說明

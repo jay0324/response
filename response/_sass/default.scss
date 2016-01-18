@@ -368,6 +368,9 @@ select.resSelect{
     .resCol1 {
         width: (100%/12)*1;
     }
+    .resCol0 {
+        display:none;
+    }
     [class*="resCol"] {
         &.left {
             text-align: left;
@@ -713,6 +716,7 @@ select.resSelect{
 .resMenu2 {
     position: relative;
     display: inline-block;
+    margin-bottom:-3px;
     ul {
         display: block;
         margin: 0;

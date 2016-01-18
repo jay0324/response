@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/15
+    Date: 2016/01/18
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -553,7 +553,7 @@ var ladderObjAmt = 0;
                 //fnLoadCSS('response_custom',modulePath + 'response/_css/custom.css','all');
                 //$("head").append('<link id="response" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/response.css"/><link id="response_custom" rel="stylesheet" type="text/css" media="all" href="' + modulePath + 'response/_css/custom.css"/>');
                 //var swapBtn = (noServer== false)?'<li id="swap_btn" '+responsiveSwitch+'><a href="#"></a></li>':'';
-                var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> <span class="split">|</span> <a id="swap_btn">' + fnTranslate("desktop") + "</a></div>" : "";
+                var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> <span class="split">|</span> <a id="swap_btn">' + fnTranslate("desktop") + "</a><div class='clear'></div></div>" : "";
                 //-- loader --
                 if (resPageLoader) {
                     //如果resPageLoaderTigger設定always，則總是使用
@@ -602,7 +602,7 @@ var ladderObjAmt = 0;
 
                 //-- mobile menu interface --
                 $("body").wrapInner('<div id="resMainWrap" '+body_margin+'></div>');
-                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelStyle + ' ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "</div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "</div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
+                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelStyle + ' ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "<div class='clear'></div></div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "<div class='clear'></div></div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
                 //上下區主選單控制
                 $("#menu_btn,#menu_btn_bottom").click(function() {
                     JResMobileTopNav({
