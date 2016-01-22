@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/18
+    Date: 2016/01/22
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -1168,6 +1168,7 @@ var ladderObjAmt = 0;
             disObj: this,
             childTag: "img",
             transitTime: 3,
+            transitStyle: '',
             holdTime: 5,
             paddingAmt: 0,
             layout: "clear",
@@ -1181,6 +1182,7 @@ var ladderObjAmt = 0;
             },
             slideBtn:{
                 state: false,
+                trigger: 'click',
                 width: 100,
                 height: 100,
                 type: 'horizontal'
@@ -1233,6 +1235,7 @@ var ladderObjAmt = 0;
         var slideBtn = options.slideBtn;
         var setupResposive = options.setupResposive;
         var curr = 0;
+        var prev = -1;
         var begin = true;
         var loop;
 
@@ -1336,6 +1339,7 @@ var ladderObjAmt = 0;
                     var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
                     var setSlideBtnPrevPos = 'top:0;';
                     var setSlideBtnNextPos = 'bottom:0;';
+                    var setSlideBtnTriggleEvent = (slideBtn['trigger'] === undefined) ? 'click':slideBtn['trigger'];
                 }else{
                     var setSlideBtnContainerPos = 'top:' + ((resJSlideHeight - slideBtn['height'])/2) + 'px;';
                     var setSlideBtnContainerWidth = resJSlideWidth;
@@ -1344,6 +1348,7 @@ var ladderObjAmt = 0;
                     var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
                     var setSlideBtnPrevPos = 'left:0px;';
                     var setSlideBtnNextPos = 'right:0px;';
+                    var setSlideBtnTriggleEvent = (slideBtn['trigger'] === undefined) ? 'click':slideBtn['trigger'];
                 }
                 var slideBtnDom = '<div class="resJSlideImgslideBtn resJSlideImgController" style="width:'+setSlideBtnContainerWidth+';height:'+setSlideBtnContainerHeight+'">'+
                     '<a class="resJSlideImgslideBtnPrev" href="#" style="'+setSlideBtnContainerPos+setSlideBtnPrevPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
@@ -1352,6 +1357,8 @@ var ladderObjAmt = 0;
                 $(options.disObj).append(slideBtnDom);
             }
         }
+
+        //
 
         //start slideshow
         if ($("#" + options.disObj.attr("id")).length > 0 && $("#" + options.disObj.attr("id")).css("display") != "none") {
@@ -1371,8 +1378,10 @@ var ladderObjAmt = 0;
             fnStopLoop();
 
             //set click item to current state
+            prev = (curr == 0) ? maxAmt : curr-1; //取得上一個項目
             curr = $(this).index();
-            begin = true;
+            //console.log('prev:'+prev+' curr:'+curr);
+            begin = false;
 
             //建立效果及迴圈
             fnDefineLoop();
@@ -1431,16 +1440,18 @@ var ladderObjAmt = 0;
             }
             return false;
         })
+        
+        //console.log(setSlideBtnTriggleEvent);
 
         //slideshow PrevBtn
-        $(options.disObj).on('click',".resJSlideImgslideBtnPrev", function(){
+        $(options.disObj).on(setSlideBtnTriggleEvent,".resJSlideImgslideBtnPrev", function(e){
             //reset loop and all current state
             fnStopLoop();
-
+            console.log(e);
             //set click item to current state
             //loop時以自動加一所以，需要減2
-            curr = (curr == 0) ? maxAmt : curr-1; //先還原為目前的項目
-            curr = (curr <= 0) ? maxAmt : curr-1; //取得上一個項目
+            prev = (curr == 0) ? maxAmt : curr-1; //先還原為目前的項目
+            curr = (prev <= 0) ? maxAmt : prev-1; //取得上一個項目
             begin = true;
             
             //建立效果及迴圈
@@ -1450,10 +1461,10 @@ var ladderObjAmt = 0;
         })
 
         //slideshow NextBtn
-        $(options.disObj).on('click',".resJSlideImgslideBtnNext", function(){
+        $(options.disObj).on(setSlideBtnTriggleEvent,".resJSlideImgslideBtnNext", function(e){
             //reset loop and all current state
             fnStopLoop();
-
+            //console.log(e);
             //set click item to current state
             //loop時以自動加一所以，不必再加
             begin = true;
@@ -1483,8 +1494,10 @@ var ladderObjAmt = 0;
                         disObj: options.disObj.attr("id"),
                         childTag: options.childTag.toLowerCase(),
                         curr: curr,
+                        prev: prev,
                         maxAmt: maxAmt,
                         transitTime: options.transitTime,
+                        transitStyle: options.transitStyle,
                         holdTime: options.holdTime,
                         begin: begin,
                         onTrans: options.onTrans,
@@ -1493,6 +1506,7 @@ var ladderObjAmt = 0;
 
                 begin = false; //進場預設值設為flase
                 curr = (curr < maxAmt) ? curr+1 : 0; //取得下一個項目
+                prev = -1; //較果結束後要把prev設回預設值
 
                 //如果有自訂transition延遲時間加上去
                 if (options.onTrans != false) {
@@ -1512,8 +1526,10 @@ var ladderObjAmt = 0;
                             disObj: options.disObj.attr("id"),
                             childTag: options.childTag.toLowerCase(),
                             curr: curr,
+                            prev: prev,
                             maxAmt: maxAmt,
                             transitTime: options.transitTime,
+                            transitStyle: options.transitStyle,
                             holdTime: options.holdTime,
                             begin: begin,
                             onTrans: options.onTrans,
@@ -1533,9 +1549,12 @@ var ladderObjAmt = 0;
             clearTimeout(loop);
             $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).each(function(){
                 if(!$(this).hasClass("resJSlideImgController")) {
-                    $(this).animate({
+                    $(this).css({
+                        "z-index":"0"
+                    });
+                    /*$(this).animate({
                         opacity: "0"
-                    }, 500);
+                    }, options.transitTime);*/
                 }
             })
         }
@@ -1565,7 +1584,7 @@ var ladderObjAmt = 0;
                             }else{
                                 var currentTrackPosition = (Math.floor(curr/thumb['amount'])*thumbW)-((btnW*2)+(10*thumb['amount']));
                                 var currentPosition = parseInt($("#" + options.disObj.attr("id") + " .resJSlideImgThumbTrack").css("left").replace("px",""));
-                                //console.log(currentTrackPosition+','+(currentPosition*-1));
+                                //console.log(thumb['amount']+','+currentTrackPosition+','+(currentPosition*-1));
                                 $("#" + options.disObj.attr("id") + " .resJSlideImgThumbPrev").removeClass('end');
                                 $("#" + options.disObj.attr("id") + " .resJSlideImgThumbNext").removeClass('end');
                                 if (currentTrackPosition > (currentPosition*-1)) {
@@ -1624,8 +1643,10 @@ var ladderObjAmt = 0;
             disObj: "",
             childTag: "",
             curr: 0,
+            prev: false,
             maxAmt: 0,
             transitTime: 0,
+            transitStyle: '',
             holdTime: 0,
             begin: false,
             onTrans: false,
@@ -1639,8 +1660,15 @@ var ladderObjAmt = 0;
         var begin = options.begin; //是否為第一次進場
         var transitTime = options.transitTime;
         var holdTime = options.holdTime;
+        var transitStyle = options.transitStyle;
         //若不是第一次進場才進行上一張圖退場動作
-        var prev = (curr > 0) ? curr - 1 : maxAmt; //prev obj
+        if (options.prev == -1) {
+            var prev = (curr > 0) ? curr - 1 : maxAmt; //prev obj
+        }else{
+            var prev = options.prev;
+        }
+
+        //console.log(prev+','+begin);
 
         $("#" + disObj + " .resJSlideImgThumbItem").removeClass('active');
         $("#" + disObj + " .resJSlideImgThumbItem:eq("+curr+")").addClass('active');
@@ -1668,21 +1696,41 @@ var ladderObjAmt = 0;
         }else{
             //out effect
             //若不是第一次進場才進行上一張圖退場動作
+            //transitStyle用來設定輪播時的效果: animate(動畫效果), 預設空值(淡入淡出)
+
             if (!begin) {
-                $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").animate({
-                    opacity: "0"
-                }, transitTime * 1e3, "linear");
+                switch (transitStyle) {
+                    case 'animate':
+                        $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").css({
+                            opacity: "1",
+                            'z-index': '0'
+                        });
+                    break;
+                    default:
+                        $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").animate({
+                            opacity: "0",
+                            'z-index': '0'
+                        }, transitTime * 1e3, "linear");
+                    break;
+                }
             }
 
             //in effect
+            $("#" + disObj + ">" + childTag + ":eq(" + curr + ")").css({
+                'z-index': '1'
+            });
             $("#" + disObj + ">" + childTag + ":eq(" + curr + ")").animate({
                 opacity: "1"
             }, transitTime * 1e3, "linear", function() {
                 //載入物件延伸
                 if (options.onHold != false) {
                     options.onHold.call( $("#" + disObj + ">" + childTag + ":eq(" + curr + ")") ); 
+                }else{
+                    //預設動作
+                    $("#" + disObj + ">" + childTag + ":eq(" + prev + ")").css({
+                        opacity: "0"
+                    });
                 }
-
             });
         }
 
@@ -1772,7 +1820,7 @@ var ladderObjAmt = 0;
                 }
             }else{
                 if (window.location.href.indexOf(options.ignore) != -1){
-                    resRefreshMode = false;console.log(resRefreshMode);
+                    resRefreshMode = false;//console.log(resRefreshMode);
                 }
             }
         }

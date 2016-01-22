@@ -74,6 +74,15 @@ body{
 		display:none;
 	}
 
+	#logo_btn{
+		float:right !important;
+		width:120px !important;
+		background:url("../_img/logo_btn.png");
+		a{
+			width:120px !important;
+		}
+	}
+
 }
 
 /*

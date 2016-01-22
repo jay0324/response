@@ -1,4 +1,6 @@
 $(function() {
+    var resHost = $.JRes_modulePath();
+
 	$.JResponsive({
 		defaultMenuObj: "#nav",
         defaultLangMenuObj: "#lang",
@@ -12,9 +14,14 @@ $(function() {
                 "pannel",
                 [
                     "right",
-                    $("#resMenu1").html(),
-                    ""
+                    $("#resMenu1").html()
                 ]
+            ],
+            [
+                "logo_btn",
+                resHost,
+                "",
+                "_self"
             ]
         ],
         pannelStyle: 'style1',

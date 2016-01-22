@@ -320,7 +320,7 @@ $(function() {
     });
 
     //resMenu1
-    $("#resMenu1,#resPrimery,#submenu_btn_pannelContent .menuList").JResMenu();
+    $("#resMenu1").JResMenu();
 
     //resMenu3
     $("#resMenu2").JResMenu({
