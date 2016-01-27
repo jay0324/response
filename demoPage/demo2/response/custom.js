@@ -14,7 +14,7 @@ $(function() {
                 "pannel",
                 [
                     "right",
-                    $("#resMenu1").html()
+                    $("#resMenuStyle").html()
                 ]
             ],
             [
@@ -25,8 +25,8 @@ $(function() {
             ]
         ],
         pannelStyle: 'style1',
-        menuCollapse: '#resPrimery,#submenu_btn_pannelContent .menuList',
-        pannelPosition: 'left_under'
+        menuCollapse: '#resPrimery',
+        pannelPosition: 'right_under'
 	});
 
 
@@ -245,12 +245,7 @@ $(function() {
     });
 
     //resMenu1
-    $("#resMenu1").JResMenu();
-
-    //resMenu3
-    $("#resMenu2").JResMenu({
-        action: 'hover'
-    });
+    $(".menuObj").JResMenu();
 
     //resOverflow
     $(".overflowObj").JResOverflow();

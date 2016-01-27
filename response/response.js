@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/22
+    Date: 2016/01/27
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -3001,7 +3001,7 @@ var ladderObjAmt = 0;
     $.fn.JResContentTab = function(options) {
         var defaults = {
             init: 0,
-            fx: 'fade',
+            fx: 'slide',
             transitTime: 300,
             createTabs: {},
             onClick: false
@@ -3091,118 +3091,125 @@ var ladderObjAmt = 0;
             action: 'click'
         };
         options = $.extend(defaults, options);
-        var obj = $(this);
-        var view = options.view;
-        var action = options.action;
+        $(this).each(function(){
+            var obj = $(this);
+            var view = options.view;
+            var action = options.action;
 
-        //如針對目前在操作中的menu，將其z-index設為上層
-        $(obj).on('mouseenter',function(){
-            $(this).css("z-index","2");
-        }).on('mouseleave',function(){
-            $(this).css("z-index","1");
-        });
+            //如針對目前在操作中的menu，將其z-index設為上層
+            $(obj).on('mouseenter',function(){
+                $(this).css("z-index","2");
+            }).on('mouseleave',function(){
+                $(this).css("z-index","1");
+            });
 
-        //將有子層級的按鈕加入class
-        $("li",obj).each(function(){
-            if ($(this).children('ul').length > 0) {
-                $('>a',this).addClass('hasChild');
-            }
-        })
-
-        //判斷view類型
-        switch (view){
-            case 'horizontal':
-                //add style
-                $(obj).addClass("resMenu2");
-
-                //add event
-                if (action == 'hover') {
-                    //hover event
-                    $(obj).on('mouseenter','li',function(e){
-                        $(">ul",this).slideDown(10);
-                    }).on('mouseleave','li',function(e){
-                        $(this).parent().children().each(function(){
-                            $(this).children('ul').slideUp(10);
-                        })
-                    })
-                }else{
-                    //click event
-                    $(obj).on('click','li',function(e){
-                        if ($(e.target).hasClass("hasChild")) {
-                            //偵測同層目錄下的物件就收起來
-                            $(this).parent().children().each(function(){
-                                $(this).children('ul').slideUp(200);
-                            })
-
-                            //偵測目前點擊的物件是否有子目錄，有的話就開啟
-                            if($(">ul",this).length > 0){
-                                if ($(">ul",this).css('display') == 'none') {
-                                    $(">ul",this).slideDown(200);
-                                }else{
-                                    $(">ul",this).slideUp(200);
-                                }
-                                return false;
-                            }
-
-                            //只偵測到目前的物件
-                            e.stopPropagation(); 
-
-                        }
-
-                        
-                    }).on('mouseleave',function(){
-                        $('li>ul',this).slideUp(200);
-                    });
+            //將所有的ul後面加入clear
+            $("ul",obj).each(function(){
+                $(this).after("<div class='clear'></div>");
+            });
+            //將有子層級的按鈕加入class
+            $("li",obj).each(function(){
+                if ($(this).children('ul').length > 0) {
+                    $('>a',this).addClass('hasChild');
                 }
+            });
 
-            break;
-            case 'vertical':
-                //add style
-                $(obj).addClass("resMenu");
+            //判斷view類型
+            switch (view){
+                case 'horizontal':
+                    //add style
+                    $(obj).addClass("resMenu2");
 
-                //add event
-                if (action == 'hover') {
-                    //hover event
-                    $(obj).on('mouseenter','li',function(e){
-                        $(">ul",this).slideDown(500);
-                    }).on('mouseleave','li',function(e){
-                        //偵測同層目錄下的物件是否有active,沒有的話就收起來
-                        $(this).parent().children().each(function(){
-                            if(!$(this).hasClass('active')){
-                                $(this).children('ul').slideUp(500);
-                            }
+                    //add event
+                    if (action == 'hover') {
+                        //hover event
+                        $(obj).on('mouseenter','li',function(e){
+                            $(">ul",this).slideDown(10);
+                        }).on('mouseleave','li',function(e){
+                            $(this).parent().children().each(function(){
+                                $(this).children('ul').slideUp(10);
+                            })
                         })
-                    })
+                    }else{
+                        //click event
+                        $(obj).on('click','li',function(e){
+                            if ($(e.target).hasClass("hasChild")) {
+                                //偵測同層目錄下的物件就收起來
+                                $(this).parent().children().each(function(){
+                                    $(this).children('ul').slideUp(200);
+                                })
 
-                }else{
-                    //click event
-                    $(obj).on('click','li',function(e){
-                        //偵測同層目錄下的物件是否有active,沒有的話就收起來
-                        if ($(e.target).hasClass("hasChild")) {
+                                //偵測目前點擊的物件是否有子目錄，有的話就開啟
+                                if($(">ul",this).length > 0){
+                                    if ($(">ul",this).css('display') == 'none') {
+                                        $(">ul",this).slideDown(200);
+                                    }else{
+                                        $(">ul",this).slideUp(200);
+                                    }
+                                    return false;
+                                }
+
+                                //只偵測到目前的物件
+                                e.stopPropagation(); 
+
+                            }
+
+                            
+                        }).on('mouseleave',function(){
+                            $('li>ul',this).slideUp(200);
+                        });
+                    }
+
+                break;
+                case 'vertical':
+                    //add style
+                    $(obj).addClass("resMenu");
+
+                    //add event
+                    if (action == 'hover') {
+                        //hover event
+                        $(obj).on('mouseenter','li',function(e){
+                            $(">ul",this).slideDown(500);
+                        }).on('mouseleave','li',function(e){
+                            //偵測同層目錄下的物件是否有active,沒有的話就收起來
                             $(this).parent().children().each(function(){
                                 if(!$(this).hasClass('active')){
-                                    $(this).children('ul').slideUp(200);
+                                    $(this).children('ul').slideUp(500);
                                 }
                             })
+                        })
 
-                            //偵測目前點擊的物件是否有子目錄，有的話就開啟
-                            if($(">ul",this).length > 0){
-                                if ($(">ul",this).css('display') == 'none') {
-                                    $(">ul",this).slideDown(200);
-                                }else{
-                                    $(">ul",this).slideUp(200);
+                    }else{
+                        //click event
+                        $(obj).on('click','li',function(e){
+                            //偵測同層目錄下的物件是否有active,沒有的話就收起來
+                            if ($(e.target).hasClass("hasChild")) {
+                                $(this).parent().children().each(function(){
+                                    if(!$(this).hasClass('active')){
+                                        $(this).children('ul').slideUp(200);
+                                    }
+                                })
+
+                                //偵測目前點擊的物件是否有子目錄，有的話就開啟
+                                if($(">ul",this).length > 0){
+                                    if ($(">ul",this).css('display') == 'none') {
+                                        $(">ul",this).slideDown(200);
+                                    }else{
+                                        $(">ul",this).slideUp(200);
+                                    }
+                                    return false;
                                 }
-                                return false;
-                            }
 
-                            //只偵測到目前的物件
-                            //console.log($(e.target).hasClass("hasChild"));
-                            e.stopPropagation();
-                        }
-                    })
-                }
-            break;
-        }
+                                //只偵測到目前的物件
+                                //console.log($(e.target).hasClass("hasChild"));
+                                e.stopPropagation();
+                            }
+                        })
+                    }
+                break;
+            }
+
+        });
 
     }
 

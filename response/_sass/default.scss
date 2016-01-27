@@ -407,6 +407,7 @@ select.resSelect{
 .resHtmlOverflow {
     position: relative;
     overflow: hidden;
+    overflow-y: hidden !important;
 }
 
 
@@ -931,7 +932,7 @@ select.resSelect{
         display: block;
         position: fixed;
         margin: 0;
-        padding: 10px 0 0 0;
+        padding: 0;
         background: #FBFBFB url("../_img/flipContent_bg.jpg") top right no-repeat;
         text-align: left;
         overflow: scroll;
