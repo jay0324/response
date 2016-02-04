@@ -5,7 +5,7 @@ $(function() {
 		defaultMenuObj: "#nav",
         defaultLangMenuObj: "#lang",
         resPageLoader: true,
-        resPageLoaderTigger: 'always',
+        //resPageLoaderTigger: 'always',
         additionalBtn: [
             [
                 "submenu_btn",
@@ -85,6 +85,15 @@ $(function() {
                     height: 20
                 }
             }
+        },
+        onTrans: function(){
+            var curr = this.curr;
+            var prev = this.prev;
+            var begin = this.begin;
+            $(curr).removeClass().addClass('animated rollIn');
+            if (!begin) {
+                $(prev).removeClass().addClass('animated rollOut');
+            }
         }
     })
 
@@ -111,6 +120,15 @@ $(function() {
                     width: 20,
                     height: 'auto'
                 }
+            }
+        },
+        onTrans: function(){
+            var curr = this.curr;
+            var prev = this.prev;
+            var begin = this.begin;
+            $(curr).removeClass().addClass('animated flipInY');
+            if (!begin) {
+                $(prev).removeClass().addClass('animated flipOutY');
             }
         }
     })
@@ -183,6 +201,7 @@ $(function() {
     $("#myTabList").JResContentTab({
         fx: 'slide'
     })
+
     $("#myTabList2").JResContentTab({
         fx: 'show',
         onClick: function(){
@@ -203,18 +222,7 @@ $(function() {
             loadObj: ".resDelay",
             onLoad:function(){
                 //客製效果
-                $(this).css({
-                    position:"relative",
-                    top: "1000px"
-                });
-                $(this).animate({
-                    top: "0"
-                },1000,function() {
-                    //動畫完成後執行
-                    $(this).css({
-                        position:"static"
-                    })
-                });
+                $(this).addClass('animated bounceInUp');
             }
         })
     })
@@ -249,5 +257,8 @@ $(function() {
 
     //resOverflow
     $(".overflowObj").JResOverflow();
+
+    //scroll sticker
+    $("#row0").JResScrollSticker();
 
  })

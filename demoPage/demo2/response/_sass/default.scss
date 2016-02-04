@@ -1,6 +1,15 @@
 /* 預設響應式設定 */
+/* 
+跨瀏覽器css3 mixins
+*/
+@import "_css3-mixins.scss";
 
-@import "css3-mixins.scss";
+/*
+CSS3動畫, 請至helpers查詢模組參數, 然後把想要使用的動畫效果改成true即可
+$use-動畫效果class: true;
+使用方式: 在要使用效果的物件上設定animated 動畫效果class就可以了
+*/
+@import "animate-sass-master/_animate.scss";
 
 /* 列印出背景顏色 */
 
@@ -791,7 +800,6 @@ select.resSelect{
         }
     }
 }
-
 
 /* 
     - google nexus 10 landscape / galaxy tab 7.7,8,9,10.1 (1280px)

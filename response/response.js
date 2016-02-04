@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/01/27
+    Date: 2016/02/04
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -749,7 +749,7 @@ var ladderObjAmt = 0;
             var paddingAmt = 0;
             //檢查此頁面是否有此區塊物件ID
             if ($(targetPosID).length > 0) {
-                if (resMenuState === true && resMenuType === "fixed") {
+                if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
                     paddingAmt = resMobileNavSetupHeight;
                 }
                 fnTabJumper(targetPosID, speed, paddingAmt);
@@ -767,7 +767,7 @@ var ladderObjAmt = 0;
                         var paddingAmt = 0;
                         //檢查此頁面是否有此區塊物件ID
                         if ($(targetPosID).length > 0) {
-                            if (resMenuState === true && resMenuType === "fixed") {
+                            if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
                                 paddingAmt = resMobileNavSetupHeight;
                             }
                             fnTabJumper(targetPosID, speed, paddingAmt);
@@ -778,7 +778,28 @@ var ladderObjAmt = 0;
                     }
                 //});
             });
+
+            //在相對高度的jumper按鈕加入jumperActive class
+            var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll"; //FF doesn't recognize mousewheel as of FF3.x
+            $(window).on(mousewheelevt, function(e){
+                var winScroll = $(this).scrollTop();
+                //將頁面中聯結有含此ID的連結加入active
+                $(".resTabJumper").each(function(){
+                    var targetURL = $(this).attr("href");
+                    if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
+                        var targetPosID = "#" + targetURL.split("#")[1];
+                        var tragglePos = $(targetPosID).position().top;
+                        var tragglePosMax = tragglePos+$(targetPosID).height();
+                        if(winScroll >= tragglePos && winScroll < tragglePosMax){
+                            $(this).addClass("jumperActive");
+                        }else{
+                            $(this).removeClass("jumperActive");
+                        }
+                    }
+                });
+            })
         }
+
         //reset cookie
         $("#swap_btn").click(function() {
             fnSwap(document.cookie);
@@ -1172,6 +1193,7 @@ var ladderObjAmt = 0;
             holdTime: 5,
             paddingAmt: 0,
             layout: "clear",
+            touchSwipAmt: 100,
             thumb: {
                 state: false,
                 amount: 4,
@@ -1238,6 +1260,10 @@ var ladderObjAmt = 0;
         var prev = -1;
         var begin = true;
         var loop;
+        var swipToNextPOS = 0;
+        var swipToPrevPOS = 0;
+        var trackSwipEvent = false;
+        var touchSwipAmt = options.touchSwipAmt;
 
         //螢幕寬與上層容器取得其最小值來作為最大寬度
         var maxJSlideWidth = Math.min(($(window).width() - paddingAmt), ($(resContainer).parent().width() - paddingAmt));
@@ -1358,8 +1384,6 @@ var ladderObjAmt = 0;
             }
         }
 
-        //
-
         //start slideshow
         if ($("#" + options.disObj.attr("id")).length > 0 && $("#" + options.disObj.attr("id")).css("display") != "none") {
             if (maxAmt == 0) {
@@ -1447,12 +1471,12 @@ var ladderObjAmt = 0;
         $(options.disObj).on(setSlideBtnTriggleEvent,".resJSlideImgslideBtnPrev", function(e){
             //reset loop and all current state
             fnStopLoop();
-            console.log(e);
+            //console.log(e);
             //set click item to current state
             //loop時以自動加一所以，需要減2
             prev = (curr == 0) ? maxAmt : curr-1; //先還原為目前的項目
             curr = (prev <= 0) ? maxAmt : prev-1; //取得上一個項目
-            begin = true;
+            begin = false;
             
             //建立效果及迴圈
             fnDefineLoop(true);
@@ -1467,13 +1491,51 @@ var ladderObjAmt = 0;
             //console.log(e);
             //set click item to current state
             //loop時以自動加一所以，不必再加
-            begin = true;
+            begin = false;
 
             //建立效果及迴圈
             fnDefineLoop(true);
 
             return false;
         })
+
+        //slideshow touch event
+        $(options.disObj).on('touchstart',function(e) {
+            //touchstart
+            var touch = e.originalEvent.touches[0];
+            swipToNextPOS = touch.pageX-touchSwipAmt;
+            swipToPrevPOS = touch.pageX+touchSwipAmt;
+            trackSwipEvent = true;
+
+        }).on('touchmove',function(e) {
+            //touchmove
+            var touch = e.originalEvent.touches[0];
+
+            //swip to next
+            if (trackSwipEvent && swipToNextPOS > touch.pageX){
+                //reset loop and all current state
+                fnStopLoop();
+                begin = false;
+
+                //建立效果及迴圈
+                fnDefineLoop(true);
+                trackSwipEvent = false;
+            }
+
+            //swip to prev
+            if (trackSwipEvent && swipToPrevPOS < touch.pageX){
+                //reset loop and all current state
+                fnStopLoop();
+                prev = (curr == 0) ? maxAmt : curr-1; //先還原為目前的項目
+                curr = (prev <= 0) ? maxAmt : prev-1; //取得上一個項目
+                begin = false;
+                
+                //建立效果及迴圈
+                fnDefineLoop(true);
+                trackSwipEvent = false;
+            }
+
+        });
 
 
         //建立效果及迴圈
@@ -1668,14 +1730,12 @@ var ladderObjAmt = 0;
             var prev = options.prev;
         }
 
-        //console.log(prev+','+begin);
-
         $("#" + disObj + " .resJSlideImgThumbItem").removeClass('active');
         $("#" + disObj + " .resJSlideImgThumbItem:eq("+curr+")").addClass('active');
 
         //客製變換效果
         if (options.onTrans != false) {
-
+            //console.log(prev+','+curr);
             options.onTrans.call({
                 curr: $("#" + disObj + ">" + childTag + ":eq(" + curr + ")"),
                 prev: $("#" + disObj + ">" + childTag + ":eq(" + prev + ")"),
@@ -1733,7 +1793,6 @@ var ladderObjAmt = 0;
                 }
             });
         }
-
     };
 
     //取JRes Cookie參數值
@@ -2240,7 +2299,6 @@ var ladderObjAmt = 0;
             $(".resPopupBoxWrap").fadeOut(500);
             $("body").css({'overflow':'auto'});
         }
-
     }
 
     //mobile enlarge control
@@ -2609,7 +2667,8 @@ var ladderObjAmt = 0;
         var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll" //FF doesn't recognize mousewheel as of FF3.x
         
         //如果是啟用且有物件才執行
-        if (state && $(obj).length > 0) {            
+        if (state && $(obj).length > 0) {
+      
                 if (loadObj != '') {
                     //如果有設定欲執行延遲載入的子物件，則執行預設載入動作
                     $(loadObj,obj).css({
@@ -2943,7 +3002,6 @@ var ladderObjAmt = 0;
             $("#resGlobalInfo").remove();
             $('body').append('<div id="resGlobalInfo" class="resLadderMode"><div class="title">Setup Mode: ON</div><div class="content">'+showModeContent+'</div></div>');
         }
-
     }
 
     //物件Follow定位功能 (跟屁蟲)
@@ -3210,7 +3268,6 @@ var ladderObjAmt = 0;
             }
 
         });
-
     }
 
     //slider功能
@@ -3406,7 +3463,38 @@ var ladderObjAmt = 0;
 
             }, delayTime);
         }
+    }
 
+    //卷軸固定物件
+    $.fn.JResScrollSticker = function(options) {
+        var defaults = {
+            position: {
+               'top':'0' 
+            }
+        };
+        options = $.extend(defaults, options);
+        var targetObj = $(this);
+        var position = options.position;
+        var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll"; //FF doesn't recognize mousewheel as of FF3.x
+        var tragglePos = $(targetObj).position().top+$(targetObj).height();
+
+        $(window).on(mousewheelevt, function(e){
+            //console.log($(this).scrollTop()+','+tragglePos);
+            if($(this).scrollTop() < tragglePos){
+                $(targetObj).css({
+                    "position":"relative",
+                    "z-index":"1",
+                    "top":"0"
+                });
+            }else{
+                $(targetObj).css({
+                    "position":"fixed",
+                    "z-index":"1000",
+                    "top":"auto",
+                    "bottom":"auto"
+                }).css(position);
+            }
+        })
     }
 
     //loadCSS
@@ -3421,7 +3509,6 @@ var ladderObjAmt = 0;
         href: href,
         media: media
       });
-
     };
 
     //content scrollerbar
