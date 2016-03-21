@@ -1,7 +1,7 @@
 /*  
     $ Responsive plugin
     Program: Jay HSU
-    Date: 2016/03/10
+    Date: 2016/03/21
 */
 
 /*! Respond.js v1.4.2: min/max-width media query polyfill
@@ -2061,7 +2061,7 @@ var ladderObjAmt = 0;
                                                              '<div class="resEnlargeOraginalIcon" toggle="' + thisID + '" ' + OrangIconVal + ' onclick=""></div>' + 
                                                              '<div class="resEnlargePlusIcon" toggle="' + thisID + '" onclick=""></div>' + 
                                                              '<div class="resEnlargeDisIcon" toggle="' + thisID + '" onclick=""></div>';
-                                    var extraSource = options.extraSource != "" ? options.extraSource : $(this).attr("src");
+                                    var extraSource = options.extraSource != "" ? options.extraSource : ($(this).attr("toggle-src") != undefined) ? $(this).attr("toggle-src") : $(this).attr("src");
                                     extraSource = (enablePluginMode) ? enablePluginModeSource : extraSource;
                                     var resEnlargeContent = '<div class="resEnlargeContent" toggle="' + thisID + '">' + 
                                                             '<div class="resEnlargeControlBar">' + resEnlargeControl + "</div>" + 
@@ -2096,7 +2096,7 @@ var ladderObjAmt = 0;
                                         }
                                     break;
                                     default:
-                                        options.extraSource = $(this).attr("src");
+                                        options.extraSource = ($(this).attr("toggle-src") != undefined) ? $(this).attr("toggle-src") : $(this).attr("src");
                                         var doUsed = true;
                                     break;
                                 }
