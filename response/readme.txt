@@ -4,8 +4,8 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2016/03/21 修改:
-- JResEnlarge 加入 toggle-src attr 用來取放大後圖片的路徑位置
+Date: 2016/03/30 修改:
+- sass樣式切割, gulp task management
 
 =======================================================================================================================
 套用方式及相關文件說明
