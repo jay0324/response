@@ -1,0 +1,8 @@
+{
+  "packageManager": "github",
+  "name": "response setup",
+  "repo": "response/response/",
+  "files": {
+    "include": ["response.min.js", "readme.txt", "_css/*","_img/*"]
+  }
+}
