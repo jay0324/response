@@ -2754,20 +2754,23 @@ var ladderObjAmt = 0;
                 if ($(loadObj,obj).attr("load") != "complete") {
                     var maxAmt = $(loadObj,obj).length;
                     var delayAmt = 0;
+                    var targetObj;
                     for (var i = 0; i<maxAmt; i++ ){
                         delayAmt+=delay;
+                        targetObj = $(loadObj+":eq("+i+")",obj); //執行動作物件
 
                         if (options.onLoad != false) {
-                            $(loadObj+":eq("+i+")",obj).css({visibility:'visible'}); //將物件設為visible再進行效果
-                            options.onLoad.call( $(loadObj+":eq("+i+")",obj) ); //執行其他客製的動作
+                            $(targetObj).css({visibility:'visible'}); //將物件設為visible再進行效果
+                            options.onLoad.call($(targetObj)); //執行其他客製的動作
+
                         }else{
-                            $(loadObj+":eq("+i+")",obj).delay(delayAmt).animate({
+                            $(targetObj).delay(delayAmt).animate({
                                 opacity: '1'
                             },transition);
                         }
 
                         //加入載入完成標記
-                        $(loadObj+":eq("+i+")",obj).attr("load","complete");
+                        $(targetObj).attr("load","complete");
 
                     }
                 }
@@ -3224,7 +3227,11 @@ var ladderObjAmt = 0;
                     }else{
                         //click event
                         $(obj).on('click','li',function(e){
-                            if ($(e.target).hasClass("hasChild")) {
+                            //取得點選物件
+                            var targetClick = e.target;
+                            if (!$(targetClick).is('a')) targetClick = $(e.target).parent('a.hasChild');
+                            
+                            if ($(targetClick).hasClass("hasChild")) {
                                 //偵測同層目錄下的物件就收起來
                                 $(this).parent().children().each(function(){
                                     $(this).children('ul').slideUp(200);
@@ -3273,8 +3280,12 @@ var ladderObjAmt = 0;
                     }else{
                         //click event
                         $(obj).on('click','li',function(e){
+                            //取得點選物件
+                            var targetClick = e.target;
+                            if (!$(targetClick).is('a')) targetClick = $(e.target).parent('a.hasChild');
+
                             //偵測同層目錄下的物件是否有active,沒有的話就收起來
-                            if ($(e.target).hasClass("hasChild")) {
+                            if ($(targetClick).hasClass("hasChild")) {
                                 $(this).parent().children().each(function(){
                                     if(!$(this).hasClass('active')){
                                         $(this).children('ul').slideUp(200);
