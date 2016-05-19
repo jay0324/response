@@ -26,7 +26,9 @@ $(function() {
         ],
         pannelStyle: 'style1',
         menuCollapse: '#resPrimery',
-        pannelPosition: 'right_under'
+        pannelPosition: 'left_under',
+        pannelAnimateTime: 1000,
+        pannelAnimateEasing: "easeOutBounce"
 	});
 
 
@@ -258,7 +260,5 @@ $(function() {
     //resOverflow
     $(".overflowObj").JResOverflow();
 
-    //scroll sticker
-    $("#row0").JResScrollSticker();
 
  })

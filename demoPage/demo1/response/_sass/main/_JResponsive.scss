@@ -126,8 +126,11 @@ img {
 
 .resHtmlOverflow {
     position: relative;
-    overflow: hidden;
-    overflow-y: hidden !important;
+    overflow: hidden !important;
+    body{
+        position: relative;
+        overflow: hidden !important;
+    }
 }
 
 /*桌面上的響應式切換樣式*/
@@ -242,7 +245,6 @@ img {
         position: relative;
         margin: 0;
         width: 100%;
-        overflow: hidden;
         z-index: 99;
         @include box-shadow(0,
         0,

@@ -126,8 +126,11 @@ img {
 
 .resHtmlOverflow {
     position: relative;
-    overflow: hidden;
-    overflow-y: hidden !important;
+    overflow: hidden !important;
+    body{
+        position: relative;
+        overflow: hidden !important;
+    }
 }
 
 /*桌面上的響應式切換樣式*/
@@ -242,7 +245,6 @@ img {
         position: relative;
         margin: 0;
         width: 100%;
-        overflow: hidden;
         z-index: 99;
         @include box-shadow(0,
         0,
@@ -449,6 +451,14 @@ img {
                             font-weight: normal;
                             background:none !important;
                         }
+                        
+                        &.active{
+                            >a{
+                                color:#C46969;
+                            }            
+                        }
+
+
                         ul{
                             margin-left: 0 !important;
                             background:#555555 !important;
@@ -459,6 +469,13 @@ img {
                                     border-top:1px solid #8B8B8B;
                                     color: #eee;
                                 }
+                                
+                                &.active{
+                                    >a{
+                                        color:#DE6F6F;
+                                    }            
+                                }
+
                                 ul{
                                     background:#A2A2A2 !important;
                                     li{
@@ -468,6 +485,12 @@ img {
                                             border-top: 1px solid #eee;
                                             color: #555555;
                                         }
+
+                                        &.active{
+                                            >a{
+                                                color:#7E0000;
+                                            }
+                                        }
                                         ul{
                                             background:#D6D6D6 !important;
                                             li{
@@ -476,6 +499,11 @@ img {
                                                     border-bottom: 1px solid #aaa;
                                                     border-top: 1px solid #fff;
                                                     color: #8B8B8B;
+                                                }
+                                                &.active{
+                                                    >a{
+                                                        color:#7E0000;
+                                                    }
                                                 }
                                             }
                                         }
