@@ -1229,9 +1229,9 @@ var ladderObjAmt = 0;
             }
 
             //800以下在把外框加入設備寬
-            if ($(window).width() <= setUILoadWidth){
-                $("."+objWraperClass).css({"width":Math.round(documentW)+"px"});
-            }
+            //if ($(window).width() <= setUILoadWidth){
+                //$("."+objWraperClass).css({"width":Math.round(documentW)+"px"});
+            //}
         }
     };
 
