@@ -451,6 +451,14 @@ img {
                             font-weight: normal;
                             background:none !important;
                         }
+                        
+                        &.active{
+                            >a{
+                                color:#C46969;
+                            }            
+                        }
+
+
                         ul{
                             margin-left: 0 !important;
                             background:#555555 !important;
@@ -461,6 +469,13 @@ img {
                                     border-top:1px solid #8B8B8B;
                                     color: #eee;
                                 }
+                                
+                                &.active{
+                                    >a{
+                                        color:#DE6F6F;
+                                    }            
+                                }
+
                                 ul{
                                     background:#A2A2A2 !important;
                                     li{
@@ -470,6 +485,12 @@ img {
                                             border-top: 1px solid #eee;
                                             color: #555555;
                                         }
+
+                                        &.active{
+                                            >a{
+                                                color:#7E0000;
+                                            }
+                                        }
                                         ul{
                                             background:#D6D6D6 !important;
                                             li{
@@ -478,6 +499,11 @@ img {
                                                     border-bottom: 1px solid #aaa;
                                                     border-top: 1px solid #fff;
                                                     color: #8B8B8B;
+                                                }
+                                                &.active{
+                                                    >a{
+                                                        color:#7E0000;
+                                                    }
                                                 }
                                             }
                                         }
@@ -534,6 +560,10 @@ img {
         width: 90%;
         height: 100%;
         z-index: 98;
+        @include box-shadow(0,
+        0,
+        0,
+        #000);
     }
     .flipContentRU {
         top: 0;
@@ -542,6 +572,10 @@ img {
         width: 90%;
         height: 100%;
         z-index: 98;
+        @include box-shadow(0,
+        0,
+        0,
+        #000);
     }
     /*響應式頁面*/
     .resFlipPage {
