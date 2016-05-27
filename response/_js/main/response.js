@@ -5,7 +5,7 @@
 */
 var currScrollPos = 0;
 var ladderObjAmt = 0;
-(function($) {
+(function ($, document, window) {
     $.JResponsive = function(options) {
         //-- 設定響應式開拉式內容 --////////////////////////////////////////////////////////////////
         //-- 參數設定:////////////////////////////////////////////////////////////////////////////
@@ -3892,5 +3892,4 @@ var ladderObjAmt = 0;
         //把form值暫存起來
         //resFnSaveForm();
     });
-
-})(jQuery);
+}(jQuery, document, window));
