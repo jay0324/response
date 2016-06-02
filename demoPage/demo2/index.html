@@ -39,7 +39,7 @@
                                 <a href="#">demo</a>
                                 <ul>
                                     <li class="active">
-                                        <a href="#">demo-layer1</a>
+                                        <a href="#test">demo-layer1</a>
                                         <ul>
                                             <li class="active">
                                                 <a href="#">demo-layer2</a>
@@ -100,6 +100,58 @@
                             <img class="img" src="_img/1920x600.jpg" />
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="splitRow" class="resContainer">
+        <div class="resDocLayout">
+            <div class="resRow resEven" res-slice-h="3">
+                <div class="resCol center bottom" style="background:#ccc">
+                    <img src="_img/600x1000.jpg" />
+                </div>
+                <div class="resCol center resRow" res-slice-v="4">
+                        <div class="resCol12 middle" res-slice-ratio-v="1">
+                            <img src="_img/1920x600.jpg" />
+                        </div>
+                        <div class="resCol12 center top overflow" style="background:#ccc" res-slice-ratio-v="2">
+                            test2<br>test2<br>test2<br>test2<br>test2<br>test2<br>
+                            test2<br>test2<br>test2<br>test2<br>test2<br>test2<br>
+                        </div>
+                        <div class="resCol12 center middle" res-slice-ratio-v="1">
+                            test3
+                        </div>
+                        <div class="resCol12 center bottom" style="background:#ccc" res-slice-ratio-v="1">
+                            test4
+                        </div>
+                </div>
+                <div class="resCol resRow" style="background:#eee" res-slice-v="4">
+                        <div class="resCol12 resRow resEven" res-slice-h="2" >
+                            <div class="resCol right middle" style="background:#ccc">
+                                test
+                            </div>
+                            <div class="resCol right middle" style="background:#eee">
+                                test
+                            </div>
+                        </div>
+                        <div class="resCol12 center" style="background:#fff">
+                            test2
+                        </div>
+                        <div class="resCol12 resRow resEven" res-slice-h="3">
+                            <div class="resCol center" res-slice-ratio-h='1' style="background:#ccc">
+                                test
+                            </div>
+                            <div class="resCol center" res-slice-ratio-h='3' style="background:#eee">
+                                test
+                            </div>
+                            <div class="resCol center" res-slice-ratio-h='1' style="background:#ccc">
+                                test
+                            </div>
+                        </div>
+                        <div class="resCol12 center" style="background:#666">
+                            test2
+                        </div>
                 </div>
             </div>
         </div>
@@ -481,7 +533,6 @@
         </div>
     </div>
     
-
     <div id="test" class="resContainer">
         <div class="resDocLayout">
             <div class="resRow">
@@ -551,7 +602,7 @@
             <div class="resRow">
                 <div id="footer_1" class="resCol12 center">
                     <div class="resMargin">
-                        Copyright &Copy Responsive Layout Demo | JQuery Responsive Plugin
+                        Copyright &Copy; Responsive Layout Demo | JQuery Responsive Plugin
                     </div>
                 </div>
             </div>
