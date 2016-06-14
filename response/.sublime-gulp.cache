@@ -1,1 +1,0 @@
-{"D:\\AppServ\\www\\develop_module\\response\\response_setup\\response\\gulpfile.js":{"sha1":"510209adfad0d88167861cc6d428317e327017dc","tasks":{"uglify":{"name":"uglify","dependencies":""},"sass":{"name":"sass","dependencies":""},"default":{"name":"default","dependencies":"uglify"}}}}

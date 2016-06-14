@@ -31,6 +31,34 @@ $(function() {
         pannelAnimateEasing: "easeOutBounce"
 	});
 
+    /*
+    $("#wrapper1").JResWrapper({
+        activeWidth:800,
+        pos: 60
+    });
+    $("#wrapper3").JResWrapper({
+        type: 'right',
+        pos: 60,
+        end: 2.5
+    });
+    $("#wrapper4").JResWrapper({
+        type: 'right',
+        pos: 60,
+        end: 0
+    });
+    $("#wrapper3").JResWrapper({
+        type: 'top'
+    });
+    $("#wrapper4").JResWrapper({
+        type: 'bottom'
+    });
+
+    $("#demoAccordion").JResAccordion();
+
+    $("#demoAccordion2").JResAccordion({
+        type:'vertical'
+    });
+    */
 
     $("#slideshow").JSlideImg({
             paddingAmt: 0,
@@ -197,6 +225,54 @@ $(function() {
                 }
             }
         }
+    })
+
+    $("#myItemSlider3").JResContentSlider({
+        listAmt: 3,
+        type: 'vertical',
+        setupResposive: {
+                    800:{
+                        listAmt: 3
+                    },
+                    600:{
+                        listAmt: 2
+                    },
+                    420:{
+                        listAmt: 1
+                    }
+                }
+    })
+
+    $("#myItemSlider4").JResContentSlider({
+        listAmt: 2,
+        type: 'vertical',
+        setupResposive: {
+                    800:{
+                        listAmt: 3
+                    },
+                    600:{
+                        listAmt: 2
+                    },
+                    420:{
+                        listAmt: 1
+                    }
+                }
+    })
+
+    $("#myItemSlider5").JResContentSlider({
+        listAmt: 1,
+        type: 'vertical',
+        setupResposive: {
+                    800:{
+                        listAmt: 3
+                    },
+                    600:{
+                        listAmt: 2
+                    },
+                    420:{
+                        listAmt: 1
+                    }
+                }
     })
 
     //tab group list
