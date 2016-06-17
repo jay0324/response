@@ -4,7 +4,7 @@ $(function() {
 	$.JResponsive({
 		defaultMenuObj: "#nav",
         defaultLangMenuObj: "#lang",
-        resPageLoader: true,
+        //resPageLoader: true,
         //resPageLoaderTigger: 'always',
         additionalBtn: [
             [
@@ -294,7 +294,7 @@ $(function() {
     })
 
     //delay show
-    $("div[class*='resCol']").addClass('resDelay');
+    /*$("div[class*='resCol']").addClass('resDelay');
     $(".resContainer").each(function(){
         $(this).JResDelayLoader({
             loadObj: ".resDelay",
@@ -303,7 +303,7 @@ $(function() {
                 $(this).addClass('animated bounceInUp');
             }
         })
-    })
+    })*/
        
     //testTabGroup
     $("#testTabGroup").JResContentTab({

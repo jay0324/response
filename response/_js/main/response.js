@@ -578,15 +578,19 @@
                     if (resPageLoaderTigger == "always") {
                         $(document).ready(function() {
                             $("body").append('<div id="resLoader"></div>');
-                            setTimeout("JResLoader({dom:'#resLoader'})", 800);
                         });
+                        $(window).on("load", function(){
+                            setTimeout("JResLoader({dom:'#resLoader'})", 800);
+                        })
                     } else {
                         //如果resPageLoaderTigger設定在某一尺寸下才使用
                         if ($(window).width() <= resPageLoaderTigger) {
                             $(document).ready(function() {
                                 $("body").append('<div id="resLoader"></div>');
-                                setTimeout("JResLoader({dom:'#resLoader'})", 800);
                             });
+                            $(window).on("load", function(){
+                                setTimeout("JResLoader({dom:'#resLoader'})", 800);
+                            })
                         }
                     }
                 }

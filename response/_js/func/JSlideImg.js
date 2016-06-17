@@ -4,9 +4,9 @@
         var defaults = {
             disObj: this,
             childTag: "img",
-            transitTime: 3,
+            transitTime: 1,
             transitStyle: '',
-            holdTime: 5,
+            holdTime: 4,
             paddingAmt: 0,
             layout: "clear",
             touchSwipAmt: 100,
@@ -31,200 +31,273 @@
             onHold: false
         };
         options = $.extend(defaults, options);
-        if (options.childTag.toLowerCase() == "img") $(options.childTag, this).addClass("resUnlarger");
-        //禁止resEnlarge使用
-        //設定排版方式
-        switch (options.layout.toLowerCase()) {
-          case "left":
-            $(this).css({
-                "float": "left"
-            });
-            break;
 
-          case "right":
-            $(this).css({
-                "float": "right"
-            });
-            break;
+        //預設先置入loader mask
+        $(this).addClass("resJSlideImg");
 
-          case "center":
-            $(this).css({
-                clear: "both",
-                "margin-right": "auto",
-                "margin-left": "auto"
-            });
-            break;
+        $(this).ready(function(){
+            $(options.disObj).append('<div class="loader"></div>');
+        })
 
-          default:
-            $(this).css({
-                clear: "both"
-            });
-            break;
-        }
-        $(options.disObj).addClass("resJSlideImg");
-        //if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
-        var paddingAmt = options.paddingAmt;
-        var maxAmt = $(">"+options.childTag.toLowerCase(), this).length - 1;
-        var maxAmtThumb = $(">"+options.childTag.toLowerCase(), this).length;
-        var resJSlideWidth, resJSlideHeight;
-        var resContainer = $(this);
-        var autoPlay = options.autoPlay;
-        var thumb = options.thumb;
-        var slideBtn = options.slideBtn;
-        var setupResposive = options.setupResposive;
-        var curr = 0;
-        var prev = -1;
-        var begin = true;
-        var loop;
-        var swipToNextPOS = 0;
-        var swipToPrevPOS = 0;
-        var trackSwipEvent = false;
-        var touchSwipAmt = options.touchSwipAmt;
+        //查看是否有使用，或是隱藏的狀態下就不執行
+        if ($("#" + options.disObj.attr("id")).length > 0 && $("#" + options.disObj.attr("id")).css("display") != "none") {
+            if (options.childTag.toLowerCase() == "img") $(options.childTag, this).addClass("resUnlarger");
+            //禁止resEnlarge使用
+            //設定排版方式
+            switch (options.layout.toLowerCase()) {
+              case "left":
+                $(this).css({
+                    "float": "left"
+                });
+                break;
 
-        //螢幕寬與上層容器取得其最小值來作為最大寬度
-        var maxJSlideWidth = Math.min(($(window).width() - paddingAmt), ($(resContainer).parent().width() - paddingAmt));
-        if (maxJSlideWidth == 0) maxJSlideWidth = $(window).width() - paddingAmt;
+              case "right":
+                $(this).css({
+                    "float": "right"
+                });
+                break;
 
-        //如果物件是連結,則抓取子物件img來判斷長寬
-        var getChildImg = (options.childTag.toLowerCase() == 'a')?">img":"";
+              case "center":
+                $(this).css({
+                    clear: "both",
+                    "margin-right": "auto",
+                    "margin-left": "auto"
+                });
+                break;
 
-        //設定物件長寬
-        $(options.childTag.toLowerCase() + ":eq(0)" + getChildImg, this).one('load', function() {
-            resJSlideWidth = $(this).width();
-            resJSlideHeight = $(this).height();
-
-            if (resJSlideWidth >= maxJSlideWidth) {
-                resJSlideHeight = resJSlideHeight * (maxJSlideWidth / resJSlideWidth);
-                resJSlideWidth = maxJSlideWidth;
+              default:
+                $(this).css({
+                    clear: "both"
+                });
+                break;
             }
-            resContainer.width(resJSlideWidth);
-            resContainer.height(resJSlideHeight);
-            $(options.childTag.toLowerCase(), resContainer).css("width", "100%");
+            //if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
+            var paddingAmt = options.paddingAmt;
+            var maxAmt = $(">"+options.childTag.toLowerCase(), this).length - 1;
+            var maxAmtThumb = $(">"+options.childTag.toLowerCase(), this).length;
+            var resJSlideWidth, resJSlideHeight;
+            var resContainer = $(this);
+            var autoPlay = options.autoPlay;
+            var thumb = options.thumb;
+            var slideBtn = options.slideBtn;
+            var setupResposive = options.setupResposive;
+            var curr = 0;
+            var prev = -1;
+            var begin = true;
+            var loop;
+            var swipToNextPOS = 0;
+            var swipToPrevPOS = 0;
+            var trackSwipEvent = false;
+            var touchSwipAmt = options.touchSwipAmt;
 
-        }).each(function(){
-          if(this.complete) {
-            $(this).trigger('load');
-          }
-        });
-        //如果slideshow物件非img則取得容器寬高
-        if (resJSlideWidth == undefined) resJSlideWidth = $(options.disObj).width();
-        if (resJSlideHeight == undefined) resJSlideHeight = $(options.disObj).height();
+            //螢幕寬與上層容器取得其最小值來作為最大寬度
+            var maxJSlideWidth = Math.min(($(window).width() - paddingAmt), ($(resContainer).parent().width() - paddingAmt));
+            var maxJSlideHeight;
+            if (maxJSlideWidth == 0) maxJSlideWidth = $(window).width() - paddingAmt;
 
+            //如果物件是連結,則抓取子物件img來判斷長寬
+            var getChildImg = (options.childTag.toLowerCase() == 'a')?">img":"";
 
-        //檢查是否有響應式設定
-        fnCheckResponsiveSetup();
+            $(options.childTag.toLowerCase() + ":eq(0)" + getChildImg, this).one('load', function() {
+                resJSlideWidth = $(this).width();
+                resJSlideHeight = $(this).height();
 
-        //取得物件小圖設定值
-        if(!$.isEmptyObject(thumb)){
-            if(thumb['state']) {
-                var ThumbScroller = (maxAmtThumb <= thumb['amount']) ? false : true;
-                if (thumb['type'] == 'vertical') {
-                    var btnW = (thumb['width']+12);
-                    var btnH = (ThumbScroller) ? 20 : 0;
-                    var positionPrev = "top:0;";
-                    var positionNext = "bottom:0;";
-                    var positionTrack = "top:"+btnH+"px;";
-                    var thumbW = (thumb['width']+12);
-                    var thumbH = (((thumb['height']+12) * thumb['amount']) + (btnH*2));
-                    var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbH)-((btnH*2)+(10*thumb['amount']));
-                    var thumbWUL = (thumb['width']+12) + 'px';
-                    var thumbHUL = "auto";
-                    if (thumb['position'] === 'auto'){
-                        var posH = (resJSlideHeight - thumbH)/2; 
-                        var thumbPos = 'left:10px;top:'+posH+'px;';
-                    }else{
-                        var thumbPos = thumb['position'];
-                    }
-                 }else{
-                    var btnW = (ThumbScroller) ? 20 : 0;
-                    var btnH = (thumb['height']+12);
-                    var positionPrev = "left:0;";
-                    var positionNext = "right:0;";
-                    var positionTrack = "left:"+btnW+"px;";
-                    var thumbW = (((thumb['width']+12) * thumb['amount']) + (btnW*2));
-                    var thumbH = (thumb['height']+12);
-                    var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbW)-((btnW*2)+(10*thumb['amount']));
-                    var thumbWUL = 'auto';
-                    var thumbHUL = (thumb['height']+12) + 'px';
-                    if (thumb['position'] === 'auto'){
-                        var posW = (resJSlideWidth - thumbW)/2; 
-                        var thumbPos = 'left:'+posW+'px;bottom:10px;';
-                    }else{
-                        var thumbPos = thumb['position'];
-                    }
-                 } 
-
-                var thumbDom = '<div class="resJSlideImgThumb resJSlideImgController" style="'+thumbPos+'width:'+thumbW+'px;height:'+thumbH+'px">'+
-                '<a class="resJSlideImgThumbPrev end" href="#" style="'+positionPrev+'width:'+btnW+'px;height:'+btnH+'px"></a>'+
-                '<ul class="resJSlideImgThumbTrack" style="'+positionTrack+'width:'+thumbWUL+';height:'+thumbHUL+'">';
-                $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).each(function(){
-                    var source = ($(this).attr('toggle-thumb-source') == undefined || $(this).attr('toggle-thumb-source') == "") ? $(this).attr('src') : $(this).attr('toggle-thumb-source');
-                    var title = ($(this).attr('toggle-thumb-title') == undefined || $(this).attr('toggle-thumb-title') == "") ? $(this).attr('title') : $(this).attr('toggle-thumb-title');
-                    thumbDom += '<li class="resJSlideImgThumbItem" style="width:'+thumb['width']+'px;height:'+thumb['height']+'px;">'+
-                        '<img src="'+source+'" />'+
-                        '<span>'+title+'</span>'+
-                    '</li>';
-                })
-                thumbDom += '</ul><a class="resJSlideImgThumbNext" href="#" style="'+positionNext+'width:'+btnW+'px;height:'+btnH+'px"></a></div>';
-                $(options.disObj).append(thumbDom);
-            }
-        }
-
-        //取得前後項目切換按鈕
-        if(!$.isEmptyObject(slideBtn)){
-            if(slideBtn['state']) {
-                if (slideBtn['type'] == 'vertical') {
-                    var setSlideBtnContainerPos = 'left:' + ((resJSlideWidth - slideBtn['width'])/2) + 'px;';
-                    var setSlideBtnContainerWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
-                    var setSlideBtnContainerHeight = resJSlideHeight;
-                    var setSlideBtnWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
-                    var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
-                    var setSlideBtnPrevPos = 'top:0;';
-                    var setSlideBtnNextPos = 'bottom:0;';
-                    var setSlideBtnTriggleEvent = (slideBtn['trigger'] === undefined) ? 'click':slideBtn['trigger'];
-                }else{
-                    var setSlideBtnContainerPos = 'top:' + ((resJSlideHeight - slideBtn['height'])/2) + 'px;';
-                    var setSlideBtnContainerWidth = resJSlideWidth;
-                    var setSlideBtnContainerHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
-                    var setSlideBtnWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
-                    var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
-                    var setSlideBtnPrevPos = 'left:0px;';
-                    var setSlideBtnNextPos = 'right:0px;';
-                    var setSlideBtnTriggleEvent = (slideBtn['trigger'] === undefined) ? 'click':slideBtn['trigger'];
+                //檢查圖片長寬比例
+                if (resJSlideWidth >= maxJSlideWidth) {
+                    resJSlideHeight = resJSlideHeight * (maxJSlideWidth / resJSlideWidth);
+                    resJSlideWidth = maxJSlideWidth;
                 }
-                var slideBtnDom = '<div class="resJSlideImgslideBtn resJSlideImgController" style="width:'+setSlideBtnContainerWidth+';height:'+setSlideBtnContainerHeight+'">'+
-                    '<a class="resJSlideImgslideBtnPrev" href="#" style="'+setSlideBtnContainerPos+setSlideBtnPrevPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
-                    '<a class="resJSlideImgslideBtnNext" href="#" style="'+setSlideBtnContainerPos+setSlideBtnNextPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
-                '</div>';
-                $(options.disObj).append(slideBtnDom);
+
+                resContainer.width(resJSlideWidth);
+                resContainer.height(resJSlideHeight);
+                maxJSlideHeight = resJSlideHeight;
+                $(options.childTag.toLowerCase(), resContainer).css("width", "100%");
+            }).each(function(){
+              if(this.complete) {
+                $(this).trigger('load');
+              }
+            });
+
+            //如果slideshow物件非img則取得容器寬高
+            if (resJSlideWidth == undefined) resJSlideWidth = $(options.disObj).width();
+            if (resJSlideHeight == undefined) resJSlideHeight = $(options.disObj).height();
+
+            //設定物件內容長寬
+            $(options.childTag.toLowerCase() + getChildImg, this).each(function(){
+                $(this).one('load', function() {
+                    resJSlideWidth_item = $(this).width();
+                    resJSlideHeight_item = $(this).height();
+
+                    //檢查圖片長寬比例
+                    if (resJSlideWidth_item < resJSlideHeight_item) {
+                        //如果圖片是直的
+                        if (resJSlideHeight_item >= maxJSlideHeight) {
+                            resJSlideWidth_item = resJSlideWidth_item * (maxJSlideHeight / resJSlideHeight_item);
+                            resJSlideHeight_item = maxJSlideHeight;
+                        }
+                    }else if (resJSlideWidth_item > resJSlideHeight_item) {
+                        //如果圖片是橫的
+                        if (resJSlideWidth_item >= maxJSlideWidth) {
+                            resJSlideHeight_item = resJSlideHeight_item * (maxJSlideWidth / resJSlideWidth_item);
+                            resJSlideWidth_item = maxJSlideWidth;
+                        }
+                    }else{
+                        //如果圖片是方的
+                        if (resJSlideWidth_item > maxJSlideWidth) {
+                            resJSlideHeight_item = resJSlideHeight_item * (maxJSlideWidth / resJSlideWidth_item);
+                            resJSlideWidth_item = maxJSlideWidth;
+                        }else{
+                            resJSlideWidth_item = resJSlideWidth_item * (maxJSlideHeight / resJSlideHeight_item);
+                            resJSlideHeight_item = maxJSlideHeight;
+                        }
+                    }
+                    //console.log(maxJSlideHeight+','+resJSlideWidth_item+','+resJSlideHeight_item);
+
+                    $(this).width(resJSlideWidth_item);
+                    $(this).height(resJSlideHeight_item);
+
+                }).each(function(){
+                  if(this.complete) {
+                    $(this).trigger('load');
+                  }
+                });
+            })
+
+            //檢查是否有響應式設定
+            fnCheckResponsiveSetup();
+
+            //取得物件小圖設定值
+            if(!$.isEmptyObject(thumb)){
+                if(thumb['state']) {
+                    var ThumbScroller = (maxAmtThumb <= thumb['amount']) ? false : true;
+                    if (thumb['type'] == 'vertical') {
+                        var btnW = (thumb['width']+12);
+                        var btnH = (ThumbScroller) ? 20 : 0;
+                        var positionPrev = "top:0;";
+                        var positionNext = "bottom:0;";
+                        var positionTrack = "top:"+btnH+"px;";
+                        var thumbW = (thumb['width']+12);
+                        var thumbH = (((thumb['height']+12) * thumb['amount']) + (btnH*2));
+                        var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbH)-((btnH*2)+(10*thumb['amount']));
+                        var thumbWUL = (thumb['width']+12) + 'px';
+                        var thumbHUL = "auto";
+                        if (thumb['position'] === 'auto'){
+                            var posH = (resJSlideHeight - thumbH)/2; 
+                            var thumbPos = 'left:10px;top:'+posH+'px;';
+                        }else{
+                            var thumbPos = thumb['position'];
+                        }
+                     }else{
+                        var btnW = (ThumbScroller) ? 20 : 0;
+                        var btnH = (thumb['height']+12);
+                        var positionPrev = "left:0;";
+                        var positionNext = "right:0;";
+                        var positionTrack = "left:"+btnW+"px;";
+                        var thumbW = (((thumb['width']+12) * thumb['amount']) + (btnW*2));
+                        var thumbH = (thumb['height']+12);
+                        var maxThumbTrack = (((maxAmtThumb/thumb['amount'])-1)*thumbW)-((btnW*2)+(10*thumb['amount']));
+                        var thumbWUL = 'auto';
+                        var thumbHUL = (thumb['height']+12) + 'px';
+                        if (thumb['position'] === 'auto'){
+                            var posW = (resJSlideWidth - thumbW)/2; 
+                            var thumbPos = 'left:'+posW+'px;bottom:10px;';
+                        }else{
+                            var thumbPos = thumb['position'];
+                        }
+                     } 
+
+                    var thumbDom = '<div class="resJSlideImgThumb resJSlideImgController" style="'+thumbPos+'width:'+thumbW+'px;height:'+thumbH+'px">'+
+                    '<a class="resJSlideImgThumbPrev end" href="#" style="'+positionPrev+'width:'+btnW+'px;height:'+btnH+'px"></a>'+
+                    '<ul class="resJSlideImgThumbTrack" style="'+positionTrack+'width:'+thumbWUL+';height:'+thumbHUL+'">';
+                    $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).each(function(){
+                        var getDefaultTitle = (options.childTag.toLowerCase() == "img")?($(this).attr('alt') == undefined || $(this).attr('alt') == "")?"":$(this).attr('alt'):($(this).attr('title') == undefined || $(this).attr('title') == "")?"":$(this).attr('title');
+                        var source = ($(this).attr('toggle-thumb-source') == undefined || $(this).attr('toggle-thumb-source') == "") ? $(this).attr('src') : $(this).attr('toggle-thumb-source');
+                        var title = ($(this).attr('toggle-thumb-title') == undefined || $(this).attr('toggle-thumb-title') == "") ? getDefaultTitle : $(this).attr('toggle-thumb-title');
+                        var setStyleForThumbImg = (title == undefined || title == "") ? ' resThumbFit ' : '';
+                        thumbDom += '<li class="resJSlideImgThumbItem'+setStyleForThumbImg+'" style="width:'+thumb['width']+'px;height:'+thumb['height']+'px;">'+
+                            '<img src="'+source+'" />'+
+                            '<span>'+title+'</span>'+
+                        '</li>';
+                    })
+                    thumbDom += '</ul><a class="resJSlideImgThumbNext" href="#" style="'+positionNext+'width:'+btnW+'px;height:'+btnH+'px"></a></div>';
+                    $(options.disObj).append(thumbDom);
+                }
             }
+
+            //取得前後項目切換按鈕
+            if(!$.isEmptyObject(slideBtn)){
+                if(slideBtn['state']) {
+                    if (slideBtn['type'] == 'vertical') {
+                        var setSlideBtnContainerPos = 'left:' + ((resJSlideWidth - slideBtn['width'])/2) + 'px;';
+                        var setSlideBtnContainerWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
+                        var setSlideBtnContainerHeight = resJSlideHeight;
+                        var setSlideBtnWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
+                        var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
+                        var setSlideBtnPrevPos = 'top:0;';
+                        var setSlideBtnNextPos = 'bottom:0;';
+                        var setSlideBtnTriggleEvent = (slideBtn['trigger'] === undefined) ? 'click':slideBtn['trigger'];
+                    }else{
+                        var setSlideBtnContainerPos = 'top:' + ((resJSlideHeight - slideBtn['height'])/2) + 'px;';
+                        var setSlideBtnContainerWidth = resJSlideWidth;
+                        var setSlideBtnContainerHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
+                        var setSlideBtnWidth = (slideBtn['width'] === 'auto')?'100%':slideBtn['width']+'px';
+                        var setSlideBtnHeight = (slideBtn['height'] === 'auto')?'100%':slideBtn['height']+'px';
+                        var setSlideBtnPrevPos = 'left:0px;';
+                        var setSlideBtnNextPos = 'right:0px;';
+                        var setSlideBtnTriggleEvent = (slideBtn['trigger'] === undefined) ? 'click':slideBtn['trigger'];
+                    }
+                    var slideBtnDom = '<div class="resJSlideImgslideBtn resJSlideImgController" style="width:'+setSlideBtnContainerWidth+';height:'+setSlideBtnContainerHeight+'">'+
+                        '<a class="resJSlideImgslideBtnPrev" href="#" style="'+setSlideBtnContainerPos+setSlideBtnPrevPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
+                        '<a class="resJSlideImgslideBtnNext" href="#" style="'+setSlideBtnContainerPos+setSlideBtnNextPos+'width:'+setSlideBtnWidth+';height:'+setSlideBtnHeight+'"></a>'+
+                    '</div>';
+                    $(options.disObj).append(slideBtnDom);
+                }
+            }
+
         }
 
         //start slideshow
         if ($("#" + options.disObj.attr("id")).length > 0 && $("#" + options.disObj.attr("id")).css("display") != "none") {
-            if (maxAmt == 0) {
-                $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).animate({
-                    opacity: "1"
-                }, options.transitTime * 1e3);
-            } else {
-                //建立效果及迴圈
-                fnDefineLoop();
-            }
+            //完成載入後再將loader隱藏
+            $(window).on("load", function(){
+                //隱藏loader
+                $(".loader",options.disObj).fadeOut(200);
+
+                //進行loop
+                if (maxAmt == 0) {
+                    $("#" + options.disObj.attr("id") + ">" + options.childTag.toLowerCase()).animate({
+                        opacity: "1"
+                    }, options.transitTime * 1e3);
+                } else {
+                    //建立效果及迴圈
+                    fnDefineLoop();
+                }
+            })
+            
         }
 
         //thumb controller
         $("#" + options.disObj.attr("id")).on('click',".resJSlideImgThumbItem", function(){
-            //reset loop and all current state
-            fnStopLoop();
-
             //set click item to current state
-            prev = (curr == 0) ? maxAmt : curr-1; //取得上一個項目
-            curr = $(this).index();
-            //console.log('prev:'+prev+' curr:'+curr);
-            begin = false;
+            var chkPrev = (curr == 0) ? maxAmt : curr-1; //取得上一個項目
+            var chkCurr = $(this).index();
+            //console.log(prev+','+curr);
 
-            //建立效果及迴圈
-            fnDefineLoop();
+            //click item is not current
+            if(chkPrev != chkCurr) {
+                //reset loop and all current state
+                fnStopLoop();
+
+                //set click item to current state
+                prev = chkPrev; //取得上一個項目
+                curr = chkCurr;
+
+                //console.log('prev:'+prev+' curr:'+curr);
+                begin = false;
+
+                //建立效果及迴圈
+                fnDefineLoop();
+            }
 
             return false;
         })

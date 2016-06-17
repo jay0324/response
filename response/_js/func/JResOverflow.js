@@ -73,7 +73,9 @@
                     }
 
                     $(this).each(function() {
-                        if ($(this).width() > (documentW-paddingAmt) && overflow == true) {
+                        //console.log($(this).width());
+                        //如果表格設置為100%或沒設置寬度則直接包覆
+                        if (($(this).width() > (documentW-paddingAmt) || $(this).width() == 100 || $(this).width() == 0) && overflow == true) {
                             if (!$(this).hasClass("resUnwrap")) {
                                 $(this).width(setWidth);
                                 $(this).wrap('<div class="'+objWraperClass+' mobile_overflow">');
