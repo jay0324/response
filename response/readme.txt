@@ -4,11 +4,9 @@
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
-Date: 2016/06/17 修改:
--新增: .resTableRow: 將結構同.resRow，只是他是以table的方式來排列，不過這個就沒有響應式了，其他尺寸的呈現，再依照需求修改樣式即可
--修正: $(obj).JResOverflow() table在偵測不到尺寸的包覆方式
--修正: $(obj).JSlideImg() 圖片置中，加入判斷如果目前為隱藏狀態就不執行，修正thumb list重複點擊會進行重複執行的問題，加入loader
--修正: loader的event調整於ready時建立,windows onload之後移除
+Date: 2016/06/27 修改:
+-新增: $(obj).JSlideImg() thumb數量新增auto設定值, 新增overlap:切換是否要覆蓋在圖片上 overlapPos: thumb的自動overlap位置
+-改版: 改變資料夾命名方式以及調整結構以提供express方便直覺管理網頁架構，sass資料結構大調整
 
 
 =======================================================================================================================
@@ -22,7 +20,7 @@ screenfull.js: https://sindresorhus.com/screenfull.js/
 =======================================================================================================================
 
 在head所有加入下面幾行幾可啟用
-jquery.min.js看情形加入，如果該頁面已經有用jQuery則不用加入
+注意: jquery請看情形加入，如果該頁面已經有用jQuery則不用加入
 如果jquery用的是v1.7.1請取代為v1.11.1版 (因為1.7.x版會有重複執行的狀況)
 
 * 調整響應式內容
@@ -37,12 +35,13 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 <!--JQUERY-->
 <script type="text/javascript" src="response/jquery.min.js"></script> <!--jQuery Local v1.11.1 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script> <!--jQuery CDN v1.11.1 -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--cloudflare CDN v1.11.1 -->
 
 <!--響應式設定-->
-<link rel="stylesheet" type="text/css" href="response/_css/default.css" media="all"> <!--響應式預設樣式-->
-<link rel="stylesheet" type="text/css" href="response/_css/custom.css" media="all"> <!--客制設定樣式-->
-<script type="text/javascript" src="response/response.min.js"></script> <!--response主程式-->
-<script type="text/javascript" src="response/custom.js"></script> <!--response客制設定-->
+<link rel="stylesheet" type="text/css" href="response/css/default.css" media="all"> <!--響應式樣式-->
+<link rel="stylesheet" type="text/css" href="response/css/nosass.css" media="all"> <!--一般樣式-->
+<script type="text/javascript" src="response/js/response.min.js"></script> <!--主程式-->
+<script type="text/javascript" src="response/js/custom.js"></script> <!--客製設定-->
 <!--響應式設定-->
 
 =======================================================================================================================
@@ -223,11 +222,13 @@ NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯�
 				touchSwipAmt: 觸控捲動觸發移動量(數字) (預設:100),
 				thumb: {						//小圖切換按鈕
 					state: true,				//是否使用(預設false)
-					amount: 4,					//一次顯示數量
+					amount: 4,					//一次顯示數量, 'auto':自動偵測數量
 					width:50,					//小圖寬度
 					height:50,					//小圖高度
 					type: 'horizontal',			//顯示方式(直式:vertical 橫式: horizontal)
-					position: 'left:10px;bottom:10px;'	//位置(以style的方式來定位，結尾一定要有分號，不然會顯示不出來)
+					position: 'left:10px;bottom:10px;'	//位置(以style的方式來定位，結尾一定要有分號，不然會顯示不出來),
+					overlap: true,				//是否要覆蓋在slideshow的圖片上
+                	overlapPos: 'auto'			//對齊位置，預設為'auto'，向上對齊(type為縱向)，向左(type為橫向)
 				},
 				slideBtn:{
 					state: true,				//是否使用上下項目切換按鈕組

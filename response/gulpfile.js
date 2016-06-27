@@ -4,23 +4,23 @@ var sass = require('gulp-sass');
  
 //compress js file
 gulp.task('uglify', function() {
-  gulp.src(['_js/plugin/*.js',
-  	'_js/main/response.js',
-  	'_js/func/JSlideImg.js',
-  	'_js/func/JResScrollSticker.js',
-  	'_js/func/JResOverflow.js',
-  	'_js/func/JResMenu.js',
-  	'_js/func/JResMarquee.js',
-  	//'_js/func/JResLadderObj.js',
-  	//'_js/func/JResFollowObj.js',
-  	'_js/func/JResEnlarge.js',
-  	'_js/func/JResDelayLoader.js',
-  	'_js/func/JResContentTab.js',
-  	'_js/func/JResContentSlider.js',
-    //'_js/func/JResAccordion.js',
-    //'_js/func/JResWrapper.js'
+  gulp.src(['js/plugin/*.js',
+  	'js/main/response.js',
+  	'js/func/JSlideImg.js',
+  	'js/func/JResScrollSticker.js',
+  	'js/func/JResOverflow.js',
+  	'js/func/JResMenu.js',
+  	'js/func/JResMarquee.js',
+  	'js/func/JResLadderObj.js',
+  	'js/func/JResFollowObj.js',
+  	'js/func/JResEnlarge.js',
+  	'js/func/JResDelayLoader.js',
+  	'js/func/JResContentTab.js',
+  	'js/func/JResContentSlider.js',
+    'js/func/JResAccordion.js',
+    'js/func/JResWrapper.js'
   	])
-    .pipe(uglify('response.min.js', {
+    .pipe(uglify('js/response.min.js', {
       //outSourceMap: false,
       //wrap: false
     }))
@@ -29,9 +29,9 @@ gulp.task('uglify', function() {
 
 //build sass/minify
 gulp.task('sass', function() {
-    gulp.src('_sass/**/*.scss')
+    gulp.src('sass/**/*.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-        .pipe(gulp.dest('_css/'));
+        .pipe(gulp.dest('css/'));
 });
 
 gulp.task('default', ['uglify']);
