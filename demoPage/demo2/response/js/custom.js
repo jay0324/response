@@ -97,11 +97,10 @@ $(function() {
         paddingAmt: 0,
         thumb: {
                 state: true,
-                amount: 2,
-                width:30,
-                height:30,
+                amount: 5,
                 type: 'vertical',
-                position: 'left:0;'
+                position: 'left:0;',
+                displayTitle: 'right'
         },
         slideBtn:{
             state: true,
@@ -133,11 +132,10 @@ $(function() {
         paddingAmt: 0,
         thumb: {
             state: true,
-            amount: 2,
-            width:50,
-            height:50,
+            amount: 15,
             type: 'horizontal',
-            position: 'bottom:0;left:0;'
+            position: 'bottom:0;left:0;',
+            displayTitle: 'top'
         },
         slideBtn:{
             state: true,
