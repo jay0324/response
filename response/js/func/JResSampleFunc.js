@@ -8,7 +8,6 @@
         };
         options = $.extend(defaults, options);
 
-        //action
 
     }
 }(jQuery, document, window));
