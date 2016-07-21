@@ -12,7 +12,7 @@
     "gulp": "*",
     "gulp-sass": "*",
     "gulp-uglifyjs": "*",
-    "gulp-base64": "*",
+    "gulp-css-base64": "*",
     "gulp-rename": "*"
   }
 }

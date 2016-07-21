@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglifyjs');
 var sass = require('gulp-sass');
-var base64 = require('gulp-base64');
+var cssBase64 = require('gulp-css-base64');
 var rename = require('gulp-rename');
  
 //compress js file
@@ -39,12 +39,12 @@ gulp.task('sass', function() {
 
 //build for dist
 gulp.task('dist', function() {
+  //rebuild the css with image inline
     gulp.src('css/default.css')
-    .pipe(base64({
-      baseDir: './dist',
-      //extensions: ['png'],
-      //maxImageSize: 20 * 1024, // bytes
-      debug: false
+    .pipe(cssBase64({
+      baseDir: "",
+      maxWeightResource: 100,
+      extensionsAllowed: ['.jpg', '.png']
     }))
     .pipe(rename({
       basename:'response',
