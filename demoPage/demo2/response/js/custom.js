@@ -24,7 +24,6 @@ $(function() {
                 "_self"
             ]
         ],
-        pannelStyle: 'style1',
         menuCollapse: '#resPrimery',
         pannelPosition: 'left_under',
         pannelAnimateTime: 1000,

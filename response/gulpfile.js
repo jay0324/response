@@ -1,11 +1,17 @@
-var gulp = require('gulp');
+//var gulp = require('gulp');
+var gulp = require('gulp-run-seq');
 var uglify = require('gulp-uglifyjs');
 var sass = require('gulp-sass');
-var cssBase64 = require('gulp-css-base64');
+var cssBase64 = require('gulp-css-base64'); //convert into base64 uri
 var rename = require('gulp-rename');
- 
+
+//default task
+gulp.task('default', [[['uglify','sass'], 'dist']]);
+
 //compress js file
-gulp.task('uglify', function() {
+gulp.task('uglify', function(end) {
+  setTimeout(function() {end(); }, 1000); //make sure the process end
+
   gulp.src(['js/plugin/*.js',
   	'js/main/response.js',
   	'js/func/JSlideImg.js',
@@ -22,42 +28,46 @@ gulp.task('uglify', function() {
     'js/func/JResAccordion.js',
     'js/func/JResWrapper.js'
   	])
-    .pipe(uglify('js/response.min.js', {
-      //outSourceMap: false,
-      //wrap: false
-    }))
-    .pipe(gulp.dest(''))
+      .pipe(uglify('js/response.min.js', {
+        //outSourceMap: false,
+        //wrap: false
+      }))
+      .pipe(gulp.dest(''));
 });
 
 //build sass/minify
-gulp.task('sass', function() {
-    //gulp.src('sass/**/*.scss')
-    gulp.src(['sass/default.scss'])
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(gulp.dest('css/'));
+gulp.task('sass', function(end) {
+  setTimeout(function() {end(); }, 1000); //make sure the process end
+
+    gulp.src('sass/*.scss')
+      .pipe(rename({
+        prefix:'response.'
+      }))
+      .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+      .pipe(gulp.dest('css/'));
 });
 
 //build for dist
-gulp.task('dist', function() {
+gulp.task('dist', function(end) {
+  setTimeout(function() {end(); }, 1000); //make sure the process end
+
   //rebuild the css with image inline
-    gulp.src('css/default.css')
-    .pipe(cssBase64({
-      baseDir: "",
-      maxWeightResource: 100,
-      extensionsAllowed: ['.jpg', '.png']
-    }))
-    .pipe(rename({
-      basename:'response',
-      suffix: '.min'
-    }))
-    .pipe(gulp.dest('./dist'));
+  gulp.src('css/response.*.css')
+      .pipe(cssBase64({
+        baseDir: "",
+        //maxWeightResource: 100,
+        extensionsAllowed: ['.jpg', '.png']
+      }))
+      .pipe(rename({
+        suffix: '.min'
+      }))
+      .pipe(gulp.dest('./dist/response'));
 
-    gulp.src(['js/response.min.js'])
-    .pipe(uglify('response.min.js', {
-      outSourceMap: false,
-      wrap: false
-    }))
-    .pipe(gulp.dest('./dist'));
+  //rebuild the response.js
+  gulp.src(['js/response.min.js'])
+      .pipe(uglify('response.min.js', {
+        outSourceMap: false,
+        wrap: false
+      }))
+      .pipe(gulp.dest('./dist/response'));
 });
-
-gulp.task('default', ['uglify','sass','dist']);

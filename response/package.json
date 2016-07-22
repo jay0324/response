@@ -13,6 +13,7 @@
     "gulp-sass": "*",
     "gulp-uglifyjs": "*",
     "gulp-css-base64": "*",
-    "gulp-rename": "*"
+    "gulp-rename": "*",
+    "gulp-run-seq": "*"
   }
 }

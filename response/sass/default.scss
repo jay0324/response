@@ -17,18 +17,18 @@ $use-動畫效果class: true;
 /* 
 RES SETUP MODULES
 */
-@import "main/_JResponsive.scss";
-@import "main/_JResLayout.scss";
-@import "main/_JSlideImg.scss";
-@import "main/_JResEnlarge.scss";
-@import "main/_JResOverflow.scss";
-@import "main/_JResMenu.scss";
-@import "main/_JResContentTab.scss";
-@import "main/_JResContentSlider.scss";
-@import "main/_JResMarquee.scss";
-@import "main/_JResLadderObj.scss";
-//@import "main/_JResAccordion.scss";
-//@import "main/_JResWrapper.scss";
+@import "main/default/_JResponsive.scss";
+@import "main/default/_JResLayout.scss";
+@import "main/default/_JSlideImg.scss";
+@import "main/default/_JResEnlarge.scss";
+@import "main/default/_JResOverflow.scss";
+@import "main/default/_JResMenu.scss";
+@import "main/default/_JResContentTab.scss";
+@import "main/default/_JResContentSlider.scss";
+@import "main/default/_JResMarquee.scss";
+@import "main/default/_JResLadderObj.scss";
+//@import "main/default/_JResAccordion.scss";
+//@import "main/default/_JResWrapper.scss";
 
 /* 
 custom scss

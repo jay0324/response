@@ -40,7 +40,7 @@
             pannelAnimateTime: 500,
             pannelAnimateEasing: "swing",
             menuCollapse:'',
-            resPageLoader: false,
+            resPageLoader: true,
             resPageLoaderTigger: 800,
             responsiveSwitch: true,
             res_langSwitch: true,
@@ -1013,15 +1013,20 @@
     //取得模組跟目錄參數路徑
     $.JRes_modulePath = function() {
         var scripts = document.getElementsByTagName("script");
+        var returnStr = "";
         for (var i = 0; i < scripts.length; i++) {
-            if (scripts[i].src.indexOf("response.js") != -1) {
-                return scripts[i].src.replace("js/response.js", "");
-            } else if (scripts[i].src.indexOf("response.min.js") != -1) {
-                return scripts[i].src.replace("js/response.min.js", "");
+            if (scripts[i].src.indexOf("response.min.js") != -1) {
+                returnStr = scripts[i].src
+                                .replace("js/response.min.js", "")
+                                .replace("dist/response.min.js", "");
+
             } else if (scripts[i].src.indexOf("response.beautified.js") != -1) {
-                return scripts[i].src.replace("js/response.beautified.js", "");
+                returnStr = scripts[i].src
+                                .replace("js/response.beautified.js", "")
+                                .replace("dist/response.beautified.js", "");
             }
         }
+        return returnStr;
     };
 
     //取得是否為手持設備 (true: 手持設備 false: 非手持設備)
