@@ -49,10 +49,14 @@
             additionalBtn: "",
             res_mobileBottomNavBtnSetup: {},
             additionalBottomBtn: "",
-            scrollTop: true
+            scrollTop: true,
+            app_icon: "img/response/app_ico.png"
         };
 
         options = $.extend(defaults, options);
+
+        //APP ICON
+        var app_icon = options.app_icon;
 
         //預設全域的響應式視窗風格
         var pannelStyle = options.pannelStyle;
@@ -549,7 +553,7 @@
             document.cookie = $.JRes_modulePath() + "_response=" + defaultResponse;
         }
         //加入行動版ICON
-        $("head").prepend('<link href="' + modulePath + 'img/response/app_ico.png" rel="apple-touch-icon">');
+        $("head").prepend('<link href="' + app_icon + '" rel="apple-touch-icon">');
         //加入響應式預設樣式
         //fnLoadCSS('response_default',modulePath + '_css/default.css','all');
         //$("head").append('<link id="response_default" rel="stylesheet" type="text/css" media="all" href="' + modulePath + '_css/default.css"/>');
@@ -1018,12 +1022,12 @@
             if (scripts[i].src.indexOf("response.min.js") != -1) {
                 returnStr = scripts[i].src
                                 .replace("js/response.min.js", "")
-                                .replace("dist/response.min.js", "");
+                                .replace("dist/response/response.min.js", "");
 
             } else if (scripts[i].src.indexOf("response.beautified.js") != -1) {
                 returnStr = scripts[i].src
                                 .replace("js/response.beautified.js", "")
-                                .replace("dist/response.beautified.js", "");
+                                .replace("dist/response/response.beautified.js", "");
             }
         }
         return returnStr;
