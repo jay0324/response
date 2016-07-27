@@ -269,8 +269,7 @@ img {
         display: block;
         left: 0;
         width: 100%;
-        background: url("../img/response/style1/mobile_nav_bg.png") top left repeat-x;
-        background-size: 100% 100%;
+        background: #000;
         z-index: 150;
         overflow: auto;
         ul,
@@ -306,19 +305,34 @@ img {
                 position: absolute;
                 top: 0;
                 left: 0;
+                .icon{
+                    width:100%;
+                    height:100%;
+                }
             }
+
             .closeTop_btn {
-                background: url("../img/response/style1/closeTop_btn.png") top left no-repeat;
-                background-size: 100% 100%;
+                background:#000;
+                .icon{
+                    background: url("../img/response/default/closeTop_btn.png") top left no-repeat;
+                    background-size: 100% 100%;
+                }
             }
             .closeRight_btn {
-                background: url("../img/response/style1/closeRight_btn.png") top left no-repeat;
-                background-size: 100% 100%;
+                background:#000;
+                .icon{
+                    background: url("../img/response/default/closeRight_btn.png") top left no-repeat;
+                    background-size: 100% 100%;
+                }
             }
             .closeLeft_btn {
-                background: url("../img/response/style1/closeLeft_btn.png") top left no-repeat;
-                background-size: 100% 100%;
+                background:#000;
+                .icon{
+                    background: url("../img/response/default/closeLeft_btn.png") top left no-repeat;
+                    background-size: 100% 100%;
+                }
             }
+
         }
     }
     #mobile_nav {

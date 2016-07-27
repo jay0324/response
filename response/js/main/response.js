@@ -40,7 +40,7 @@
             pannelAnimateTime: 500,
             pannelAnimateEasing: "swing",
             menuCollapse:'',
-            resPageLoader: true,
+            resPageLoader: false,
             resPageLoaderTigger: 800,
             responsiveSwitch: true,
             res_langSwitch: true,
@@ -154,8 +154,9 @@
         //關閉:false
         var defaultResponse = (options.defaultResponse)?"true":"false";
 
-        var responsiveSwitch = options.responsiveSwitch ? "" : "style='display:none'";
-        responsiveSwitch = (viewPortSetup != 'custom') ? "" : "style='display:none'"; //如果viewPortSetup為custom不使用response按鈕
+        var responsiveSwitch = (viewPortSetup != 'custom') ? "" : "style='display:none'"; //如果viewPortSetup為custom不使用response按鈕
+        responsiveSwitch = options.responsiveSwitch ? "" : "style='display:none'";
+
         //響應式開關
         //模組的預設路徑
         var path = $.JRes_modulePath();
@@ -550,7 +551,7 @@
         //response cookie
         //if cookie is not set yet, set default response on
         if ($.JRes_getCookie() == "") {
-            document.cookie = $.JRes_modulePath() + "_response=" + defaultResponse;
+            document.cookie = $.JRes_modulePath() + "_response=" + defaultResponse + "; path=/";
         }
         //加入行動版ICON
         $("head").prepend('<link href="' + app_icon + '" rel="apple-touch-icon">');
@@ -917,9 +918,9 @@
         function fnSwap(responseCookie) {
             var getHost = $.JRes_modulePath();
             if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
-                document.cookie = getHost + "_response=false";
+                document.cookie = getHost + "_response=false; path=/";
             } else {
-                document.cookie = getHost + "_response=true";
+                document.cookie = getHost + "_response=true; path=/";
             }
         }
         //translate language
@@ -1021,13 +1022,17 @@
         for (var i = 0; i < scripts.length; i++) {
             if (scripts[i].src.indexOf("response.min.js") != -1) {
                 returnStr = scripts[i].src
-                                .replace("js/response.min.js", "")
-                                .replace("dist/response/response.min.js", "");
+                                .replace("response.min.js", "")
+                                .replace("js/", "")
+                                .replace("response/", "")
+                                .replace("dist/", "");
 
             } else if (scripts[i].src.indexOf("response.beautified.js") != -1) {
                 returnStr = scripts[i].src
-                                .replace("js/response.beautified.js", "")
-                                .replace("dist/response/response.beautified.js", "");
+                                .replace("response.beautified.js", "")
+                                .replace("js/", "")
+                                .replace("response/", "")
+                                .replace("dist/", "");
             }
         }
         return returnStr;
@@ -1312,7 +1317,7 @@
                     $.JResContentScroll({
                         action: false
                     });
-                    $("a", btnId).append("<div class='closeRight_btn'></div>");
+                    $("a", btnId).append("<div class='closeRight_btn'><div class='icon'></div></div>");
                 }
                 break;
 
@@ -1332,7 +1337,7 @@
                     $.JResContentScroll({
                         action: false
                     });
-                    $("a", btnId).append("<div class='closeTop_btn'></div>");
+                    $("a", btnId).append("<div class='closeTop_btn'><div class='icon'></div></div>");
                 }
                 break;
 
@@ -1352,7 +1357,7 @@
                     $.JResContentScroll({
                         action: false
                     });
-                    $("a", btnId).append("<div class='closeTop_btn'></div>");
+                    $("a", btnId).append("<div class='closeTop_btn'><div class='icon'></div></div>");
                 }
                 break;
 
@@ -1383,7 +1388,7 @@
                     $.JResContentScroll({
                         action: false
                     });
-                    $("a", btnId).append("<div class='closeLeft_btn'></div>");
+                    $("a", btnId).append("<div class='closeLeft_btn'><div class='icon'></div></div>");
                 }
                 break;
 
@@ -1414,7 +1419,7 @@
                     $.JResContentScroll({
                         action: false
                     });
-                    $("a", btnId).append("<div class='closeRight_btn'></div>");
+                    $("a", btnId).append("<div class='closeRight_btn'><div class='icon'></div></div>");
                 }
                 break;
 
@@ -1434,7 +1439,7 @@
                     $.JResContentScroll({
                         action: false
                     });
-                    $("a", btnId).append("<div class='closeLeft_btn'></div>");
+                    $("a", btnId).append("<div class='closeLeft_btn'><div class='icon'></div></div>");
                 }
                 break;
             }
