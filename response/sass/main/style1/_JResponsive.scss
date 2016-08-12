@@ -118,6 +118,7 @@ img {
     clear: both;
 }
 
+
 /*content close mask*/
 
 #resContentMask {
@@ -127,11 +128,12 @@ img {
 .resHtmlOverflow {
     position: relative;
     overflow: hidden !important;
-    body{
+    body {
         position: relative;
         overflow: hidden !important;
     }
 }
+
 
 /*桌面上的響應式切換樣式*/
 
@@ -167,6 +169,7 @@ img {
     }
 }
 
+
 /*scroll top image*/
 
 #topcontrol {
@@ -174,6 +177,7 @@ img {
     height: 50px;
     background: url("../img/response/style1/scrolltop.png") center no-repeat;
 }
+
 
 /*loading icon*/
 
@@ -184,7 +188,19 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f2f1f6 url("img/response/loader.gif") center no-repeat;
+    background: #f2f1f6;
+    &::after {
+        content: "...LOADING...";
+        display: block;
+        padding: 20px;
+        margin: 40% auto;
+        text-align: center;
+        font-size: 300%;
+        text-transform: uppercase;
+        animation-name: loadingAnimate;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
 }
 
 #resPageLoad_loading_icon {
@@ -199,32 +215,34 @@ img {
     @include box-shadow(0);
 }
 
+
 /* 
     - google nexus 10 landscape / galaxy tab 7.7,8,9,10.1 (1280px)
 */
-@media (max-width:1280px){
 
-}
+@media (max-width:1280px) {}
+
 
 /* 
     - ipad landscape / general screen landscape / galaxy tab (1024px)
 */
-@media (max-width:1024px){
 
-}
+@media (max-width:1024px) {}
+
 
 /* 
     - google nexus 7 landscape (966px)
     - google nexus 7 2 landscape (960px)
 */
-@media (max-width:966px){
 
-}
+@media (max-width:966px) {}
+
 
 /* 
     - google nexus 10 portrait / galaxy tab 7.7,8,9,10.1 portrait (800px)
 */
-@media (max-width:800px){
+
+@media (max-width:800px) {
     /* res Document Width */
     .resContainer {
         position: static;
@@ -296,7 +314,6 @@ img {
                 text-align: center;
                 vertical-align: middle;
             }
-
             .closeTop_btn,
             .closeRight_btn,
             .closeLeft_btn {
@@ -305,34 +322,32 @@ img {
                 position: absolute;
                 top: 0;
                 left: 0;
-                .icon{
-                    width:100%;
-                    height:100%;
+                .icon {
+                    width: 100%;
+                    height: 100%;
                 }
             }
-
             .closeTop_btn {
-                background:#000;
-                .icon{
-                    background: url("../img/response/default/closeTop_btn.png") top left no-repeat;
+                background: #000;
+                .icon {
+                    background: url("../img/response/style1/closeTop_btn.png") top left no-repeat;
                     background-size: 100% 100%;
                 }
             }
             .closeRight_btn {
-                background:#000;
-                .icon{
-                    background: url("../img/response/default/closeRight_btn.png") top left no-repeat;
+                background: #000;
+                .icon {
+                    background: url("../img/response/style1/closeRight_btn.png") top left no-repeat;
                     background-size: 100% 100%;
                 }
             }
             .closeLeft_btn {
-                background:#000;
-                .icon{
-                    background: url("../img/response/default/closeLeft_btn.png") top left no-repeat;
+                background: #000;
+                .icon {
+                    background: url("../img/response/style1/closeLeft_btn.png") top left no-repeat;
                     background-size: 100% 100%;
                 }
             }
-
         }
     }
     #mobile_nav {
@@ -347,7 +362,7 @@ img {
         position: fixed;
         margin: 0;
         padding: 0;
-        background:url("../img/response/style1/flipContent_bg.png");
+        background: url("../img/response/style1/flipContent_bg.png");
         text-align: left;
         overflow: scroll;
         @include overflow-scrolling(touch);
@@ -356,7 +371,7 @@ img {
         10px,
         #000);
         .menuList {
-            padding:1px;
+            padding: 1px;
             >div {
                 float: none;
                 clear: both;
@@ -380,136 +395,139 @@ img {
                 color: #fff;
                 background: none;
                 font-weight: normal;
-                border:0;
+                border: 0;
             }
-
-            &.resMenu a.hasChild,
-            .resMenu a.hasChild{
-                background: url("../img/response/default/hasChild.png") right 2px center no-repeat !important;
-            }
-
-            ul {
-                display: block;
-                padding: 0;
-                margin: 0;
-                height: auto;
-                float: left;
-                width:100%;
-                background:#222;
-                li {
+            div,
+            &.resMenu1,.resMenu1,
+            &.resMenu,.resMenu {
+                a.hasChild {
+                    padding: 2% 8% 2% 2%;
+                    width: (100%-10%);
+                    background-image: url("../img/response/style1/hasChild.png");
+                    background-position: right 8px top 10px;
+                    background-repeat: no-repeat;
+                    background-size: auto;
+                }
+                ul {
                     display: block;
+                    padding: 0;
                     margin: 0;
-                    width: 100%;
                     height: auto;
-                    list-style: none;
-                    font-size: 15px;
-                    border:0;
-                    padding:0;
-                    float:none;
-                    clear:both;
-                    a {
+                    float: left;
+                    width: 100%;
+                    li {
                         display: block;
+                        margin: 0;
+                        width: 100%;
                         height: auto;
+                        list-style: none;
                         font-size: 15px;
-                        text-decoration: none;
-                        border-bottom:1px solid #000;
-                        border-top:1px solid #2E2E2E;
-                        color: #ccc;
-                        padding:2%;
-                        width:96%;
-                        margin:0;
-                        font-weight: normal;
-                        background:none;
-
-                        &.hasChild{
-                           color: #ccc; 
+                        border: 0;
+                        padding: 0;
+                        float: none;
+                        clear: both;
+                        a {
+                            display: block;
+                            height: auto;
+                            font-size: 15px;
+                            text-decoration: none;
+                            border-bottom: 1px solid #111111;
+                            border-top: 1px solid #303030;
+                            background-color: #202020;
+                            color: #ffffff;
+                            padding: 2%;
+                            width: 96%;
+                            margin: 0;
+                            font-weight: normal;
+                            &.hasChild {
+                                color: #ffffff;
+                            }
                         }
-                    }
-                    
-                    &.active{
-                        >a{
-                            color:#C46969;
-                        }            
-                    }
-
-                    ul {
-                        display: block;
-                        margin-left: 0 !important;
-                        background:#555555 !important;
-                        li {
-                            border: none;
-                            a {
-                                color: #333;
-                                background:none !important;
-                                border-bottom:1px solid #343434;
-                                border-top:1px solid #8B8B8B;
-                                color: #eee;
-
-                                &.hasChild{
-                                   color: #333;
+                        ul {
+                            display: block;
+                            margin-left: 0 !important;
+                            background-color: #555555;
+                            li {
+                                border: none;
+                                a {
+                                    border-bottom: 1px solid #222222;
+                                    border-top: 1px solid #404040;
+                                    color: #eeeeee;
+                                    background-color: #303030;
+                                    &.hasChild {
+                                        color: #eeeeee;
+                                    }
                                 }
-                            }
-
-                            &.active{
-                                >a{
-                                    color:#DE6F6F;
-                                }            
-                            }
-
-                            ul{
-                                    background:#A2A2A2 !important;
-                                    li{
-                                        a{
-                                            background:none !important;
-                                            border-bottom: 1px solid #888;
-                                            border-top: 1px solid #eee;
-                                            color: #555555;
-                                            &.hasChild{
-                                               color: #555555;
+                                ul {
+                                    li {
+                                        a {
+                                            border-bottom: 1px solid #333333;
+                                            border-top: 1px solid #505050;
+                                            color: #dddddd;
+                                            background-color: #404040;
+                                            &.hasChild {
+                                                color: #dddddd;
                                             }
                                         }
-
-                                        &.active{
-                                            >a{
-                                                color:#7E0000;
-                                            }
-                                        }
-                                        ul{
-                                            background:#D6D6D6 !important;
-                                            li{
-                                                a{
-                                                    background:none !important;
-                                                    border-bottom: 1px solid #aaa;
-                                                    border-top: 1px solid #fff;
-                                                    color: #8B8B8B;
-                                                    &.hasChild{
-                                                       color: #8B8B8B;
-                                                    }
-                                                }
-                                                &.active{
-                                                    >a{
-                                                        color:#7E0000;
+                                        ul {
+                                            li {
+                                                a {
+                                                    border-bottom: 1px solid #444444;
+                                                    border-top: 1px solid #606060;
+                                                    color: #cccccc;
+                                                    background-color: #505050;
+                                                    &.hasChild {
+                                                        color: #cccccc;
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                }
                             }
-
+                        }
+                        /* active */
+                        &.active {
+                            >a {
+                                color: #ffffff;
+                                background-color: #111111;
+                            }
+                            ul {
+                                li.active {
+                                    >a {
+                                        color: #eeeeee;
+                                        background-color: #222222;
+                                    }
+                                    ul {
+                                        li.active {
+                                            >a {
+                                                color: #dddddd;
+                                                background-color: #333333;
+                                            }
+                                        }
+                                        ul {
+                                            li.active {
+                                                >a {
+                                                    color: #cccccc;
+                                                    background-color: #444444;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-                &:after {
-                    clear: both;
+                    &:after {
+                        clear: both;
+                    }
                 }
             }
-
-            select{
-                padding:2%;
-                width:100%;
+            select {
+                padding: 2%;
+                width: 100%;
             }
         }
-        
     }
     .flipContentL {
         top: 0;
@@ -577,7 +595,7 @@ img {
     #mobile_nav_content {
         #resSwap {
             margin: 10px 0;
-            font-size: 20px;
+            font-size: 12px;
             a,
             span {
                 padding: 2%;
@@ -590,19 +608,39 @@ img {
             span {
                 font-weight: normal;
                 text-decoration: none;
-                background:#222 url("../img/response/default/swap_m_btn.png") center left 5px no-repeat;
-                border-bottom:1px solid #000;
-                border-top:1px solid #2E2E2E;
+                background: #222 url("../img/response/style1/swap_m_btn.png") center left 5px no-repeat;
+                border-bottom: 1px solid #000;
+                border-top: 1px solid #2E2E2E;
                 color: #fff;
-                &.split{
-                    display:none;
+                &.split {
+                    display: none;
                 }
             }
             a {
-                background:#111 url("../img/response/default/swap_d_btn.png") center left 5px no-repeat;
+                background: #111 url("../img/response/style1/swap_d_btn.png") center left 5px no-repeat;
                 border-bottom: 1px solid #333;
                 border-top: 1px solid #000;
                 color: #444;
+            }
+        }
+    }
+    /* 伸縮選單 */
+    .flipContent {
+        .menuList {
+            &.resMenu, .resMenu,
+            &.resMenu1, .resMenu1 {
+                ul{
+                    li {
+                        ul {
+                            display: none;
+                        }
+                        &.active {
+                            >ul {
+                                display: block;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -610,79 +648,54 @@ img {
     .mobile_hide {
         display: none;
     }
-
-    /* 伸縮選單 */
-    .flipContent{
-        .menuList{
-            &.resMenu,.resMenu{
-                a.hasChild{
-                    background: url("../img/response/style1/hasChild.png") left 2px no-repeat !important;
-                }
-
-                li {
-
-                    ul{
-                        display:none;
-                    }
-
-                    &.active {
-                        >ul {
-                            display: block;
-                        }
-                    }
-                    
-                }
-            }
-        }
-    }
-
 }
+
 
 /*
     - ipad portrait / general screen portrait (768px)
 */
-@media (max-width:768px){
 
-}
+@media (max-width:768px) {}
+
 
 /*
     - iphone 6 plus landscape (736px) 
 */
-@media (max-width:736px){
 
-}
+@media (max-width:736px) {}
+
 
 /*
     - iphone 6 landscape (667px)
 */
-@media (max-width:667px){
 
-}
+@media (max-width:667px) {}
+
 
 /* 
     - google nexus 7 portrait (604px)
     - google nexus 7 2 portrait (600px)
     - galaxy tab portrait (600px)
 */
-@media (max-width:604px){
 
-}
+@media (max-width:604px) {}
+
 
 /* 
     - iphone 5 landscape (568px)
     - iphone 4 landscape (480px)
 */
-@media (max-width:570px){
 
-}
+@media (max-width:570px) {}
+
 
 /* 
     - iphone 6 plus portrait (414px) 
     - galaxy note portrait (400px)
 */
-@media (max-width:420px){
 
-}
+@media (max-width:420px) {}
+
 
 /* 
     - iphone 6 portrait (375px)
@@ -690,16 +703,18 @@ img {
     - iphone 5 portrait (320px)
     - iphone 4 portrait (320px)
 */
-@media (max-width:380px){
+
+@media (max-width:380px) {
     .flipContent .menuList h1 {
-        font-size: 18px;
+        font-size: 22px;
     }
 }
+
 
 /* print style */
 
 @media print {
-    /* default setup: res object printstyle setup */
+    /* style1 setup: res object printstyle setup */
     #resMainWrap {
         margin: 0;
         padding: 0;

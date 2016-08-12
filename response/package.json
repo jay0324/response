@@ -16,6 +16,7 @@
     "gulp-rename": "*",
     "gulp-run-seq": "*",
     "gulp-insert": "*",
-    "dateformat": "*"
+    "dateformat": "*",
+    "gulp-watch": "*"
   }
 }

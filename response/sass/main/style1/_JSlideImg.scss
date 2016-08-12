@@ -26,7 +26,21 @@
     }
 
     .loader{
-        background: #fff url("img/response/loader.gif") center no-repeat;
+        background: #f2f1f6;
+
+        &::after{
+            content:"...LOADING...";
+            display:block;
+            padding:20px;
+            margin:10% auto;
+            text-align: center;
+            font-size:300%;
+            text-transform: uppercase;
+            animation-name: loadingAnimate;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+
         @include opacity(1);
     }
 

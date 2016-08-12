@@ -554,7 +554,7 @@
             document.cookie = $.JRes_modulePath() + "_response=" + defaultResponse + "; path=/";
         }
         //加入行動版ICON
-        $("head").prepend('<link href="' + app_icon + '" rel="apple-touch-icon">');
+        $("head").prepend('<link href="' + $.JRes_modulePath() + app_icon + '" rel="apple-touch-icon">');
         //加入響應式預設樣式
         //fnLoadCSS('response_default',modulePath + '_css/default.css','all');
         //$("head").append('<link id="response_default" rel="stylesheet" type="text/css" media="all" href="' + modulePath + '_css/default.css"/>');
@@ -577,7 +577,7 @@
                             $("body").append('<div id="resLoader"></div>');
                         });
                         $(window).on("load", function(){
-                            setTimeout("JResLoader({dom:'#resLoader'})", 800);
+                            setTimeout("JResLoader({dom:'#resLoader'})", 1000);
                         })
                     } else {
                         //如果resPageLoaderTigger設定在某一尺寸下才使用
@@ -586,7 +586,7 @@
                                 $("body").append('<div id="resLoader"></div>');
                             });
                             $(window).on("load", function(){
-                                setTimeout("JResLoader({dom:'#resLoader'})", 800);
+                                setTimeout("JResLoader({dom:'#resLoader'})", 1000);
                             })
                         }
                     }
@@ -652,6 +652,20 @@
         //--add print media style sheet --
         //fnLoadCSS('resprint',modulePath + '_css/print.css',printMediaSetupMode);
         //$("head").append('<link id="resprint" rel="stylesheet" type="text/css" media="'+printMediaSetupMode+'" href="' + modulePath + '_css/print.css"/>');
+        
+        //客製制主選單控制按鈕
+        $(".resPrimaryBtn").click(function() {
+            JResMobileTopNav({
+                btnId: "#menu_btn,#menu_btn_bottom",
+                contentId: "#mobile_nav_content",
+                position: flipDirection,
+                resetEvt: false,
+                animateTime: pannelAnimateTime,
+                animateEasing: pannelAnimateEasing
+            });
+            return false;
+        });
+
         //加入響應式按鈕
         //$(".resBtn").each(function() {
             $('body').on('click','.resBtn',function(){
