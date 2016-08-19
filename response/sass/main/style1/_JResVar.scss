@@ -1,0 +1,187 @@
+/* STYLE Param */
+
+/* _JResponsive.scss */
+$mobile-nav-bg-color:           #000000;
+
+$flipContent-bg:                url("../img/response/style1/flipContent_bg.png");
+$flipContent-h1-color:          #ffffff;
+$flipContent-h1-bg-color:       none;
+
+$menu-font-size:                15px;
+
+$menu-level1-padding:			2%;
+$menu-level1-padding-child:		2% 10% 2% 2%;
+$menu-level1-border-bottom:     1px solid #111111;
+$menu-level1-border-top:        1px solid #303030;
+$menu-level1-text-color:        #ffffff;
+$menu-level1-bg-color:          #202020;
+$menu-level1-text-color-active: #ffffff;
+$menu-level1-bg-color-active:   #111111;
+
+$menu-level2-padding:			2% 2% 2% 4%;
+$menu-level2-padding-child:		2% 10% 2% 4%;
+$menu-level2-border-bottom:     1px solid #222222;
+$menu-level2-border-top:        1px solid #404040;
+$menu-level2-text-color:        #eeeeee;
+$menu-level2-bg-color:          #303030;
+$menu-level2-text-color-active: #eeeeee;
+$menu-level2-bg-color-active:   #222222;
+
+$menu-level3-padding:			2% 2% 2% 6%;
+$menu-level3-padding-child:		2% 10% 2% 6%;
+$menu-level3-border-bottom:     1px solid #333333;
+$menu-level3-border-top:        1px solid #505050;
+$menu-level3-text-color:        #dddddd;
+$menu-level3-bg-color:          #404040;
+$menu-level3-text-color-active: #dddddd;
+$menu-level3-bg-color-active:   #333333;
+
+$menu-level4-padding:			2% 2% 2% 8%;
+$menu-level4-padding-child:		2% 10% 2% 8%;
+$menu-level4-border-bottom:     1px solid #444444;
+$menu-level4-border-top:        1px solid #606060;
+$menu-level4-text-color:        #cccccc;
+$menu-level4-bg-color:          #505050;
+$menu-level4-text-color-active: #cccccc;
+$menu-level4-bg-color-active:   #444444;
+
+$resSwap-mobile-bg-color:      	#111111;
+$resSwap-mobile-border-bottom: 	1px solid #000;
+$resSwap-mobile-border-top:    	1px solid #2E2E2E;
+$resSwap-mobile-color:         	#fff;
+$resSwap-desktop-bg-color:      #222222;
+$resSwap-desktop-border-bottom: 1px solid #333;
+$resSwap-desktop-border-top:    1px solid #000;
+$resSwap-desktop-color:         #444;
+
+$resLoader-text:                "...LOADING...";
+$resLoader-bg-color:            #f2f1f6;
+$resLoader-text-color:          #000000;
+$resLoader-animation-name:      loadingAnimate;
+
+/* _JSlideImg.scss */
+$slidesImg-loader-text:            	"...LOADING...";
+$slidesImg-loader-bg-color:        	#f2f1f6;
+$slidesImg-loader-text-color:      	#000000;
+$slidesImg-loader-animation-name:  	loadingAnimate;
+
+$h-slide-prevBtn-bg-color:			#000;
+$h-slide-prevBtn-bg-image:			url("../img/response/style1/slider-h-prev.png");
+$h-slide-prevBtn-color:				#fff;
+$h-slide-nextBtn-bg-color:			#000;
+$h-slide-nextBtn-bg-image:			url("../img/response/style1/slider-h-next.png");
+$h-slide-nextBtn-color:				#fff;
+
+$v-slide-prevBtn-bg-color:			#000;
+$v-slide-prevBtn-bg-image:			url("../img/response/style1/slider-v-prev.png");
+$v-slide-prevBtn-color:				#fff;
+$v-slide-nextBtn-bg-color:			#000;
+$v-slide-nextBtn-bg-image:			url("../img/response/style1/slider-v-next.png");
+$v-slide-nextBtn-color:				#fff;
+
+$h-thumbslide-prevBtn-bg-color:		#000;
+$h-thumbslide-prevBtn-bg-image:		url("../img/response/style1/slider-h-prev.png");
+$h-thumbslide-prevBtn-color:		#fff;
+$h-thumbslide-nextBtn-bg-color:		#000;
+$h-thumbslide-nextBtn-bg-image:		url("../img/response/style1/slider-h-next.png");
+$h-thumbslide-nextBtn-color:		#fff;
+
+$v-thumbslide-prevBtn-bg-color:		#000;
+$v-thumbslide-prevBtn-bg-image:		url("../img/response/style1/slider-v-prev.png");
+$v-thumbslide-prevBtn-color:		#fff;
+$v-thumbslide-nextBtn-bg-color:		#000;
+$v-thumbslide-nextBtn-bg-image:		url("../img/response/style1/slider-v-next.png");
+$v-thumbslide-nextBtn-color:		#fff;
+
+$thumbslide-border:					1px solid #ccc;
+$thumbslide-bg-color:				#fff;
+$thumbslide-border-active:			1px solid #000;
+$thumbslide-bg-color-active:		#fff;
+
+/* _JResContentSlider.scss */
+$h-prevBtn-bg-color:				#000;
+$h-prevBtn-bg-image:				url("../img/response/style1/slider-h-prev.png");
+$h-prevBtn-color:					#fff;
+$h-nextBtn-bg-color:				#000;
+$h-nextBtn-bg-image:				url("../img/response/style1/slider-h-next.png");
+$h-nextBtn-color:					#fff;
+
+$v-prevBtn-bg-color:				#000;
+$v-prevBtn-bg-image:				url("../img/response/style1/slider-v-prev.png");
+$v-prevBtn-color:					#fff;
+$v-nextBtn-bg-color:				#000;
+$v-nextBtn-bg-image:				url("../img/response/style1/slider-v-next.png");
+$v-nextBtn-color:					#fff;
+
+/* _JResContentTab.scss */
+$tabsBtn-bg:						#000;
+$tabsBtn-color:						#fff;
+$tabsBtn-border:					1px solid #000;
+$tabsBtn-text-size:					16px;
+$tabsBtn-border-radius:				2px 15px 0 0;
+
+$tabsBtn-bg-active:					#fff;
+$tabsBtn-color-active:				#333;
+$tabsBtn-border-active:				1px solid #000;
+
+$tabsContent-border:				1px solid #000;
+$tabsContent-overflow:				auto;
+
+/* _resMenu.scss */
+/* resMenu */
+$resMenu-btn-padding:				5px;
+$resMenu-btn-text-size:				15px;
+$resMenu-btn-color:					#fff;
+$resMenu-btn-bg-color:				#000;
+$resMenu-btn-bg-image:				none;
+$resMenu-btn-color-active:			#fff;
+$resMenu-btn-bg-color-active:		#444;
+$resMenu-btn-bg-image-active:		none;
+
+$resMenu-btn-child-padding:			5px 30px 5px 5px;
+$resMenu-btn-child-color:			#fff;
+$resMenu-btn-child-bg-color:		#000;
+$resMenu-btn-child-bg-image:		url("../img/response/style1/slider-v-next.png");
+$resMenu-btn-child-color-active:	#fff;
+$resMenu-btn-child-bg-color-active:	#444;
+$resMenu-btn-child-bg-image-active:	url("../img/response/style1/slider-v-next.png");
+
+$resMenu-btn-level-padding:			3px;
+$resMenu-btn-level1-bg:				#555;
+$resMenu-btn-level2-bg:				#666;
+$resMenu-btn-level3-bg:				#777;
+$resMenu-btn-level4-bg:				#888;
+$resMenu-btn-level5-bg:				#999;
+
+/* resMenu2 */
+$resMenu2-btn-margin:				1px;
+$resMenu2-btn-padding:				10px 5px;
+$resMenu2-btn-text-size:			15px;
+$resMenu2-btn-color:				#fff;
+$resMenu2-btn-bg-color:				#000;
+$resMenu2-btn-bg-image:				none;
+$resMenu2-btn-color-active:			#fff;
+$resMenu2-btn-bg-color-active:		#666564;
+$resMenu2-btn-bg-image-active:		none;
+
+$resMenu2-btn-child-border-bottom:			1px solid #fff;
+$resMenu2-btn-child-padding:				10px 30px 10px 5px;
+$resMenu2-btn-child-color:					#fff;
+$resMenu2-btn-child-bg-color:				#000;
+$resMenu2-btn-child-bg-image:				url("../img/response/style1/slider-v-next.png");
+$resMenu2-btn-child-color-active:			#fff;
+$resMenu2-btn-child-bg-color-active:		#666564;
+$resMenu2-btn-child-bg-image-active:		url("../img/response/style1/slider-v-next.png");
+
+$resMenu2-btn-level1-color:					#fff;
+$resMenu2-btn-level1-bg-color:				#000;
+$resMenu2-btn-level1-bg-image:				none;
+$resMenu2-btn-level1-color-active:			#fff;
+$resMenu2-btn-level1-bg-color-active:		#666564;
+$resMenu2-btn-level1-bg-image-active:		none;
+$resMenu2-btn-level1-color-child:			#fff;
+$resMenu2-btn-level1-bg-color-child:		#000;
+$resMenu2-btn-level1-bg-image-child:		url("../img/response/style1/slider-h-next.png");
+$resMenu2-btn-level1-color-child-active:	#fff;
+$resMenu2-btn-level1-bg-color-child-active:	#666564;
+$resMenu2-btn-level1-bg-image-child-active:	url("../img/response/style1/slider-h-next.png");

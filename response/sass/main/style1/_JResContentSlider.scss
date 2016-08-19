@@ -30,7 +30,12 @@
     .sliderContainerPrevBtn {
         width: 20px;
         height: 100%;
-        background: #ccc;
+        background: $h-prevBtn-bg-color;
+        background-image: $h-prevBtn-bg-image;
+        color: $h-prevBtn-color;
+        background-size:90% auto;
+        background-position: center center;
+        background-repeat:no-repeat;
         position: absolute;
         top: 0;
         left: 0;
@@ -40,7 +45,12 @@
     .sliderContainerNextBtn {
         width: 20px;
         height: 100%;
-        background: #ccc;
+        background-color: $h-nextBtn-bg-color;
+        background-image: $h-nextBtn-bg-image;
+        color: $h-nextBtn-color;
+        background-size:95% auto;
+        background-position: center center;
+        background-repeat:no-repeat;
         position: absolute;
         top: 0;
         right: 0;
@@ -90,7 +100,12 @@
         .sliderContainerPrevBtn {
             width: 100%;
             height: 20px;
-            background: #ccc;
+            background-color: $v-prevBtn-bg-color;
+            background-image: $v-prevBtn-bg-image;
+            color: $v-prevBtn-color;
+            background-size:auto 95%;
+            background-position: center center;
+            background-repeat:no-repeat;
             position: absolute;
             top: 0;
             left: 0;
@@ -100,7 +115,12 @@
         .sliderContainerNextBtn {
             width: 100%;
             height: 20px;
-            background: #ccc;
+            background-color: $v-nextBtn-bg-color;
+            background-image: $v-nextBtn-bg-image;
+            color: $v-nextBtn-color;
+            background-size:auto 95%;
+            background-position: center center;
+            background-repeat:no-repeat;
             position: absolute;
             top:auto;
             bottom: 0;

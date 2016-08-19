@@ -64,7 +64,7 @@ $(function() {
             childTag: 'a',
             thumb: {
                 state: true,
-                amount: 'auto',
+                amount: 2,
                 width:50,
                 height:50,
                 type: 'horizontal',
@@ -73,7 +73,7 @@ $(function() {
                 overlapPos: 'bottom'
             },
             slideBtn:{
-                state: false,
+                state: true,
                 width: 60,
                 height: 100,
                 type: 'horizontal'

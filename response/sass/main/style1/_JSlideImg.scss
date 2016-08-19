@@ -26,17 +26,18 @@
     }
 
     .loader{
-        background: #f2f1f6;
+        background: $slidesImg-loader-bg-color;
 
         &::after{
-            content:"...LOADING...";
+            content:$slidesImg-loader-text;
+            color:$slidesImg-loader-text-color;
             display:block;
             padding:20px;
             margin:10% auto;
             text-align: center;
             font-size:300%;
             text-transform: uppercase;
-            animation-name: loadingAnimate;
+            animation-name: $slidesImg-loader-animation-name;
             animation-duration: 2s;
             animation-iteration-count: infinite;
         }
@@ -57,7 +58,6 @@
         .resJSlideImgThumbPrev,
         .resJSlideImgThumbNext {
             display: block;
-            background: #ccc;
             float: left;
             position: absolute;
             z-index: 1;
@@ -65,6 +65,45 @@
                 @include opacity(0);
             }
         }
+        
+        &.resSlideBtnV{
+            .resJSlideImgThumbPrev{
+                background-color: $v-thumbslide-prevBtn-bg-color;
+                background-image: $v-thumbslide-prevBtn-bg-image;
+                color: $v-thumbslide-prevBtn-color;
+                background-size:auto 95%;
+                background-position: center center;
+                background-repeat:no-repeat;
+            }
+            .resJSlideImgThumbNext {
+                background-color: $v-thumbslide-nextBtn-bg-color;
+                background-image: $v-thumbslide-nextBtn-bg-image;
+                color: $v-thumbslide-nextBtn-color;
+                background-size:auto 95%;
+                background-position: center center;
+                background-repeat:no-repeat;
+            }
+        }
+
+        &.resSlideBtnH{
+            .resJSlideImgThumbPrev{
+                background-color: $h-thumbslide-prevBtn-bg-color;
+                background-image: $h-thumbslide-prevBtn-bg-image;
+                color: $h-thumbslide-prevBtn-color;
+                background-size:95% auto;
+                background-position: center center;
+                background-repeat:no-repeat;
+            }
+            .resJSlideImgThumbNext {
+                background-color: $h-thumbslide-nextBtn-bg-color;
+                background-image: $h-thumbslide-nextBtn-bg-image;
+                color: $h-thumbslide-nextBtn-color;
+                background-size:95% auto;
+                background-position: center center;
+                background-repeat:no-repeat;
+            }
+        }
+
         ul {
             display: block;
             margin: 0;
@@ -78,12 +117,13 @@
                 margin: 5px;
                 padding: 0;
                 cursor: pointer;
-                border: 1px solid #000;
-                background: #fff;
+                border: $thumbslide-border;
+                background: $thumbslide-bg-color;
                 float: left;
                 overflow: hidden;
                 &.active {
-                    border: 1px solid #F92672;
+                    border: $thumbslide-border-active;
+                    background: $thumbslide-bg-color-active;
                 }
                 img {
                     display: block;
@@ -115,15 +155,51 @@
     .resJSlideImgslideBtn {
         position: static;
         @include opacity(1);
-        .resJSlideImgslideBtnPrev {
-            position: absolute;
-            background: #666;
-            z-index:2;
+
+        &.resSlideBtnV{
+            .resJSlideImgslideBtnPrev {
+                position: absolute;
+                background-color: $v-slide-prevBtn-bg-color;
+                background-image: $v-slide-prevBtn-bg-image;
+                color: $v-slide-prevBtn-color;
+                background-size:auto 95%;
+                background-position: center center;
+                background-repeat:no-repeat;
+                z-index:2;
+            }
+            .resJSlideImgslideBtnNext {
+                position: absolute;
+                background-color: $v-slide-nextBtn-bg-color;
+                background-image: $v-slide-nextBtn-bg-image;
+                color: $v-slide-nextBtn-color;
+                background-size:auto 95%;
+                background-position: center center;
+                background-repeat:no-repeat;
+                z-index:2;
+            }
         }
-        .resJSlideImgslideBtnNext {
-            position: absolute;
-            background: #666;
-            z-index:2;
+
+        &.resSlideBtnH{
+            .resJSlideImgslideBtnPrev {
+                position: absolute;
+                background-color: $h-slide-prevBtn-bg-color;
+                background-image: $h-slide-prevBtn-bg-image;
+                color: $h-slide-prevBtn-color;
+                background-size:95% auto;
+                background-position: center center;
+                background-repeat:no-repeat;
+                z-index:2;
+            }
+            .resJSlideImgslideBtnNext {
+                position: absolute;
+                background-color: $h-slide-nextBtn-bg-color;
+                background-image: $h-slide-nextBtn-bg-image;
+                color: $h-slide-nextBtn-color;
+                background-size:95% auto;
+                background-position: center center;
+                background-repeat:no-repeat;
+                z-index:2;
+            }
         }
     }
     .thumbTitleWrap{

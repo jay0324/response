@@ -1,3 +1,4 @@
+/* ELEMENTS */
 img {
     border: 0;
     max-width: 100%;
@@ -188,16 +189,17 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f2f1f6;
+    background: $resLoader-bg-color;
     &::after {
-        content: "...LOADING...";
+        color: $resLoader-text-color;
+        content: $resLoader-text;
         display: block;
         padding: 20px;
         margin: 40% auto;
         text-align: center;
         font-size: 300%;
         text-transform: uppercase;
-        animation-name: loadingAnimate;
+        animation-name: $resLoader-animation-name;
         animation-duration: 2s;
         animation-iteration-count: infinite;
     }
@@ -287,7 +289,7 @@ img {
         display: block;
         left: 0;
         width: 100%;
-        background: #000;
+        background: $mobile-nav-bg-color;
         z-index: 150;
         overflow: auto;
         ul,
@@ -322,27 +324,25 @@ img {
                 position: absolute;
                 top: 0;
                 left: 0;
+                background-color:$mobile-nav-bg-color;
                 .icon {
                     width: 100%;
                     height: 100%;
                 }
             }
             .closeTop_btn {
-                background: #000;
                 .icon {
                     background: url("../img/response/style1/closeTop_btn.png") top left no-repeat;
                     background-size: 100% 100%;
                 }
             }
             .closeRight_btn {
-                background: #000;
                 .icon {
                     background: url("../img/response/style1/closeRight_btn.png") top left no-repeat;
                     background-size: 100% 100%;
                 }
             }
             .closeLeft_btn {
-                background: #000;
                 .icon {
                     background: url("../img/response/style1/closeLeft_btn.png") top left no-repeat;
                     background-size: 100% 100%;
@@ -362,7 +362,7 @@ img {
         position: fixed;
         margin: 0;
         padding: 0;
-        background: url("../img/response/style1/flipContent_bg.png");
+        background: $flipContent-bg;
         text-align: left;
         overflow: scroll;
         @include overflow-scrolling(touch);
@@ -392,8 +392,8 @@ img {
                 text-transform: uppercase;
                 font-size: 20px;
                 font-family: Verdana, Geneva, sans-serif;
-                color: #fff;
-                background: none;
+                color: $flipContent-h1-color;
+                background: $flipContent-h1-bg-color;
                 font-weight: normal;
                 border: 0;
             }
@@ -401,8 +401,7 @@ img {
             &.resMenu1,.resMenu1,
             &.resMenu,.resMenu {
                 a.hasChild {
-                    padding: 2% 8% 2% 2%;
-                    width: (100%-10%);
+                    padding: $menu-level1-padding-child;
                     background-image: url("../img/response/style1/hasChild.png");
                     background-position: right 8px top 10px;
                     background-repeat: no-repeat;
@@ -421,7 +420,7 @@ img {
                         width: 100%;
                         height: auto;
                         list-style: none;
-                        font-size: 15px;
+                        font-size: $menu-font-size;
                         border: 0;
                         padding: 0;
                         float: none;
@@ -429,55 +428,61 @@ img {
                         a {
                             display: block;
                             height: auto;
-                            font-size: 15px;
+                            font-size: $menu-font-size;
                             text-decoration: none;
-                            border-bottom: 1px solid #111111;
-                            border-top: 1px solid #303030;
-                            background-color: #202020;
-                            color: #ffffff;
-                            padding: 2%;
-                            width: 96%;
+                            padding: $menu-level1-padding;
+                            /* width: 96%; */
                             margin: 0;
                             font-weight: normal;
+                            border-bottom: $menu-level1-border-bottom;
+                            border-top: $menu-level1-border-top;
+                            color: $menu-level1-text-color;
+                            background-color: $menu-level1-bg-color;
                             &.hasChild {
-                                color: #ffffff;
+                                padding: $menu-level1-padding-child;
+                                color: $menu-level1-text-color;
                             }
                         }
                         ul {
                             display: block;
                             margin-left: 0 !important;
-                            background-color: #555555;
                             li {
                                 border: none;
                                 a {
-                                    border-bottom: 1px solid #222222;
-                                    border-top: 1px solid #404040;
-                                    color: #eeeeee;
-                                    background-color: #303030;
+                                    padding: $menu-level2-padding;
+                                    border-bottom: $menu-level2-border-bottom;
+                                    border-top: $menu-level2-border-top;
+                                    color: $menu-level2-text-color;
+                                    background-color: $menu-level2-bg-color;
                                     &.hasChild {
-                                        color: #eeeeee;
+                                        padding: $menu-level2-padding-child;
+                                        color: $menu-level2-text-color;
                                     }
                                 }
                                 ul {
                                     li {
                                         a {
-                                            border-bottom: 1px solid #333333;
-                                            border-top: 1px solid #505050;
-                                            color: #dddddd;
-                                            background-color: #404040;
+                                            padding: $menu-level3-padding;
+                                            border-bottom: $menu-level3-border-bottom;
+                                            border-top: $menu-level3-border-top;
+                                            color: $menu-level3-text-color;
+                                            background-color: $menu-level3-bg-color;
                                             &.hasChild {
-                                                color: #dddddd;
+                                                padding: $menu-level3-padding-child;
+                                                color: $menu-level3-text-color;
                                             }
                                         }
                                         ul {
                                             li {
                                                 a {
-                                                    border-bottom: 1px solid #444444;
-                                                    border-top: 1px solid #606060;
-                                                    color: #cccccc;
-                                                    background-color: #505050;
+                                                    padding: $menu-level4-padding;
+                                                    border-bottom: $menu-level4-border-bottom;
+                                                    border-top: $menu-level4-border-top;
+                                                    color: $menu-level4-text-color;
+                                                    background-color: $menu-level4-bg-color;
                                                     &.hasChild {
-                                                        color: #cccccc;
+                                                        padding: $menu-level4-padding-child;
+                                                        color: $menu-level4-text-color;
                                                     }
                                                 }
                                             }
@@ -489,27 +494,27 @@ img {
                         /* active */
                         &.active {
                             >a {
-                                color: #ffffff;
-                                background-color: #111111;
+                                color: $menu-level1-text-color-active;
+                                background-color: $menu-level1-bg-color-active;
                             }
                             ul {
                                 li.active {
                                     >a {
-                                        color: #eeeeee;
-                                        background-color: #222222;
+                                        color: $menu-level2-text-color-active;
+                                        background-color: $menu-level2-bg-color-active;
                                     }
                                     ul {
                                         li.active {
                                             >a {
-                                                color: #dddddd;
-                                                background-color: #333333;
+                                                color: $menu-level3-text-color-active;
+                                                background-color: $menu-level3-bg-color-active;
                                             }
                                         }
                                         ul {
                                             li.active {
                                                 >a {
-                                                    color: #cccccc;
-                                                    background-color: #444444;
+                                                    color: $menu-level4-text-color-active;
+                                                    background-color: $menu-level4-bg-color-active;
                                                 }
                                             }
                                         }
@@ -587,7 +592,7 @@ img {
     }
     /*響應式頁面*/
     .resFlipPage {
-        background: #FBFBFB url("../img/response/style1/flipContent_bg.jpg") top right no-repeat;
+        background: $flipContent-bg;
         overflow: scroll;
         @include overflow-scrolling(touch);
     }
@@ -608,19 +613,25 @@ img {
             span {
                 font-weight: normal;
                 text-decoration: none;
-                background: #222 url("../img/response/style1/swap_m_btn.png") center left 5px no-repeat;
-                border-bottom: 1px solid #000;
-                border-top: 1px solid #2E2E2E;
-                color: #fff;
+                background-image: url("../img/response/style1/swap_m_btn.png");
+                background-position:center left 5px;
+                background-repeat:no-repeat;
+                background-color:$resSwap-mobile-bg-color;
+                border-bottom: $resSwap-mobile-border-bottom;
+                border-top: $resSwap-mobile-border-top;
+                color: $resSwap-mobile-color;
                 &.split {
                     display: none;
                 }
             }
             a {
-                background: #111 url("../img/response/style1/swap_d_btn.png") center left 5px no-repeat;
-                border-bottom: 1px solid #333;
-                border-top: 1px solid #000;
-                color: #444;
+                background-image: url("../img/response/style1/swap_d_btn.png");
+                background-position:center left 5px;
+                background-repeat:no-repeat;
+                background-color:$resSwap-desktop-bg-color;
+                border-bottom: $resSwap-desktop-border-bottom;
+                border-top: $resSwap-desktop-border-top;
+                color: $resSwap-desktop-color;
             }
         }
     }

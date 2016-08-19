@@ -1,4 +1,4 @@
-(function ($, document, window) {
+(function($, document, window) {
     $.JResponsive = function(options) {
         //-- 設定響應式開拉式內容 --////////////////////////////////////////////////////////////////
         //-- 參數設定:////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,8 @@
             setUILoadWidth: 800,
             printMediaSetupMode: false,
             mobileSwitch: "body",
-            viewPortSetup: "",
+            viewPortSetup: "width=device-width, height=device-height, initial-scale=1.0, user-scalable=0",
+            viewPortSetupResOff: "width=1024, initial-scale=1.0, user-scalable=1",
             res_langVarDefault: "",
             res_langVarEn: "",
             res_langVarTw: "/tw/",
@@ -39,7 +40,7 @@
             pannelStyle: '',
             pannelAnimateTime: 500,
             pannelAnimateEasing: "swing",
-            menuCollapse:'',
+            menuCollapse: '',
             resPageLoader: false,
             resPageLoaderTigger: 800,
             responsiveSwitch: true,
@@ -66,11 +67,11 @@
 
         //scroll to top plugin 控制
         var scroll_to_top = options.scrollTop;
-        if (scroll_to_top)resScrolltotop.init();
+        if (scroll_to_top) resScrolltotop.init();
 
         //列印模式測試
         var printMediaMode = options.printMediaSetupMode;
-        var printMediaSetupMode = (printMediaMode)?"all":"print";
+        var printMediaSetupMode = (printMediaMode) ? "all" : "print";
 
         //設定響應式介面載入尺寸
         var setUILoadWidth = options.setUILoadWidth;
@@ -91,29 +92,29 @@
         var resMobileNavSetupMargin = 5;
         for (var data in resMobileNavSetup) {
             switch (data) {
-              case "state":
-                resMenuState = resMobileNavSetup[data];
-              break;
-              case "type":
-                resMenuType = resMobileNavSetup[data];
-              break;
-              case "primary":
-                resPrimM = resMobileNavSetup[data];
-              break;
-              case "width":
-                resMobileNavSetupWidth = resMobileNavSetup[data];
-                break;
+                case "state":
+                    resMenuState = resMobileNavSetup[data];
+                    break;
+                case "type":
+                    resMenuType = resMobileNavSetup[data];
+                    break;
+                case "primary":
+                    resPrimM = resMobileNavSetup[data];
+                    break;
+                case "width":
+                    resMobileNavSetupWidth = resMobileNavSetup[data];
+                    break;
 
-              case "height":
-                resMobileNavSetupHeight = resMobileNavSetup[data];
-                break;
+                case "height":
+                    resMobileNavSetupHeight = resMobileNavSetup[data];
+                    break;
 
-              case "margin":
-                resMobileNavSetupMargin = resMobileNavSetup[data];
-                break;
+                case "margin":
+                    resMobileNavSetupMargin = resMobileNavSetup[data];
+                    break;
             }
         }
-        var resMarginTop = resMenuState == true ? "margin-top:"+resMobileNavSetupHeight+"px;" : "";
+        var resMarginTop = resMenuState == true ? "margin-top:" + resMobileNavSetupHeight + "px;" : "";
 
         //設定響應式主導覽按鈕 (下方)
         var resBottomMobileNavSetup = options.res_mobileBottomNavBtnSetup;
@@ -125,37 +126,37 @@
         var resBottomMobileNavSetupMargin = 5;
         for (var data in resBottomMobileNavSetup) {
             switch (data) {
-              case "state":
-                resBottomMenuState = resBottomMobileNavSetup[data];
-              break;
-              case "type":
-                resBottomMenuType = resBottomMobileNavSetup[data];
-              break;
-              case "primary":
-                resBottomPrimM = resBottomMobileNavSetup[data];
-              break;
-              case "width":
-                resBottomMobileNavSetupWidth = resBottomMobileNavSetup[data];
-                break;
+                case "state":
+                    resBottomMenuState = resBottomMobileNavSetup[data];
+                    break;
+                case "type":
+                    resBottomMenuType = resBottomMobileNavSetup[data];
+                    break;
+                case "primary":
+                    resBottomPrimM = resBottomMobileNavSetup[data];
+                    break;
+                case "width":
+                    resBottomMobileNavSetupWidth = resBottomMobileNavSetup[data];
+                    break;
 
-              case "height":
-                resBottomMobileNavSetupHeight = resBottomMobileNavSetup[data];
-                break;
+                case "height":
+                    resBottomMobileNavSetupHeight = resBottomMobileNavSetup[data];
+                    break;
 
-              case "margin":
-                resBottomMobileNavSetupMargin = resBottomMobileNavSetup[data];
-                break;
+                case "margin":
+                    resBottomMobileNavSetupMargin = resBottomMobileNavSetup[data];
+                    break;
             }
         }
-        var resMarginBottom = resBottomMenuState == true ? "margin-bottom:"+(resBottomMobileNavSetupHeight+20)+"px;" : "";
+        var resMarginBottom = resBottomMenuState == true ? "margin-bottom:" + (resBottomMobileNavSetupHeight + 20) + "px;" : "";
 
         //響應式預設值 
         //開啟:true 
         //關閉:false
-        var defaultResponse = (options.defaultResponse)?"true":"false";
+        var defaultResponse = (options.defaultResponse) ? "true" : "false";
 
-        var responsiveSwitch = (viewPortSetup != 'custom') ? "" : "style='display:none'"; //如果viewPortSetup為custom不使用response按鈕
-        responsiveSwitch = options.responsiveSwitch ? "" : "style='display:none'";
+        //var responsiveSwitch = (viewPortSetup != 'custom') ? "" : "style='display:none'"; //如果viewPortSetup為custom不使用response按鈕
+        var responsiveSwitch = options.responsiveSwitch ? "" : "style='display:none'";
 
         //響應式開關
         //模組的預設路徑
@@ -168,17 +169,17 @@
         //擴充響應式頁面
         var additionalPageArray = options.additionalPage;
         var countAddPage = additionalPageArray.length;
-        var resPageTitleMargin = Math.round((resMobileNavSetupHeight/2)/3); //resPageTitle間距
+        var resPageTitleMargin = Math.round((resMobileNavSetupHeight / 2) / 3); //resPageTitle間距
         var resPageTitleHeight = resMobileNavSetupHeight - (resPageTitleMargin * 2); //resPageTitle高度
-        var additionalPageContent = '<div id="resPageLoader" class="resFlipPage resFlipPageR"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + 
-                                    '<div style="height:' + resMobileNavSetupHeight + 'px;" class="resPageController">' + 
-                                    '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#resPageLoader\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\''+pannelAnimateEasing+'\'});return false;"></div>' + 
-                                    '<div style="height:' + resPageTitleHeight + 'px;margin:' + resPageTitleMargin + 'px 0;" class="resAddPageTitle">Res Loader</div></div>'+
-                                    '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\''+pannelAnimateEasing+'\'});return false;"></div></div>' +
-                                    '<div class="resAddPageContent"><div class="resAddPageContentMain">' + 
-                                    '<div id="resPageLoad_loading_icon"></div>' + 
-                                    '<div id="resPageLoad_area"></div>' + 
-                                    '</div></div></div></div>';
+        var additionalPageContent = '<div id="resPageLoader" class="resFlipPage resFlipPageR"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' +
+            '<div style="height:' + resMobileNavSetupHeight + 'px;" class="resPageController">' +
+            '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#resPageLoader\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div>' +
+            '<div style="height:' + resPageTitleHeight + 'px;margin:' + resPageTitleMargin + 'px 0;" class="resAddPageTitle">Res Loader</div></div>' +
+            '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div></div>' +
+            '<div class="resAddPageContent"><div class="resAddPageContentMain">' +
+            '<div id="resPageLoad_loading_icon"></div>' +
+            '<div id="resPageLoad_area"></div>' +
+            '</div></div></div></div>';
         if (countAddPage > 0) {
             for (var i = 0; i < countAddPage; i++) {
                 var addPagePosition = "";
@@ -195,18 +196,18 @@
                 var relateBtn = "";
                 if ($.trim(additionalPageArray[i][4]) != "") {
                     var relateID = additionalPageArray[i][4].indexOf("_pageContent") == -1 ? additionalPageArray[i][4] + "_pageContent" : additionalPageArray[i][4];
-                    relateBtn = '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageNextIcon" onclick="JResPageControl({id:\'#' + relateID + '\',action:\'open\',animateTime:' + pannelAnimateTime + ',animateEasing:\''+pannelAnimateEasing+'\'});return false;"></div>';
+                    relateBtn = '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageNextIcon" onclick="JResPageControl({id:\'#' + relateID + '\',action:\'open\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div>';
                 }
                 additionalPageContent += '<div id="' + addPageID + '" class="resFlipPage ' + addPagePosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' +
-                                         '<div style="height:' + resMobileNavSetupHeight + 'px;" class="resPageController">' + 
-                                            '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#' + addPageID + '\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\''+pannelAnimateEasing+'\'});return false;"></div>' + 
-                                            '<div style="height:' + resPageTitleHeight + 'px;margin:' + resPageTitleMargin + 'px 0;" class="resAddPageTitle">' + additionalPageArray[i][2] + "</div>" + 
-                                            relateBtn + 
-                                         '</div>'+
-                                         '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\''+pannelAnimateEasing+'\'});return false;"></div></div>' +
-                                         '<div class="resAddPageContent"><div class="resAddPageContentMain">' + 
-                                            addPageContent + 
-                                         "<div class='clear'></div></div></div></div></div>";
+                    '<div style="height:' + resMobileNavSetupHeight + 'px;" class="resPageController">' +
+                    '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#' + addPageID + '\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div>' +
+                    '<div style="height:' + resPageTitleHeight + 'px;margin:' + resPageTitleMargin + 'px 0;" class="resAddPageTitle">' + additionalPageArray[i][2] + "</div>" +
+                    relateBtn +
+                    '</div>' +
+                    '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div></div>' +
+                    '<div class="resAddPageContent"><div class="resAddPageContentMain">' +
+                    addPageContent +
+                    "<div class='clear'></div></div></div></div></div>";
             }
         }
         //擴充上選單按鈕
@@ -221,7 +222,7 @@
             additionalBtn += '<li id="menu_btn" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + "px;margin-right:" + resMobileNavSetupMargin + 'px"><a href="#" style="width:' + resMobileNavSetupWidth + "px;height:" + resMobileNavSetupHeight + 'px;"></a></li>';
             mobile_nav_BtnAmt = 1;
         }
-        
+
         if (countAddBtn > 0) {
             for (var i = 0; i < countAddBtn; i++) {
                 var btnId = additionalBtnArray[i][0] != undefined ? additionalBtnArray[i][0] : "";
@@ -229,51 +230,51 @@
                 var btnText = additionalBtnArray[i][2] != undefined ? additionalBtnArray[i][2] : "";
                 var showBtn = true;
                 switch (additionalBtnArray[i][3]) {
-                  case "pannel":
-                    //開啟響應式視窗
-                    var addPanelPosition = "";
-                    var addflipDirection = "";
-                    if (additionalBtnArray[i][4][0] != undefined) {
-                        addPanelPosition = fnCheckPosition(additionalBtnArray[i][4][0], "position");
-                        addflipDirection = fnCheckPosition(additionalBtnArray[i][4][0], "direction");
-                    } else {
-                        addPanelPosition = pannelPosition;
-                        addflipDirection = flipDirection;
-                    }
+                    case "pannel":
+                        //開啟響應式視窗
+                        var addPanelPosition = "";
+                        var addflipDirection = "";
+                        if (additionalBtnArray[i][4][0] != undefined) {
+                            addPanelPosition = fnCheckPosition(additionalBtnArray[i][4][0], "position");
+                            addflipDirection = fnCheckPosition(additionalBtnArray[i][4][0], "direction");
+                        } else {
+                            addPanelPosition = pannelPosition;
+                            addflipDirection = flipDirection;
+                        }
 
-                    //pannel風格
-                    if (additionalBtnArray[i][4][2] != undefined) {
-                        addPannelStyle = additionalBtnArray[i][4][2];
-                    }else{
-                        addPannelStyle = pannelStyle;
-                    }
+                        //pannel風格
+                        if (additionalBtnArray[i][4][2] != undefined) {
+                            addPannelStyle = additionalBtnArray[i][4][2];
+                        } else {
+                            addPannelStyle = pannelStyle;
+                        }
 
-                    var addPanelContent = additionalBtnArray[i][4][1] != undefined ? additionalBtnArray[i][4][1] : "";
-                    additionalPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPannelStyle + ' ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
-                    btnTarget = " onclick=\"JResMobileTopNav({btnId:'#" + btnId + "',contentId:'#" + btnId + "_pannelContent',position:'" + addflipDirection + "',resetEvt:false,animateTime:" + pannelAnimateTime + ",animateEasing:'"+pannelAnimateEasing+"'});return false;\"";
-                    //trim whitespace from pannel content, then check if it is empty return value false to showBtn
-                    if ($.trim(addPanelContent) == "") {
-                        showBtn = false;
-                    }
-                    break;
-
-                  case "tab":
-                    //移動至頁面區塊按鈕
-                    btnTarget = " class='resTabJumper' ";
-                    //檢查tab目標連結是否含有路徑
-                    var targetURL = btnLink;
-                    if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
-                        //若無路徑檢查tab目標物件是否存在
-                        if ($(targetURL).length == 0){
+                        var addPanelContent = additionalBtnArray[i][4][1] != undefined ? additionalBtnArray[i][4][1] : "";
+                        additionalPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPannelStyle + ' ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
+                        btnTarget = " onclick=\"JResMobileTopNav({btnId:'#" + btnId + "',contentId:'#" + btnId + "_pannelContent',position:'" + addflipDirection + "',resetEvt:false,animateTime:" + pannelAnimateTime + ",animateEasing:'" + pannelAnimateEasing + "'});return false;\"";
+                        //trim whitespace from pannel content, then check if it is empty return value false to showBtn
+                        if ($.trim(addPanelContent) == "") {
                             showBtn = false;
                         }
-                    }
-                    break;
+                        break;
+
+                    case "tab":
+                        //移動至頁面區塊按鈕
+                        btnTarget = " class='resTabJumper' ";
+                        //檢查tab目標連結是否含有路徑
+                        var targetURL = btnLink;
+                        if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
+                            //若無路徑檢查tab目標物件是否存在
+                            if ($(targetURL).length == 0) {
+                                showBtn = false;
+                            }
+                        }
+                        break;
 
                     case "page":
                         //開啟響應式頁面
-                        btnTarget = " class='resPageBtn' toggle='"+btnLink+"' ";
-                    break;
+                        btnTarget = " class='resPageBtn' toggle='" + btnLink + "' ";
+                        break;
 
                     case "loader":
                         //開啟響應式載入頁面
@@ -286,16 +287,16 @@
                             }
                         }
 
-                    break;
+                        break;
 
 
-                  case undefined:
-                    btnTarget = "";
-                    break;
+                    case undefined:
+                        btnTarget = "";
+                        break;
 
-                  default:
-                    btnTarget = " target='" + additionalBtnArray[i][3] + "'";
-                    break;
+                    default:
+                        btnTarget = " target='" + additionalBtnArray[i][3] + "'";
+                        break;
                 }
                 //showBtn value with false than don't show the button
                 if (showBtn) {
@@ -324,51 +325,51 @@
                 var btnText = additionalBottomBtnArray[i][2] != undefined ? additionalBottomBtnArray[i][2] : "";
                 var showBtn = true;
                 switch (additionalBottomBtnArray[i][3]) {
-                  case "pannel":
-                    //開啟響應式視窗
-                    var addPanelPosition = "";
-                    var addflipDirection = "";
-                    if (additionalBottomBtnArray[i][4][0] != undefined) {
-                        addPanelPosition = fnCheckPosition(additionalBottomBtnArray[i][4][0], "position");
-                        addflipDirection = fnCheckPosition(additionalBottomBtnArray[i][4][0], "direction");
-                    } else {
-                        addPanelPosition = pannelPosition;
-                        addflipDirection = flipDirection;
-                    }
+                    case "pannel":
+                        //開啟響應式視窗
+                        var addPanelPosition = "";
+                        var addflipDirection = "";
+                        if (additionalBottomBtnArray[i][4][0] != undefined) {
+                            addPanelPosition = fnCheckPosition(additionalBottomBtnArray[i][4][0], "position");
+                            addflipDirection = fnCheckPosition(additionalBottomBtnArray[i][4][0], "direction");
+                        } else {
+                            addPanelPosition = pannelPosition;
+                            addflipDirection = flipDirection;
+                        }
 
-                    //pannel風格
-                    if (additionalBtnArray[i][4][2] != undefined) {
-                        addPannelStyle = additionalBtnArray[i][4][2];
-                    }else{
-                        addPannelStyle = pannelStyle;
-                    }
+                        //pannel風格
+                        if (additionalBtnArray[i][4][2] != undefined) {
+                            addPannelStyle = additionalBtnArray[i][4][2];
+                        } else {
+                            addPannelStyle = pannelStyle;
+                        }
 
-                    var addPanelContent = additionalBottomBtnArray[i][4][1] != undefined ? additionalBottomBtnArray[i][4][1] : "";
-                    additionalBottomPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPannelStyle + ' ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
-                    BottombtnTarget = " onclick=\"JResMobileTopNav({btnId:'#" + btnId + "',contentId:'#" + btnId + "_pannelContent',position:'" + addflipDirection + "',resetEvt:false,animateTime:" + pannelAnimateTime + ",animateEasing:'"+pannelAnimateEasing+"'});return false;\"";
-                    //trim whitespace from pannel content, then check if it is empty return value false to showBtn
-                    if ($.trim(addPanelContent) == "") {
-                        showBtn = false;
-                    }
-                    break;
-
-                  case "tab":
-                    //移動至頁面區塊按鈕
-                    BottombtnTarget = " class='resTabJumper' ";
-                    //檢查tab目標連結是否含有路徑
-                    var targetURL = btnLink;
-                    if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
-                        //若無路徑檢查tab目標物件是否存在
-                        if ($(targetURL).length == 0){
+                        var addPanelContent = additionalBottomBtnArray[i][4][1] != undefined ? additionalBottomBtnArray[i][4][1] : "";
+                        additionalBottomPannelContent += '<div id="' + btnId + '_pannelContent" class="flipContent ' + addPannelStyle + ' ' + addPanelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + addPanelContent + "<div class='clear'></div></div></div>";
+                        BottombtnTarget = " onclick=\"JResMobileTopNav({btnId:'#" + btnId + "',contentId:'#" + btnId + "_pannelContent',position:'" + addflipDirection + "',resetEvt:false,animateTime:" + pannelAnimateTime + ",animateEasing:'" + pannelAnimateEasing + "'});return false;\"";
+                        //trim whitespace from pannel content, then check if it is empty return value false to showBtn
+                        if ($.trim(addPanelContent) == "") {
                             showBtn = false;
                         }
-                    }
-                    break;
+                        break;
+
+                    case "tab":
+                        //移動至頁面區塊按鈕
+                        BottombtnTarget = " class='resTabJumper' ";
+                        //檢查tab目標連結是否含有路徑
+                        var targetURL = btnLink;
+                        if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
+                            //若無路徑檢查tab目標物件是否存在
+                            if ($(targetURL).length == 0) {
+                                showBtn = false;
+                            }
+                        }
+                        break;
 
                     case "page":
                         //開啟響應式頁面
-                        btnTarget = " class='resPageBtn' toggle='"+btnLink+"' ";
-                    break;
+                        btnTarget = " class='resPageBtn' toggle='" + btnLink + "' ";
+                        break;
 
                     case "loader":
                         //開啟響應式載入頁面
@@ -381,15 +382,15 @@
                             }
                         }
 
-                    break;
+                        break;
 
-                  case undefined:
-                    BottombtnTarget = "";
-                    break;
+                    case undefined:
+                        BottombtnTarget = "";
+                        break;
 
-                  default:
-                    BottombtnTarget = " target='" + additionalBottomBtnArray[i][3] + "'";
-                    break;
+                    default:
+                        BottombtnTarget = " target='" + additionalBottomBtnArray[i][3] + "'";
+                        break;
                 }
                 //showBtn value with false than don't show the button
                 if (showBtn) {
@@ -405,8 +406,13 @@
         }
         //響應式開關
         var mobileSwitch = options.mobileSwitch;
-        //響應式viewport其餘參數 (如果設為custom為自行寫入頁面)
+        //響應式viewport參數 (如果設為custom為自行寫入頁面)
+        //Res on
         var viewPortSetup = options.viewPortSetup;
+
+        //Res off
+        var viewPortSetupResOff = options.viewPortSetupResOff;
+
         //語言選單
         //res_langVarDefault: 網站預設語系 tw:繁體 cn:簡體 預設:英文
         //res_langVarTw: 繁中版判斷值
@@ -431,7 +437,7 @@
         var res_langVarEn = options.res_langVarEn;
         //繁中版
         var res_langVarTw = options.res_langVarTw.toLowerCase();
-        var res_langArrayTw = [ "language:語系", "menu:主選單", "mobile:切換手機版", "desktop:切換電腦版" ];
+        var res_langArrayTw = ["language:語系", "menu:主選單", "mobile:切換手機版", "desktop:切換電腦版"];
         var res_langArrayTw_extend = options.res_langArrayTw;
         if (res_langArrayTw_extend.length > 0) {
             for (var i = 0; i < res_langArrayTw_extend.length; i++) {
@@ -440,7 +446,7 @@
         }
         //簡中版
         var res_langVarCn = options.res_langVarCn.toLowerCase();
-        var res_langArrayCn = [ "language:语系", "menu:主选单", "mobile:切换手机版", "desktop:切换桌面版" ];
+        var res_langArrayCn = ["language:语系", "menu:主选单", "mobile:切换手机版", "desktop:切换桌面版"];
         var res_langArrayCn_extend = options.res_langArrayCn;
         if (res_langArrayCn_extend.length > 0) {
             for (var i = 0; i < res_langArrayCn_extend.length; i++) {
@@ -449,7 +455,7 @@
         }
         //外加語言1
         var res_langVarAdd1 = options.res_langVarAdd1.toLowerCase();
-        var res_langArrayAdd1 = [ "language:language", "menu:menu", "mobile:mobile", "desktop:desktop" ];
+        var res_langArrayAdd1 = ["language:language", "menu:menu", "mobile:mobile", "desktop:desktop"];
         var res_langArrayAdd1_extend = options.res_langArrayAdd1;
         if (res_langArrayAdd1_extend.length > 0) {
             for (var i = 0; i < res_langArrayAdd1_extend.length; i++) {
@@ -458,7 +464,7 @@
         }
         //外加語言2
         var res_langVarAdd2 = options.res_langVarAdd2.toLowerCase();
-        var res_langArrayAdd2 = [ "language:language", "menu:menu", "mobile:mobile", "desktop:desktop" ];
+        var res_langArrayAdd2 = ["language:language", "menu:menu", "mobile:mobile", "desktop:desktop"];
         var res_langArrayAdd2_extend = options.res_langArrayAdd2;
         if (res_langArrayAdd2_extend.length > 0) {
             for (var i = 0; i < res_langArrayAdd2_extend.length; i++) {
@@ -467,7 +473,7 @@
         }
         //外加語言3
         var res_langVarAdd3 = options.res_langVarAdd3.toLowerCase();
-        var res_langArrayAdd3 = [ "language:language", "menu:menu", "mobile:mobile", "desktop:desktop" ];
+        var res_langArrayAdd3 = ["language:language", "menu:menu", "mobile:mobile", "desktop:desktop"];
         var res_langArrayAdd3_extend = options.res_langArrayAdd3;
         if (res_langArrayAdd3_extend.length > 0) {
             for (var i = 0; i < res_langArrayAdd3_extend.length; i++) {
@@ -476,7 +482,7 @@
         }
         //外加語言4
         var res_langVarAdd4 = options.res_langVarAdd4.toLowerCase();
-        var res_langArrayAdd4 = [ "language:language", "menu:menu", "mobile:mobile", "desktop:desktop" ];
+        var res_langArrayAdd4 = ["language:language", "menu:menu", "mobile:mobile", "desktop:desktop"];
         var res_langArrayAdd4_extend = options.res_langArrayAdd4;
         if (res_langArrayAdd4_extend.length > 0) {
             for (var i = 0; i < res_langArrayAdd4_extend.length; i++) {
@@ -485,7 +491,7 @@
         }
         //外加語言5
         var res_langVarAdd5 = options.res_langVarAdd5.toLowerCase();
-        var res_langArrayAdd5 = [ "language:language", "menu:menu", "mobile:mobile", "desktop:desktop" ];
+        var res_langArrayAdd5 = ["language:language", "menu:menu", "mobile:mobile", "desktop:desktop"];
         var res_langArrayAdd5_extend = options.res_langArrayAdd5;
         if (res_langArrayAdd5_extend.length > 0) {
             for (var i = 0; i < res_langArrayAdd5_extend.length; i++) {
@@ -514,13 +520,13 @@
         var restabJumperSpeed = 2e3;
         for (var data in resTabSetup) {
             switch (data) {
-              case "state":
-                restabJumperState = resTabSetup[data];
-                break;
+                case "state":
+                    restabJumperState = resTabSetup[data];
+                    break;
 
-              case "speed":
-                restabJumperSpeed = resTabSetup[data];
-                break;
+                case "speed":
+                    restabJumperSpeed = resTabSetup[data];
+                    break;
             }
         }
         //////////////////////////////////////////////////////////////////////////////////////////
@@ -560,13 +566,18 @@
         //$("head").append('<link id="response_default" rel="stylesheet" type="text/css" media="all" href="' + modulePath + '_css/default.css"/>');
         //將每組row之後都加上clear
         $(".resRow").append("<div class='clear'></div>");
-        
+
+        //如果沒有設定viewport協助寫入頁面
+        if ($("meta[name='viewport']").length == 0) {
+            (viewPortSetup == "") ? $("head").prepend('<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0">'): $("head").prepend('<meta name="viewport" content="' + viewPortSetup + '">');
+        }
+
         //若不是IE9以下才進行響應式設定
-        if (!$.JRes_isLtIE9()){
+        if (!$.JRes_isLtIE9()) {
             //check the response cookie
             if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
                 //-- add response meta --
-                if (viewPortSetup != 'custom') $("head").prepend('<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0' + viewPortSetup + '">');
+                $("meta[name='viewport']").attr("content", viewPortSetup);
                 var swapBtn = noServer == false ? '<div id="resSwap" ' + responsiveSwitch + "><span>" + fnTranslate("mobile") + '</span> <span class="split">|</span> <a id="swap_btn">' + fnTranslate("desktop") + "</a><div class='clear'></div></div>" : "";
 
                 //-- loader --
@@ -576,7 +587,7 @@
                         $(document).ready(function() {
                             $("body").append('<div id="resLoader"></div>');
                         });
-                        $(window).on("load", function(){
+                        $(window).on("load", function() {
                             setTimeout("JResLoader({dom:'#resLoader'})", 1000);
                         })
                     } else {
@@ -585,7 +596,7 @@
                             $(document).ready(function() {
                                 $("body").append('<div id="resLoader"></div>');
                             });
-                            $(window).on("load", function(){
+                            $(window).on("load", function() {
                                 setTimeout("JResLoader({dom:'#resLoader'})", 1000);
                             })
                         }
@@ -599,7 +610,7 @@
 
                 //-- 計算導覽按鈕群長度 (上方) --
                 var mobile_nav_btn_width = mobile_nav_BtnAmt * (resMobileNavSetupWidth + resMobileNavSetupMargin);
-                var mobile_nav = resMenuState == true ? ' style="position:'+resMenuType+';width:' + $(window).width() + "px;height:" + resMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
+                var mobile_nav = resMenuState == true ? ' style="position:' + resMenuType + ';width:' + $(window).width() + "px;height:" + resMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
                 var mobile_nav_width = $(window).width() > mobile_nav_btn_width ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width + 'px;" ';
                 if (resMenuState == true) {
                     body_margin_top = 'padding-top:' + resMobileNavSetupHeight + 'px;'; //上選單有使用進行resMainWrap padding-top設定
@@ -608,7 +619,7 @@
 
                 //-- 計算導覽按鈕群長度 (下方) --
                 var mobile_nav_btn_width_bottom = mobile_nav_BottomBtnAmt * (resBottomMobileNavSetupWidth + resBottomMobileNavSetupMargin);
-                var mobile_nav_bottom = resBottomMenuState == true ? ' style="position:'+resBottomMenuType+';width:' + $(window).width() + "px;height:" + resBottomMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
+                var mobile_nav_bottom = resBottomMenuState == true ? ' style="position:' + resBottomMenuType + ';width:' + $(window).width() + "px;height:" + resBottomMobileNavSetupHeight + 'px;" ' : ' resState="notUsed" style="display:none" ';
                 var mobile_nav_width_bottom = $(window).width() > mobile_nav_btn_width_bottom ? ' style="width:' + $(window).width() + 'px;" ' : ' style="width:' + mobile_nav_btn_width_bottom + 'px;" ';
                 var body_margin_bottom = (resBottomMenuState == true) ? 'padding-bottom:' + resBottomMobileNavSetupHeight + 'px;' : ''; //下選單有使用進行padding-bottom
                 if (resBottomMenuState == true) {
@@ -620,8 +631,8 @@
                 var body_margin = $(window).width() <= setUILoadWidth ? ' style="' + body_margin_top + body_margin_bottom + '" ' : '';
 
                 //-- mobile menu interface --
-                $("body").wrapInner('<div id="resMainWrap" '+body_margin+'></div>');
-                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>"  + '<div id="mobile_nav_content" class="flipContent ' + pannelStyle + ' ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "<div class='clear'></div></div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "<div class='clear'></div></div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
+                $("body").wrapInner('<div id="resMainWrap" ' + body_margin + '></div>');
+                $("body").append('<div id="mobile_nav" ' + mobile_nav + "><ul " + mobile_nav_width + ">" + additionalBtn + "</ul></div>" + '<div id="mobile_nav_bottom" ' + mobile_nav_bottom + "><ul " + mobile_nav_width_bottom + ">" + additionalBottomBtn + "</ul></div>" + '<div id="mobile_nav_content" class="flipContent ' + pannelStyle + ' ' + pannelPosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' + swapBtn + '<div id="reslang" ' + res_langSwitch + ">" + "<h1>" + fnTranslate("language") + "</h1>" + language + "<div class='clear'></div></div>" + '<div id="resPrimery">' + "<h1>" + fnTranslate("menu") + "</h1>" + primaryMenu + "<div class='clear'></div></div>" + subMenu + "<div class='clear'></div></div></div>" + additionalPannelContent + additionalBottomPannelContent + additionalPageContent);
                 //上下區主選單控制
                 $("#menu_btn,#menu_btn_bottom").click(function() {
                     JResMobileTopNav({
@@ -640,19 +651,20 @@
                 $("#resMainWrap").css("min-height", resMainWrap_miniHight + "px");
 
                 //使用伸縮選單的物件ID
-                if (menuCollapse != ""){
+                if (menuCollapse != "") {
                     $(menuCollapse).JResMenu();
                 }
 
             } else {
                 //切換為桌面版
+                $("meta[name='viewport']").attr("content", viewPortSetupResOff);
                 $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
             }
         }
         //--add print media style sheet --
         //fnLoadCSS('resprint',modulePath + '_css/print.css',printMediaSetupMode);
         //$("head").append('<link id="resprint" rel="stylesheet" type="text/css" media="'+printMediaSetupMode+'" href="' + modulePath + '_css/print.css"/>');
-        
+
         //客製制主選單控制按鈕
         $(".resPrimaryBtn").click(function() {
             JResMobileTopNav({
@@ -668,41 +680,41 @@
 
         //加入響應式按鈕
         //$(".resBtn").each(function() {
-            $('body').on('click','.resBtn',function(){
+        $('body').on('click', '.resBtn', function() {
             //$(this).click(function() {
-                var toggle = $(this).attr("toggle");
-                var addBtn = options.additionalBtn;
-                var countAddBtn = addBtn.length;
-                for (var i = 0; i < countAddBtn; i++) {
-                    if (toggle == addBtn[i][0]) {
-                        var pos = addBtn[i][4][0];
-                    }
+            var toggle = $(this).attr("toggle");
+            var addBtn = options.additionalBtn;
+            var countAddBtn = addBtn.length;
+            for (var i = 0; i < countAddBtn; i++) {
+                if (toggle == addBtn[i][0]) {
+                    var pos = addBtn[i][4][0];
                 }
+            }
 
-                JResMobileTopNav({
-                    btnId: "#" + toggle,
-                    contentId: "#" + toggle + "_pannelContent",
-                    position: pos,
-                    resetEvt: false,
-                    animateTime: pannelAnimateTime,
-                    animateEasing: pannelAnimateEasing
-                });
-
-                return false;
+            JResMobileTopNav({
+                btnId: "#" + toggle,
+                contentId: "#" + toggle + "_pannelContent",
+                position: pos,
+                resetEvt: false,
+                animateTime: pannelAnimateTime,
+                animateEasing: pannelAnimateEasing
             });
+
+            return false;
+        });
         //});
         //加入響應式頁面按鈕
         //$(".resPageBtn").each(function() {
-            //$(this).click(function() {
-            $('body').on('click','.resPageBtn',function(){
-                var toggle = $(this).attr("toggle");
-                JResPageControl({
-                    id: "#" + toggle + "_pageContent",
-                    animateTime: pannelAnimateTime,
-                    animateEasing: pannelAnimateEasing
-                });
-                return false;
+        //$(this).click(function() {
+        $('body').on('click', '.resPageBtn', function() {
+            var toggle = $(this).attr("toggle");
+            JResPageControl({
+                id: "#" + toggle + "_pageContent",
+                animateTime: pannelAnimateTime,
+                animateEasing: pannelAnimateEasing
             });
+            return false;
+        });
         //});
         //加入響應式Ajax載入頁面按鈕
         $("#resPageLoad_loading_icon").hide();
@@ -713,47 +725,13 @@
         });
         //resPageLoaderBtn
         //$(".resPageLoaderBtn").each(function() {
-            //$(this).click(function() {
-            $('body').on('click','.resPageLoaderBtn',function(){
-                //判斷loader類型
-                //查看是否總是使用響應視窗
-                if ($(this).attr("tigger") == "" || $(this).attr("tigger") == undefined) {
-                    //預設值在800以內寬度再使用響應視窗
-                    if ($(window).width() <= setUILoadWidth) {
-                        JResPageControl({
-                            id: "#resPageLoader",
-                            animateTime: pannelAnimateTime,
-                            animateEasing: pannelAnimateEasing
-                        });
-                        var pageTitle = $(this).attr("title") == "" || $(this).attr("title") == undefined ? "" : $(this).attr("title");
-                        var toggleParam = ($(this).attr("toggleParam") == undefined || $(this).attr("toggleParam") == "") ? "" : $(this).attr("toggleParam");
-                        $("#resPageLoader .resAddPageTitle").text(pageTitle);
-                        if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined || $(this).attr("toggle") == "iframe") {
-                            //iframe loader
-                            $("#resPageLoad_loading_icon").show();
-                            // show Loading Div
-                            setTimeout("JResLoader({dom:'#resPageLoad_loading_icon'})", 800);
-                            var url = $(this).attr("href");
-                            var height = $(window).height() - 120;
-                            $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '" '+toggleParam+'>');
-                        } else {
-                            //ajax loader
-                            if ($(this).attr("toggle") == "ajax") {
-                                var url = $(this).attr("href");
-                            } else {
-                                if ($(this).attr("toggleDom") == "" || $(this).attr("toggleDom") == undefined) {
-                                    var url = $(this).attr("href");
-                                } else {
-                                    var url = $(this).attr("href") + " " + $(this).attr("toggleDom");
-                                }
-                            }
-                            $("#resPageLoad_area").load(url);
-                        }
-                        return false;
-                    } else {
-                        return true;
-                    }
-                } else if ($(this).attr("tigger") == "always") {
+        //$(this).click(function() {
+        $('body').on('click', '.resPageLoaderBtn', function() {
+            //判斷loader類型
+            //查看是否總是使用響應視窗
+            if ($(this).attr("tigger") == "" || $(this).attr("tigger") == undefined) {
+                //預設值在800以內寬度再使用響應視窗
+                if ($(window).width() <= setUILoadWidth) {
                     JResPageControl({
                         id: "#resPageLoader",
                         animateTime: pannelAnimateTime,
@@ -769,7 +747,7 @@
                         setTimeout("JResLoader({dom:'#resPageLoad_loading_icon'})", 800);
                         var url = $(this).attr("href");
                         var height = $(window).height() - 120;
-                        $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '" '+toggleParam+'>');
+                        $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '" ' + toggleParam + '>');
                     } else {
                         //ajax loader
                         if ($(this).attr("toggle") == "ajax") {
@@ -784,62 +762,96 @@
                         $("#resPageLoad_area").load(url);
                     }
                     return false;
+                } else {
+                    return true;
                 }
-            });
+            } else if ($(this).attr("tigger") == "always") {
+                JResPageControl({
+                    id: "#resPageLoader",
+                    animateTime: pannelAnimateTime,
+                    animateEasing: pannelAnimateEasing
+                });
+                var pageTitle = $(this).attr("title") == "" || $(this).attr("title") == undefined ? "" : $(this).attr("title");
+                var toggleParam = ($(this).attr("toggleParam") == undefined || $(this).attr("toggleParam") == "") ? "" : $(this).attr("toggleParam");
+                $("#resPageLoader .resAddPageTitle").text(pageTitle);
+                if ($(this).attr("toggle") == "" || $(this).attr("toggle") == undefined || $(this).attr("toggle") == "iframe") {
+                    //iframe loader
+                    $("#resPageLoad_loading_icon").show();
+                    // show Loading Div
+                    setTimeout("JResLoader({dom:'#resPageLoad_loading_icon'})", 800);
+                    var url = $(this).attr("href");
+                    var height = $(window).height() - 120;
+                    $("#resPageLoad_area").html('<iframe id="resIframeLoader" style="display:block;width:100%;height:' + height + 'px;border:0;" src="' + url + '" ' + toggleParam + '>');
+                } else {
+                    //ajax loader
+                    if ($(this).attr("toggle") == "ajax") {
+                        var url = $(this).attr("href");
+                    } else {
+                        if ($(this).attr("toggleDom") == "" || $(this).attr("toggleDom") == undefined) {
+                            var url = $(this).attr("href");
+                        } else {
+                            var url = $(this).attr("href") + " " + $(this).attr("toggleDom");
+                        }
+                    }
+                    $("#resPageLoad_area").load(url);
+                }
+                return false;
+            }
+        });
         //});
         //若url有#則使用定位移動函式 (restabJumperState:true使用/false停用, restabJumperSpeed:移動速度)
-        $(function(){
-            if (restabJumperState && window.location.hash) {
-                var targetPosID = $(window.location.hash);
-                var speed = restabJumperSpeed;
-                var paddingAmt = 0;
-                //檢查此頁面是否有此區塊物件ID
-                if ($(targetPosID).length > 0) {
-                    if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
-                        paddingAmt = resMobileNavSetupHeight;
+        $(function() {
+                if (restabJumperState && window.location.hash) {
+                    var targetPosID = $(window.location.hash);
+                    var speed = restabJumperSpeed;
+                    var paddingAmt = 0;
+                    //檢查此頁面是否有此區塊物件ID
+                    if ($(targetPosID).length > 0) {
+                        if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
+                            paddingAmt = resMobileNavSetupHeight;
+                        }
+                        fnTabJumper(targetPosID, speed, paddingAmt);
                     }
-                    fnTabJumper(targetPosID, speed, paddingAmt);
                 }
-            }
-        })
-        //resTabJumper
+            })
+            //resTabJumper
         if (restabJumperState) {
             //$(".resTabJumper").each(function() {
-            $('body').on('click','.resTabJumper',function(){
+            $('body').on('click', '.resTabJumper', function() {
                 //$(this).click(function() {
-                    var targetURL = $(this).attr("href");
-                    if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
-                        var targetPosID = "#" + targetURL.split("#")[1];
-                        var speed = restabJumperSpeed;
-                        var paddingAmt = 0;
-                        //檢查此頁面是否有此區塊物件ID
-                        if ($(targetPosID).length > 0) {
-                            if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
-                                paddingAmt = resMobileNavSetupHeight;
-                            }
-                            fnTabJumper(targetPosID, speed, paddingAmt);
+                var targetURL = $(this).attr("href");
+                if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
+                    var targetPosID = "#" + targetURL.split("#")[1];
+                    var speed = restabJumperSpeed;
+                    var paddingAmt = 0;
+                    //檢查此頁面是否有此區塊物件ID
+                    if ($(targetPosID).length > 0) {
+                        if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
+                            paddingAmt = resMobileNavSetupHeight;
                         }
-                        return false;
-                    } else {
-                        return true;
+                        fnTabJumper(targetPosID, speed, paddingAmt);
                     }
+                    return false;
+                } else {
+                    return true;
+                }
                 //});
             });
 
             //在相對高度的jumper按鈕加入jumperActive class
             var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "scroll"; //FF doesn't recognize mousewheel as of FF3.x
-            $(window).on(mousewheelevt, function(e){
+            $(window).on(mousewheelevt, function(e) {
                 var winScroll = $(this).scrollTop();
                 //將頁面中聯結有含此ID的連結加入active
-                $(".resTabJumper").each(function(){
+                $(".resTabJumper").each(function() {
                     var targetURL = $(this).attr("href");
                     if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
                         var targetPosID = "#" + targetURL.split("#")[1];
                         var tragglePos = $(targetPosID).position().top;
-                        var tragglePosMax = tragglePos+$(targetPosID).height();
-                        if(winScroll >= tragglePos && winScroll < tragglePosMax){
+                        var tragglePosMax = tragglePos + $(targetPosID).height();
+                        if (winScroll >= tragglePos && winScroll < tragglePosMax) {
                             $(this).addClass("jumperActive");
-                        }else{
+                        } else {
                             $(this).removeClass("jumperActive");
                         }
                     }
@@ -873,59 +885,59 @@
         function fnCheckPosition(chkPos, returnVar) {
             //alert(chkPos);
             switch (chkPos) {
-              case "right":
-                position = "flipContentR";
-                direction = "right";
-                break;
+                case "right":
+                    position = "flipContentR";
+                    direction = "right";
+                    break;
 
-              case "top":
-                position = "flipContentT";
-                direction = "top";
-                break;
+                case "top":
+                    position = "flipContentT";
+                    direction = "top";
+                    break;
 
-              case "top_small":
-                position = "flipContentTS";
-                direction = "top_small";
-                break;
+                case "top_small":
+                    position = "flipContentTS";
+                    direction = "top_small";
+                    break;
 
-              case "left_under":
-                position = "flipContentLU";
-                direction = "left_under";
-                break;
+                case "left_under":
+                    position = "flipContentLU";
+                    direction = "left_under";
+                    break;
 
-              case "right_under":
-                position = "flipContentRU";
-                direction = "right_under";
-                break;
+                case "right_under":
+                    position = "flipContentRU";
+                    direction = "right_under";
+                    break;
 
-              case "right_page":
-                position = "resFlipPageR";
-                direction = "right";
-                break;
+                case "right_page":
+                    position = "resFlipPageR";
+                    direction = "right";
+                    break;
 
-              case "left_page":
-                position = "resFlipPageL";
-                direction = "left";
-                break;
+                case "left_page":
+                    position = "resFlipPageL";
+                    direction = "left";
+                    break;
 
-              case "top_page":
-                position = "resFlipPageT";
-                direction = "top";
-                break;
+                case "top_page":
+                    position = "resFlipPageT";
+                    direction = "top";
+                    break;
 
-              default:
-                position = "flipContentL";
-                direction = "left";
-                break;
+                default:
+                    position = "flipContentL";
+                    direction = "left";
+                    break;
             }
             switch (returnVar) {
-              case "position":
-                return position;
-                break;
+                case "position":
+                    return position;
+                    break;
 
-              default:
-                return direction;
-                break;
+                default:
+                    return direction;
+                    break;
             }
         }
         //swap version
@@ -960,49 +972,50 @@
             } else {
                 //網站預設語系
                 switch (res_langVarDefault) {
-                  //繁中
+                    //繁中
                     case "tw":
-                    transStr = fnReturnTranslate(res_langArrayTw, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayTw, str);
+                        break;
 
-                  //簡中
+                        //簡中
                     case "cn":
-                    transStr = fnReturnTranslate(res_langArrayCn, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayCn, str);
+                        break;
 
-                  //外加語系1
+                        //外加語系1
                     case "add1":
-                    transStr = fnReturnTranslate(res_langArrayAdd1, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayAdd1, str);
+                        break;
 
-                  //外加語系2
+                        //外加語系2
                     case "add2":
-                    transStr = fnReturnTranslate(res_langArrayAdd2, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayAdd2, str);
+                        break;
 
-                  //外加語系3
+                        //外加語系3
                     case "add3":
-                    transStr = fnReturnTranslate(res_langArrayAdd3, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayAdd3, str);
+                        break;
 
-                  //外加語系4
+                        //外加語系4
                     case "add4":
-                    transStr = fnReturnTranslate(res_langArrayAdd4, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayAdd4, str);
+                        break;
 
-                  //外加語系5
+                        //外加語系5
                     case "add5":
-                    transStr = fnReturnTranslate(res_langArrayAdd5, str);
-                    break;
+                        transStr = fnReturnTranslate(res_langArrayAdd5, str);
+                        break;
 
-                  //預設值
+                        //預設值
                     default:
-                    transStr = str;
-                    break;
+                        transStr = str;
+                        break;
                 }
             }
             return transStr;
         }
+
         function fnReturnTranslate(transArray, str) {
             var transStr;
             for (var i = 0; i < transArray.length; i++) {
@@ -1013,7 +1026,7 @@
             return transStr;
         }
     };
-    
+
     //取JRes Cookie參數值
     $.JRes_getCookie = function(options) {
         var defaults = {
@@ -1036,78 +1049,76 @@
         for (var i = 0; i < scripts.length; i++) {
             if (scripts[i].src.indexOf("response.min.js") != -1) {
                 returnStr = scripts[i].src
-                                .replace("response.min.js", "")
-                                .replace("js/", "")
-                                .replace("response/", "")
-                                .replace("dist/", "");
+                    .replace("response.min.js", "")
+                    .replace("js/", "")
+                    .replace("response/", "")
+                    .replace("dist/", "");
 
             } else if (scripts[i].src.indexOf("response.beautified.js") != -1) {
                 returnStr = scripts[i].src
-                                .replace("response.beautified.js", "")
-                                .replace("js/", "")
-                                .replace("response/", "")
-                                .replace("dist/", "");
+                    .replace("response.beautified.js", "")
+                    .replace("js/", "")
+                    .replace("response/", "")
+                    .replace("dist/", "");
             }
         }
         return returnStr;
     };
 
     //取得是否為手持設備 (true: 手持設備 false: 非手持設備)
-    $.JRes_isMobile = function(){
+    $.JRes_isMobile = function() {
         if (navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile|Android)/)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     //檢查是否為IE9以下版本 (true: IE9以下 false: 非IE9以下)
-    $.JRes_isLtIE9 = function(){
+    $.JRes_isLtIE9 = function() {
         if (navigator.userAgent.match(/(MSIE 8|MSIE 7|MSIE 6)/)) {
             return true;
-        }else{
+        } else {
             return false;
         }
-    }   
+    }
 
     //取得是否有flash支援 (true: 有支援 false: 非支援)
-    $.JRes_isFlash = function(){
+    $.JRes_isFlash = function() {
         var hasFlash = false;
         try {
-          var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-          if (fo) {
-            hasFlash = true;
-          }
+            var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+            if (fo) {
+                hasFlash = true;
+            }
         } catch (e) {
-          if (navigator.mimeTypes
-                && navigator.mimeTypes['application/x-shockwave-flash'] != undefined
-                && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
-            hasFlash = true;
-          }
+            if (navigator.mimeTypes && navigator.mimeTypes['application/x-shockwave-flash'] != undefined && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
+                hasFlash = true;
+            }
         }
         return hasFlash;
     }
 
     //自動重整 auto refresh mode
     var resRefreshMode = true;
-    $.JRes_autoRefresh = function(options){
+    $.JRes_autoRefresh = function(options) {
         var defaults = {
             state: true,
             ignore: ''
         };
         options = $.extend(defaults, options);
         resRefreshMode = options.state;
-        if (options.ignore != ""){
-            if(options.ignore.indexOf(",") != -1){
+        if (options.ignore != "") {
+            if (options.ignore.indexOf(",") != -1) {
                 var ignorePage = options.ignore.split(",");
-                for (var i=0; i< ignorePage.length; i++){
-                    if (window.location.href.indexOf(ignorePage[i]) != -1){
+                for (var i = 0; i < ignorePage.length; i++) {
+                    if (window.location.href.indexOf(ignorePage[i]) != -1) {
                         resRefreshMode = false;
                     }
                 }
-            }else{
-                if (window.location.href.indexOf(options.ignore) != -1){
-                    resRefreshMode = false;//console.log(resRefreshMode);
+            } else {
+                if (window.location.href.indexOf(options.ignore) != -1) {
+                    resRefreshMode = false; //console.log(resRefreshMode);
                 }
             }
         }
@@ -1130,78 +1141,78 @@
         var animateTime = options.animateTime;
         var animateEasing = options.animateEasing;
         switch (action) {
-          //關閉頁面
+            //關閉頁面
             case "back":
-                if(!$("#resMainWrap").hasClass('resPannelOpen')){
+                if (!$("#resMainWrap").hasClass('resPannelOpen')) {
                     $("html").removeClass("resHtmlOverflow");
                 }
 
                 if ($(id).hasClass("resFlipPageR")) {
                     $(id).animate({
                         right: "-120%"
-                    }, animateTime,animateEasing);
+                    }, animateTime, animateEasing);
                 } else if ($(id).hasClass("resFlipPageT")) {
                     $(id).animate({
                         top: "-120%"
-                    }, animateTime,animateEasing);
+                    }, animateTime, animateEasing);
                 } else {
                     $(id).animate({
                         left: "-120%"
-                    }, animateTime,animateEasing);
+                    }, animateTime, animateEasing);
                 }
                 //關閉時清除url_loader內容
                 $("#resPageLoad_area").html("");
-                $(this).animate({"z-index":-1},animateTime,animateEasing);
-            break;
+                $(this).animate({ "z-index": -1 }, animateTime, animateEasing);
+                break;
 
-            //關閉全部頁面
+                //關閉全部頁面
             case "closeAll":
-                if(!$("#resMainWrap").hasClass('resPannelOpen')){
+                if (!$("#resMainWrap").hasClass('resPannelOpen')) {
                     $("html").removeClass("resHtmlOverflow");
                 }
 
-                $(".resFlipPage").each(function(){
-                    if ($(this).hasClass("resFlipPageR") && ($(this).css("right") == "0px" || $(this).css("right") == "0%")){
-                        $(this).animate({
-                            right: "-120%"
-                        },animateTime,animateEasing);
-                    }else if ($(this).hasClass("resFlipPageT") && ($(this).css("top") == "0px" || $(this).css("top") == "0%")){
-                        $(this).animate({
-                            right: "-120%"
-                        },animateTime,animateEasing);
-                    }else{
-                        $(this).animate({
-                            right: "-120%"
-                        },animateTime,animateEasing);
-                    }
-                })
-                //關閉時清除url_loader內容
+                $(".resFlipPage").each(function() {
+                        if ($(this).hasClass("resFlipPageR") && ($(this).css("right") == "0px" || $(this).css("right") == "0%")) {
+                            $(this).animate({
+                                right: "-120%"
+                            }, animateTime, animateEasing);
+                        } else if ($(this).hasClass("resFlipPageT") && ($(this).css("top") == "0px" || $(this).css("top") == "0%")) {
+                            $(this).animate({
+                                right: "-120%"
+                            }, animateTime, animateEasing);
+                        } else {
+                            $(this).animate({
+                                right: "-120%"
+                            }, animateTime, animateEasing);
+                        }
+                    })
+                    //關閉時清除url_loader內容
                 $("#resPageLoad_area").html("");
-                $(this).animate({"z-index":-1},animateTime,animateEasing);
-            break;
+                $(this).animate({ "z-index": -1 }, animateTime, animateEasing);
+                break;
 
-          //打開頁面
+                //打開頁面
             case "open":
             default:
-                if(!$("#resMainWrap").hasClass('resPannelOpen')){
+                if (!$("#resMainWrap").hasClass('resPannelOpen')) {
                     $("html").addClass("resHtmlOverflow");
                 }
-                
+
                 if ($(id).hasClass("resFlipPageR")) {
                     $(id).animate({
                         right: "0px"
-                    },animateTime,animateEasing);
+                    }, animateTime, animateEasing);
                 } else if ($(id).hasClass("resFlipPageT")) {
                     $(id).animate({
                         top: "0px"
-                    },animateTime,animateEasing);
+                    }, animateTime, animateEasing);
                 } else {
                     $(id).animate({
                         left: "0px"
-                    },animateTime,animateEasing);
+                    }, animateTime, animateEasing);
                 }
-                $(id).css({"z-index":1001});
-            break;
+                $(id).css({ "z-index": 1001 });
+                break;
         }
     };
     //mobile navigation bar
@@ -1227,7 +1238,7 @@
             if ($(this).css("left") == "0px" || $(this).css("left") == "0%") {
                 $(this).animate({
                     left: "-90%"
-                }, animateTime,animateEasing);
+                }, animateTime, animateEasing);
                 $("#mobile_nav ul li a div").remove();
                 $("#mobile_nav_bottom ul li a div").remove();
                 $.JResContentScroll({
@@ -1239,7 +1250,7 @@
             if ($(this).css("right") == "0px" || $(this).css("left") == "0%") {
                 $(this).animate({
                     right: "-90%"
-                }, animateTime,animateEasing);
+                }, animateTime, animateEasing);
                 $("#mobile_nav ul li a div").remove();
                 $("#mobile_nav_bottom ul li a div").remove();
                 $.JResContentScroll({
@@ -1251,7 +1262,7 @@
             if ($(this).css("top") == "0px" || $(this).css("left") == "0%") {
                 $(this).animate({
                     top: "-90%"
-                }, animateTime,animateEasing);
+                }, animateTime, animateEasing);
                 $("#mobile_nav ul li a div").remove();
                 $("#mobile_nav_bottom ul li a div").remove();
                 $.JResContentScroll({
@@ -1263,7 +1274,7 @@
             if ($(this).css("top") == "0px" || $(this).css("left") == "0%") {
                 $(this).animate({
                     top: "-110px"
-                }, animateTime,animateEasing);
+                }, animateTime, animateEasing);
                 $("#mobile_nav ul li a div").remove();
                 $("#mobile_nav_bottom ul li a div").remove();
                 $.JResContentScroll({
@@ -1277,12 +1288,12 @@
                 $("#resContentMask").removeAttr("style").css("left", "0");
                 $(this).animate({
                     left: "-90%"
-                }, animateTime,animateEasing);
+                }, animateTime, animateEasing);
                 $("#resMainWrap").animate({
                     left: "0"
-                }, animateTime,animateEasing, function() {
+                }, animateTime, animateEasing, function() {
                     //$(this).removeAttr("style");
-                    $(this).css("left","");
+                    $(this).css("left", "");
                 });
                 $("#mobile_nav ul li a div").remove();
                 $("#mobile_nav_bottom ul li a div").remove();
@@ -1296,12 +1307,12 @@
                 $("#resContentMask").removeAttr("style").css("right", "0");
                 $(this).animate({
                     right: "-90%"
-                }, animateTime,animateEasing);
+                }, animateTime, animateEasing);
                 $("#resMainWrap").animate({
                     right: "0"
-                }, animateTime,animateEasing, function() {
+                }, animateTime, animateEasing, function() {
                     //$(this).removeAttr("style");
-                    $(this).css("right","");
+                    $(this).css("right", "");
                 });
                 $("#mobile_nav ul li a div").remove();
                 $("#mobile_nav_bottom ul li a div").remove();
@@ -1315,147 +1326,147 @@
             $("#resMainWrap").addClass('resPannelOpen');
             //開啟視窗
             switch (position) {
-              case "right":
-                if ($(contentId).css("right") == "0px" || $(contentId).css("right") == "0%") {
-                    $(contentId).animate({
-                        right: "-90%"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: true
-                    });
-                    $("a div", btnId).remove();
-                } else {
-                    $(contentId).animate({
-                        right: "0px"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: false
-                    });
-                    $("a", btnId).append("<div class='closeRight_btn'><div class='icon'></div></div>");
-                }
-                break;
+                case "right":
+                    if ($(contentId).css("right") == "0px" || $(contentId).css("right") == "0%") {
+                        $(contentId).animate({
+                            right: "-90%"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: true
+                        });
+                        $("a div", btnId).remove();
+                    } else {
+                        $(contentId).animate({
+                            right: "0px"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: false
+                        });
+                        $("a", btnId).append("<div class='closeRight_btn'><div class='icon'></div></div>");
+                    }
+                    break;
 
-              case "top":
-                if ($(contentId).css("top") == "0px" || $(contentId).css("top") == "0%") {
-                    $(contentId).animate({
-                        top: "-90%"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: true
-                    });
-                    $("a div", btnId).remove();
-                } else {
-                    $(contentId).animate({
-                        top: "0px"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: false
-                    });
-                    $("a", btnId).append("<div class='closeTop_btn'><div class='icon'></div></div>");
-                }
-                break;
+                case "top":
+                    if ($(contentId).css("top") == "0px" || $(contentId).css("top") == "0%") {
+                        $(contentId).animate({
+                            top: "-90%"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: true
+                        });
+                        $("a div", btnId).remove();
+                    } else {
+                        $(contentId).animate({
+                            top: "0px"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: false
+                        });
+                        $("a", btnId).append("<div class='closeTop_btn'><div class='icon'></div></div>");
+                    }
+                    break;
 
-              case "top_small":
-                if ($(contentId).css("top") == "0px" || $(contentId).css("top") == "0%") {
-                    $(contentId).animate({
-                        top: "-100px"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: true
-                    });
-                    $("a div", btnId).remove();
-                } else {
-                    $(contentId).animate({
-                        top: "0px"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: false
-                    });
-                    $("a", btnId).append("<div class='closeTop_btn'><div class='icon'></div></div>");
-                }
-                break;
+                case "top_small":
+                    if ($(contentId).css("top") == "0px" || $(contentId).css("top") == "0%") {
+                        $(contentId).animate({
+                            top: "-100px"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: true
+                        });
+                        $("a div", btnId).remove();
+                    } else {
+                        $(contentId).animate({
+                            top: "0px"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: false
+                        });
+                        $("a", btnId).append("<div class='closeTop_btn'><div class='icon'></div></div>");
+                    }
+                    break;
 
-              case "left_under":
-                if ($(contentId).css("left") == "0px" || $(contentId).css("left") == "0%") {
-                    $("#resContentMask").removeAttr("style").css("left", "0");
-                    $(contentId).animate({
-                        left: "-90%"
-                    }, animateTime,animateEasing);
-                    $("#resMainWrap").animate({
-                        left: "0"
-                    }, animateTime,animateEasing, function() {
-                        //$(this).removeAttr("style");
-                        $(this).css("left","");
-                    });
-                    $.JResContentScroll({
-                        action: true
-                    });
-                    $("a div", btnId).remove();
-                } else {
-                    $("#resContentMask").removeAttr("style").css("left", "90%");
-                    $(contentId).animate({
-                        left: "0px"
-                    }, animateTime,animateEasing);
-                    $("#resMainWrap").animate({
-                        left: "90%"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: false
-                    });
-                    $("a", btnId).append("<div class='closeLeft_btn'><div class='icon'></div></div>");
-                }
-                break;
+                case "left_under":
+                    if ($(contentId).css("left") == "0px" || $(contentId).css("left") == "0%") {
+                        $("#resContentMask").removeAttr("style").css("left", "0");
+                        $(contentId).animate({
+                            left: "-90%"
+                        }, animateTime, animateEasing);
+                        $("#resMainWrap").animate({
+                            left: "0"
+                        }, animateTime, animateEasing, function() {
+                            //$(this).removeAttr("style");
+                            $(this).css("left", "");
+                        });
+                        $.JResContentScroll({
+                            action: true
+                        });
+                        $("a div", btnId).remove();
+                    } else {
+                        $("#resContentMask").removeAttr("style").css("left", "90%");
+                        $(contentId).animate({
+                            left: "0px"
+                        }, animateTime, animateEasing);
+                        $("#resMainWrap").animate({
+                            left: "90%"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: false
+                        });
+                        $("a", btnId).append("<div class='closeLeft_btn'><div class='icon'></div></div>");
+                    }
+                    break;
 
-              case "right_under":
-                if ($(contentId).css("right") == "0px" || $(contentId).css("right") == "0%") {
-                    $("#resContentMask").removeAttr("style").css("right", "0");
-                    $(contentId).animate({
-                        right: "-90%"
-                    }, animateTime,animateEasing);
-                    $("#resMainWrap").animate({
-                        right: "0"
-                    }, animateTime,animateEasing, function() {
-                        //$(this).removeAttr("style");
-                        $(this).css("right","");
-                    });
-                    $.JResContentScroll({
-                        action: true
-                    });
-                    $("a div", btnId).remove();
-                } else {
-                    $("#resContentMask").removeAttr("style").css("right", "90%");
-                    $(contentId).animate({
-                        right: "0px"
-                    }, animateTime,animateEasing);
-                    $("#resMainWrap").animate({
-                        right: "90%"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: false
-                    });
-                    $("a", btnId).append("<div class='closeRight_btn'><div class='icon'></div></div>");
-                }
-                break;
+                case "right_under":
+                    if ($(contentId).css("right") == "0px" || $(contentId).css("right") == "0%") {
+                        $("#resContentMask").removeAttr("style").css("right", "0");
+                        $(contentId).animate({
+                            right: "-90%"
+                        }, animateTime, animateEasing);
+                        $("#resMainWrap").animate({
+                            right: "0"
+                        }, animateTime, animateEasing, function() {
+                            //$(this).removeAttr("style");
+                            $(this).css("right", "");
+                        });
+                        $.JResContentScroll({
+                            action: true
+                        });
+                        $("a div", btnId).remove();
+                    } else {
+                        $("#resContentMask").removeAttr("style").css("right", "90%");
+                        $(contentId).animate({
+                            right: "0px"
+                        }, animateTime, animateEasing);
+                        $("#resMainWrap").animate({
+                            right: "90%"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: false
+                        });
+                        $("a", btnId).append("<div class='closeRight_btn'><div class='icon'></div></div>");
+                    }
+                    break;
 
-              default:
-                if ($(contentId).css("left") == "0px" || $(contentId).css("left") == "0%") {
-                    $(contentId).animate({
-                        left: "-90%"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: true
-                    });
-                    $("a div", btnId).remove();
-                } else {
-                    $(contentId).animate({
-                        left: "0px"
-                    }, animateTime,animateEasing);
-                    $.JResContentScroll({
-                        action: false
-                    });
-                    $("a", btnId).append("<div class='closeLeft_btn'><div class='icon'></div></div>");
-                }
-                break;
+                default:
+                    if ($(contentId).css("left") == "0px" || $(contentId).css("left") == "0%") {
+                        $(contentId).animate({
+                            left: "-90%"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: true
+                        });
+                        $("a div", btnId).remove();
+                    } else {
+                        $(contentId).animate({
+                            left: "0px"
+                        }, animateTime, animateEasing);
+                        $.JResContentScroll({
+                            action: false
+                        });
+                        $("a", btnId).append("<div class='closeLeft_btn'><div class='icon'></div></div>");
+                    }
+                    break;
             }
         }
     };
@@ -1469,13 +1480,13 @@
         };
         options = $.extend(defaults, options);
         //console.log(options.dom);
-        switch(options.state) {
+        switch (options.state) {
             case 'show':
                 $(options.dom).fadeIn(options.speed);
-            break;
+                break;
             default:
                 $(options.dom).fadeOut(options.speed);
-            break;
+                break;
         }
     };
 
@@ -1501,29 +1512,29 @@
     };
 
     //loadCSS
-    fnLoadCSS = function(id,href,media) {
-      var cssLink = $("<link>");
-      $("head").append(cssLink); //IE hack: append before setting href
+    fnLoadCSS = function(id, href, media) {
+        var cssLink = $("<link>");
+        $("head").append(cssLink); //IE hack: append before setting href
 
-      cssLink.attr({
-        id: id,
-        rel:  "stylesheet",
-        type: "text/css",
-        href: href,
-        media: media
-      });
+        cssLink.attr({
+            id: id,
+            rel: "stylesheet",
+            type: "text/css",
+            href: href,
+            media: media
+        });
     };
 
     //content scrollerbar
     // scrolltotop plugin
     /***********************************************
-    *外掛: 向上按鈕*
-    * Scroll To Top Control script- c Dynamic Drive DHTML code library (www.dynamicdrive.com)
-    * Modified by www.MyBloggerTricks.com
-    * Modified by www.scrolltotop.com
-    * This notice MUST stay intact for legal use
-    * Visit Project Page at http://www.dynamicdrive.com for full source code
-    ***********************************************/
+     *外掛: 向上按鈕*
+     * Scroll To Top Control script- c Dynamic Drive DHTML code library (www.dynamicdrive.com)
+     * Modified by www.MyBloggerTricks.com
+     * Modified by www.scrolltotop.com
+     * This notice MUST stay intact for legal use
+     * Visit Project Page at http://www.dynamicdrive.com for full source code
+     ***********************************************/
     var resScrolltotop = {
         //startline: Integer. Number of pixels from top of doc scrollbar is scrolled before showing control
         //scrollto: Keyword (Integer, or "Scroll_to_Element_ID"). How far to scroll document up when control is clicked on (0=top).
@@ -1531,7 +1542,7 @@
             startline: 100,
             scrollto: 0,
             scrollduration: 1e3,
-            fadeduration: [ 500, 100 ]
+            fadeduration: [500, 100]
         },
         controlHTML: "",
         //HTML for control, which is auto wrapped in DIV w/ ID="topcontrol"
@@ -1548,13 +1559,14 @@
         },
         scrollup: function() {
             if (!this.cssfixedsupport) //if control is positioned using JavaScript
-            this.$control.css({
+                this.$control.css({
                 opacity: 0
             });
             //hide control immediately after clicking it
             var dest = isNaN(this.setting.scrollto) ? this.setting.scrollto : parseInt(this.setting.scrollto);
             if (typeof dest == "string" && $("#" + dest).length == 1) //check element set by string exists
-            dest = $("#" + dest).offset().top; else dest = 0;
+                dest = $("#" + dest).offset().top;
+            else dest = 0;
             this.$body.animate({
                 scrollTop: dest
             }, this.setting.scrollduration);
@@ -1605,7 +1617,7 @@
                     return false;
                 }).appendTo("#resMainWrap");
                 if (document.all && !window.XMLHttpRequest && mainobj.$control.text() != "") //loose check for IE6 and below, plus whether control contains any text
-                mainobj.$control.css({
+                    mainobj.$control.css({
                     width: mainobj.$control.width()
                 });
                 //IE6- seems to require an explicit width on a DIV containing text
@@ -1620,7 +1632,7 @@
             });
         }
     };
-    
+
     // scrolltotop plugin
     //Jres 螢幕尺寸變換同步功能
     //orientationchange reload
@@ -1631,7 +1643,7 @@
     if ($.JRes_getCookie() == "true" || $.JRes_getCookie() == null || $.JRes_getCookie() == "") {
         $(window).resize(function() {
 
-                
+
             if (resRefreshMode) {
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile|Android)/)) {
                     if (!resPrintActive) {
@@ -1641,11 +1653,11 @@
                         if (screenfull.enabled) {
                             if (screenfull.isFullscreen) {
                                 resFullscreen = screenfull.isFullscreen;
-                            }else{
+                            } else {
                                 window.setTimeout(function() {
                                     resFullscreen = screenfull.isFullscreen;
                                 }, 100);
-                            } 
+                            }
                         }
 
                         //if is not full screen then reload the page
@@ -1655,20 +1667,20 @@
                                 window.location.href = window.location.href;
                             } else {
                                 //IE 9以下不進行重整
-                                if (!$.JRes_isLtIE9()){
+                                if (!$.JRes_isLtIE9()) {
                                     //console.log($.JRes_isLtIE9());
-                                    if (navigator.userAgent.match(/(IE 9|IE 10)/)){
+                                    if (navigator.userAgent.match(/(IE 9|IE 10)/)) {
                                         //IE 9 或 IE 10 則只在瀏覽器不等於螢幕寬的時候重整
                                         if ($(window).width() != window.innerWidth) {
                                             location.reload();
                                         }
-                                    }else{
+                                    } else {
                                         location.reload();
                                     }
                                 }
                             }
                         }
-                        
+
                     }
                 }
             }
@@ -1687,15 +1699,15 @@
     }
 
     //save form data
-    function resFnSaveForm(){
+    function resFnSaveForm() {
         //清掉原本存取的session
         sessionStorage.clear();
 
         //把form值暫存起來
-        $("input,select,textarea").each(function(){
+        $("input,select,textarea").each(function() {
             if ($(this).attr('type') == "hidden" || $(this).attr('type') == "submit" || $(this).attr('type') == "reset") {
                 //如果input為hidden,submit,reset則不進行存取
-            }else{
+            } else {
                 if ($(this).attr('name') != undefined) {
                     sessionStorage.setItem($(this).attr("name"), $(this).val());
                 }
@@ -1704,12 +1716,12 @@
     }
 
     //read form data
-    function resFnReadForm(){
+    function resFnReadForm() {
         //把form值讀取出來
-        $("input,select,textarea").each(function(){
+        $("input,select,textarea").each(function() {
             var value = sessionStorage.getItem($(this).attr("name"));
 
-            if($(this).val() == "" && $(this).val() != value){
+            if ($(this).val() == "" && $(this).val() != value) {
                 if (value !== null) $(this).val(value);
             }
 
@@ -1745,8 +1757,8 @@
     $(window).on("load", function() {
 
         //處理resTable
-        $(".resTable td").each(function(){
-            if ($(this).html() == "&nbsp;" || $(this).html() == "" || $(this).html() == " "){
+        $(".resTable td").each(function() {
+            if ($(this).html() == "&nbsp;" || $(this).html() == "" || $(this).html() == " ") {
                 $(this).addClass("resEmptyCol");
             }
         })
@@ -1754,25 +1766,25 @@
         /*resSplit*/
         $('.resRow').each(function() {
             //切割寬度並在W:736以上使用)
-            if($(window).width() >= 736 ) {
+            if ($(window).width() >= 736) {
                 if ($(this).hasClass("res-slice-h")) {
                     var getTotalSlice = 0;
 
-                    $(">[class*='resCol']",this).each(function(){
-                        if($(this).attr('res-slice-h') != undefined) {
+                    $(">[class*='resCol']", this).each(function() {
+                        if ($(this).attr('res-slice-h') != undefined) {
                             getTotalSlice += parseInt($(this).attr('res-slice-h'));
-                        }else{
+                        } else {
                             getTotalSlice += 1; //預設加一
                         }
                     })
 
-                    var setSliceRatio = 100/parseInt(getTotalSlice);
+                    var setSliceRatio = 100 / parseInt(getTotalSlice);
 
-                    $(">[class*='resCol']",this).each(function(){
-                        if($(this).attr('res-slice-h') != undefined) {
+                    $(">[class*='resCol']", this).each(function() {
+                        if ($(this).attr('res-slice-h') != undefined) {
                             var getCurrentRatio = parseInt($(this).attr('res-slice-h'));
-                            $(this).width((getCurrentRatio*setSliceRatio) + '%');
-                        }else{
+                            $(this).width((getCurrentRatio * setSliceRatio) + '%');
+                        } else {
                             $(this).width(setSliceRatio + '%');
                         }
                     })
@@ -1780,36 +1792,37 @@
             }
 
             /* 切割高度並在W:570以上進行高度同步 */
-            if($(window).width() >= 570 ) {
-                if ($(this).hasClass("res-slice-v")){
+            if ($(window).width() >= 570) {
+                if ($(this).hasClass("res-slice-v")) {
                     var getTotalSlice = 0;
                     $(this).height($(this).height());
 
-                    $(">[class*='resCol']",this).each(function(){
-                        if($(this).attr('res-slice-v') != undefined) {
+                    $(">[class*='resCol']", this).each(function() {
+                        if ($(this).attr('res-slice-v') != undefined) {
                             getTotalSlice += parseInt($(this).attr('res-slice-v'));
-                        }else{
+                        } else {
                             getTotalSlice += 1; //預設加一
                         }
                     })
 
-                    var setSliceRatio = 100/parseInt(getTotalSlice);
+                    var setSliceRatio = 100 / parseInt(getTotalSlice);
 
-                    $(">[class*='resCol']",this).each(function(){
-                        if($(this).attr('res-slice-v') != undefined) {
+                    $(">[class*='resCol']", this).each(function() {
+                        if ($(this).attr('res-slice-v') != undefined) {
                             var getCurrentRatio = parseInt($(this).attr('res-slice-v'));
-                            $(this).height((getCurrentRatio*setSliceRatio) + '%');
-                        }else{
+                            $(this).height((getCurrentRatio * setSliceRatio) + '%');
+                        } else {
                             $(this).height(setSliceRatio + '%');
                         }
                     })
                 }
 
-                
-                if ($(this).hasClass("resEven")){
+
+                if ($(this).hasClass("resEven")) {
                     var rowHeight = $(this).height();
-                    var maxHeight = Math.max.apply(null, $(">[class*='resCol']",this).map(function(){return $(this).height();}).get());
-                    $(">[class*='resCol']",this).height(Math.max(maxHeight,rowHeight));
+                    var maxHeight = Math.max.apply(null, $(">[class*='resCol']", this).map(function() {
+                        return $(this).height(); }).get());
+                    $(">[class*='resCol']", this).height(Math.max(maxHeight, rowHeight));
                 }
             }
         })
@@ -1818,7 +1831,8 @@
         /*$('.resRow [class*="resCol"]').each(function() {
             $resColW = $(this).width();
             //console.log("width:"+$resColW);
-            $("img", this).each(function() {
+            $("img
+", this).each(function() {
                 if (!$(this).hasClass("resIgnoreImgReSizer")) {
                     $(this).css("width", "auto");
                     //偵測尺寸前先還原圖片尺寸
@@ -1842,16 +1856,16 @@
                 }
             });
         });*/
-        
+
         //把form值讀取出來
         //resFnReadForm();
-        
+
     });
 
-    
-    $(document).ready(function(){
+
+    $(document).ready(function() {
         //取消a在IE中的focus
-        $("a").focus(function(){$(this).blur()})
+        $("a").focus(function() { $(this).blur() })
     })
 
     // Before refreshing the page, save the form data to sessionStorage

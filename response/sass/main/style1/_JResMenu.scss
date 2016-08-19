@@ -2,59 +2,83 @@
 
 .resMenu {
     ul {
-        margin: 5px;
+        margin: 0;
         padding: 0;
-            list-style: none;
-            list-style-image: none;
-            list-style-type: none;
+        list-style: none;
+        list-style-image: none;
+        list-style-type: none;
         li {
             list-style: none;
-            margin: 7px 5px;
+            margin: 0;
             list-style: none;
             list-style-image: none;
             list-style-type: none;
             a {
                 display:block;
-                color: #333;
+                color: $resMenu-btn-color;
+                background-color: $resMenu-btn-bg-color;
+                background-image: $resMenu-btn-bg-image;
+                font-size: $resMenu-btn-text-size;
+                background-position: right 3px top 3px;
+                background-repeat: no-repeat;
+                background-size:auto 85%;
                 text-decoration: none;
-                font-size: 15px;
-                font-weight: bold;
                 margin-bottom:1px;
+                padding:$resMenu-btn-padding;
                 &.hasChild{
-                    padding:5px 5px 5px 30px;
-                    background:#ccc url("../img/response/style1/EnlargePlus_btn.png") left top no-repeat;
-                    background-size:auto 100%;
-                    color:#000;
+                    padding:$resMenu-btn-child-padding;
+                    background-color: $resMenu-btn-child-bg-color;
+                    background-image: $resMenu-btn-child-bg-image;
+                    color: $resMenu-btn-child-color;
+                    background-position: right 3px top 3px;
+                    background-repeat: no-repeat;
+                    background-size:auto 85%;
                 }
             }
             ul {
                 display: none;
-                li {
-                    a {
-                        font-weight: normal;
-                    }
-                    ul {
-                        li {
-                            margin: 10px 5px;
-                            a {
-                                font-size: 13px;
-                                text-decoration: underline;
+                padding-left:$resMenu-btn-level-padding;
+                background:$resMenu-btn-level1-bg;
+                li ul{
+                    background:$resMenu-btn-level2-bg;
+                    li ul{
+                        background:$resMenu-btn-level3-bg;
+                        li ul{
+                            background:$resMenu-btn-level4-bg;
+                            li ul{
+                                background:$resMenu-btn-level5-bg;
                             }
                         }
                     }
                 }
             }
+            
             &.active {
                 >ul {
                     display: block;
-                    >li.active{
+                }
+            }
+
+            &.active, &:hover {
+                >ul {
+                    >li.active, >li:hover{
                         >a{
-                           color:#B7151C; 
+                            color:$resMenu-btn-color-active;
+                            background-color: $resMenu-btn-bg-color-active;
+                            &.hasChild{
+                                background-color: $resMenu-btn-child-bg-color-active;
+                                color: $resMenu-btn-child-color-active;
+                            }
                         }
                     }
                 }
                 >a{
-                    color:#B7151C;
+                    color:$resMenu-btn-color-active;
+                    background-color: $resMenu-btn-bg-color;
+                    &.hasChild{
+                        background-color: $resMenu-btn-child-bg-color-active;
+                        color: $resMenu-btn-child-color-active;
+                    }
                 }
             }
         }
@@ -76,7 +100,7 @@
             position: relative;
             display: inline-block;
             flex: 1;
-            margin: 1px;
+            margin: $resMenu2-btn-margin;
             padding: 0;
             list-style: none;
             list-style-image: none;
@@ -84,27 +108,35 @@
             float: left;
             a {
                 display: block;
-                padding: 10px 5%;
+                padding: $resMenu2-btn-padding;
                 margin: 0;
-                width: 90%;
+                /* width: 90%; */
                 height: auto;
-                float: left;
+                /* float: left; */
                 text-decoration: none;
-                color: #000;
+                color: $resMenu2-btn-color;
                 text-align: center;
-                font-size: 15px;
-                background: #eee;
-                @include transition("background 0.5s");
+                font-size: $resMenu2-btn-text-size;
+                background-color: $resMenu2-btn-bg-color;
+                background-image: $resMenu2-btn-bg-image;
+                background-position: right 3px top 3px;
+                background-repeat: no-repeat;
+                background-size:auto 85%;
+                @include transition("all 0.5s");
                 &.hasChild{
-                    background:#ccc url("../img/response/style1/EnlargePlus_btn.png") right center no-repeat;
-                    background-size:auto 100%;
+                    padding:$resMenu2-btn-child-padding;
+                    background-color: $resMenu2-btn-child-bg-color;
+                    background-image: $resMenu2-btn-child-bg-image;
+                    color: $resMenu2-btn-child-color;
                 }
                 &:hover {
-                    color: #fff;
-                    background: #666564;
+                    color: $resMenu2-btn-color-active;
+                    background-color: $resMenu2-btn-bg-color-active;
+                    background-image: $resMenu2-btn-bg-image-active;
                     &.hasChild{
-                        background:#666564 url("../img/response/style1/EnlargePlus_btn.png") right center no-repeat;
-                        background-size:auto 100%;
+                        color: $resMenu2-btn-child-color-active;
+                        background-color: $resMenu2-btn-child-bg-color-active;
+                        background-image: $resMenu2-btn-child-bg-image-active;
                     }
                 }
             }
@@ -112,22 +144,26 @@
             &.active {
                 >ul {
                     >li.active{
-                        >a{
-                           color: #fff;
-                           background: #666564;
+                        >a,>a:hover{
+                            color: $resMenu2-btn-level1-color-active;
+                            background-color: $resMenu2-btn-level1-bg-color-active;
+                            background-image: $resMenu2-btn-level1-bg-image-active;
                             &.hasChild{
-                                background:#666564 url("../img/response/style1/EnlargePlus_btn.png") right center no-repeat;
-                                background-size:auto 100%;
+                                color: $resMenu2-btn-level1-color-child-active;
+                                background-color: $resMenu2-btn-level1-bg-color-child-active;
+                                background-image: $resMenu2-btn-level1-bg-image-child-active;
                             }
                         }
                     }
                 }
-                >a {
-                    color: #fff;
-                    background: #666564;
+                >a,>a:hover {
+                    color: $resMenu2-btn-color-active;
+                    background-color: $resMenu2-btn-bg-color-active;
+                    background-image: $resMenu2-btn-bg-image-active;
                     &.hasChild{
-                        background:#666564 url("../img/response/style1/EnlargePlus_btn.png") right center no-repeat;
-                        background-size:auto 100%;
+                        color: $resMenu2-btn-child-color-active;
+                        background-color: $resMenu2-btn-child-bg-color-active;
+                        background-image: $resMenu2-btn-child-bg-image-active;
                     }
                 }
             }
@@ -140,17 +176,29 @@
                 li {
                     width:100%;
                     margin: 0;
-                    border-bottom:1px solid #fff;
+                    border-bottom:$resMenu2-btn-child-border-bottom;
                     a {
-                        width: 90%;
-                        background: #eee;
+                        /* width: 90%; */
+                        color: $resMenu2-btn-level1-color;
+                        background-color: $resMenu2-btn-level1-bg-color;
+                        background-image: $resMenu2-btn-level1-bg-image;
+                        
                         &:hover {
-                            background: #666564;
+                            color: $resMenu2-btn-level1-color-active;
+                            background-color: $resMenu2-btn-level1-bg-color-active;
+                            background-image: $resMenu2-btn-level1-bg-image-active;
+
+                            &.hasChild {
+                                color: $resMenu2-btn-level1-color-child;
+                                background-color: $resMenu2-btn-level1-bg-color-child;
+                                background-image: $resMenu2-btn-level1-bg-image-child;
+                            }
                         }
-                    }
-                    &.active {
-                        a {
-                            background: #666564;
+
+                        &.hasChild {
+                            color: $resMenu2-btn-level1-color-child;
+                            background-color: $resMenu2-btn-level1-bg-color-child;
+                            background-image: $resMenu2-btn-level1-bg-image-child;
                         }
                     }
                     ul {

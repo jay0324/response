@@ -16,19 +16,18 @@
             display: block;
             width: auto;
             padding: 5px 30px;
-            background: #E8E8E8;
-            color: #333;
-            font-size: 16px;
+            background: $tabsBtn-bg;
+            color: $tabsBtn-color;
+            font-size: $tabsBtn-text-size;
+            border: $tabsBtn-border;
             text-decoration: none;
-            border: 1px solid #CCCCCC;
-            @include transition(background 0.5s,
-            color 0.5s);
-            @include border-radius(2px 15px 0 0);
+            @include transition(all 0.5s);
+            @include border-radius($tabsBtn-border-radius);
             &:hover,
             &.active {
-                color: #333;
-                background: #fff;
-                border-bottom: 1px solid #fff;
+                color: $tabsBtn-color-active;
+                background: $tabsBtn-bg-active;
+                border: $tabsBtn-border-active;
             }
         }
     }
@@ -39,7 +38,7 @@
     margin: 10px 0;
     padding: 10px;
     clear: both;
-    border: 1px solid #CCCCCC;
+    border: $tabsContent-border;
     min-height: 200px;
     top: -1px;
     position: relative;
@@ -51,6 +50,7 @@
         list-style: none;
         padding: 0;
         margin: 0;
+        overflow: $tabsContent-overflow;
     }
 }
 
