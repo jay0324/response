@@ -42,7 +42,6 @@ gulp.task('uglify', function(end) {
       }))
       .pipe(insert.prepend(insertString))
       .pipe(gulp.dest(''));
-
 });
 
 //build sass/minify
@@ -56,7 +55,6 @@ gulp.task('sass', function(end) {
       .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
       .pipe(insert.prepend(insertString))
       .pipe(gulp.dest('css/'));
-
 });
 
 //build for dist
