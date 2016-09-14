@@ -823,7 +823,8 @@
                 if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
                     var targetPosID = "#" + targetURL.split("#")[1];
                     var speed = restabJumperSpeed;
-                    var paddingAmt = 0;
+                    var paddingAmt = ($(this).attr("toggle-offset") != undefined)?parseInt($(this).attr("toggle-offset")):0;
+
                     //檢查此頁面是否有此區塊物件ID
                     if ($(targetPosID).length > 0) {
                         if (resMenuState === true && resMenuType === "fixed" && $(window).width() <= setUILoadWidth) {
@@ -847,8 +848,10 @@
                     var targetURL = $(this).attr("href");
                     if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
                         var targetPosID = "#" + targetURL.split("#")[1];
-                        var tragglePos = $(targetPosID).position().top;
-                        var tragglePosMax = tragglePos + $(targetPosID).height();
+                        var paddingAmt = ($(this).attr("toggle-offset") != undefined)?(parseInt($(this).attr("toggle-offset"))):0;
+                        var tragglePos = parseInt($(targetPosID).position().top) - paddingAmt;
+                        //console.log("target:"+tragglePos+":padding:"+paddingAmt+":original:"+$(targetPosID).position().top);
+                        var tragglePosMax = tragglePos + $(targetPosID).height() - paddingAmt;
                         if (winScroll >= tragglePos && winScroll < tragglePosMax) {
                             $(this).addClass("jumperActive");
                         } else {
