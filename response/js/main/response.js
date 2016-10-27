@@ -12,7 +12,7 @@
             printMediaSetupMode: false,
             mobileSwitch: "body",
             viewPortSetup: "width=device-width, height=device-height, initial-scale=1.0, user-scalable=0",
-            viewPortSetupResOff: "width=1024, initial-scale=1.0, user-scalable=1",
+            viewPortSetupResOff: "width=1024, initial-scale=0, user-scalable=1",
             res_langVarDefault: "",
             res_langVarEn: "",
             res_langVarTw: "/tw/",
@@ -658,7 +658,7 @@
             } else {
                 //切換為桌面版
                 $("meta[name='viewport']").attr("content", viewPortSetupResOff);
-                $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> | <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
+                $(mobileSwitch).append('<div id="resSwapDesk" class="swap_btn_desktop_wrap" ' + responsiveSwitch + '><div class="swap_btn_desktop"><span>' + fnTranslate("desktop") + '</span> <a id="swap_btn" href="#">' + fnTranslate("mobile") + "</a></div></div>");
             }
         }
         //--add print media style sheet --

@@ -48,11 +48,10 @@ gulp.task('uglify', function(end) {
 gulp.task('sass', function(end) {
   setTimeout(function() {end(); }, 1200); //make sure the process end
 
+  //outputStyle: nested, expanded, compact, compressed
   gulp.src('sass/*.scss')
-      .pipe(rename({
-        prefix:'response.'
-      }))
-      .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+      .pipe(rename({basename:'response'}))
+      .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
       .pipe(insert.prepend(insertString))
       .pipe(gulp.dest('css/'));
 });
@@ -62,7 +61,7 @@ gulp.task('dist', function(end) {
   setTimeout(function() {end(); }, 1000); //make sure the process end
 
   //rebuild the css with image inline
-  gulp.src('css/response.*.css')
+  gulp.src('css/*.css')
       .pipe(cssBase64({
         baseDir: "",
         //maxWeightResource: 100,
@@ -71,6 +70,7 @@ gulp.task('dist', function(end) {
       .pipe(rename({
         suffix: '.min'
       }))
+      .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
       .pipe(gulp.dest('./dist/response'));
 
   //rebuild the response.js
@@ -81,4 +81,9 @@ gulp.task('dist', function(end) {
       }))
       .pipe(insert.prepend(insertString))
       .pipe(gulp.dest('./dist/response'));
+
+  //put fonts to dist
+  gulp.src('fonts/*')
+    .pipe(gulp.dest('./dist/response/fonts/'));
+    
 });

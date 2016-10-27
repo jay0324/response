@@ -156,7 +156,7 @@
                         }
                         if (doUsed) {
                             $(this).each(function() {
-                                $(this).addClass("resPopupBox");
+                                $(this).addClass("resPopupBox").wrap('<div class="resPopupModeObj">');
                                 $(this).attr("source",options.extraSource);
                             })
                         }
@@ -230,12 +230,31 @@
                         type:'img',
                         action:'open'
                     });
-                }).on('click','.resPopupBoxCloseBtn, .resPopupBoxWrap',function(){
+                }).on('click','.resPopupBoxCloseBtn',function(){
                     $(this).JResPopupBox({
                         action:'close'
                     });
-                })
-                
+                }).on('click','.resPopupBoxMinusBtn',function(){
+                    $(this).JResPopupBox({
+                        action:'dis'
+                    });
+                }).on('click','.resPopupBoxPlusBtn',function(){
+                    $(this).JResPopupBox({
+                        action:'plus'
+                    });
+                }).on('mousewheel','.resPopupTargetImg',function(e){
+                    if(e.originalEvent.wheelDelta /120 > 0) {
+                        $(this).JResPopupBox({
+                            action:'plus'
+                        });
+                        //console.log('scrolling up !');
+                    }else{
+                        $(this).JResPopupBox({
+                            action:'dis'
+                        });
+                        //console.log('scrolling down !');
+                    }
+                })   
 
         //計算兩點間距離
         function fnGetDistance(x1,x2,y1,y2){
@@ -250,17 +269,17 @@
 
         //檢查圖片尺寸
         function fnCheckFormat(searchStr){
-                                        if (searchStr.indexOf('.jpg') != -1) {
-                                            checkFormat = true;
-                                        }else if (searchStr.indexOf('.jpeg') != -1) {
-                                            checkFormat = true;
-                                        }else if (searchStr.indexOf('.gif') != -1) {
-                                            checkFormat = true;
-                                        }else if (searchStr.indexOf('.png') != -1) {
-                                            checkFormat = true;
-                                        }else{
-                                            checkFormat = false;
-                                        }
+            if (searchStr.indexOf('.jpg') != -1) {
+                checkFormat = true;
+            }else if (searchStr.indexOf('.jpeg') != -1) {
+                checkFormat = true;
+            }else if (searchStr.indexOf('.gif') != -1) {
+                checkFormat = true;
+            }else if (searchStr.indexOf('.png') != -1) {
+                checkFormat = true;
+            }else{
+                checkFormat = false;
+            }
             return checkFormat;
         }
     };
@@ -349,83 +368,106 @@
     $.fn.JResPopupBox = function(options) {
         var defaults = {
             type: 'img',
-            action: 'open'
+            action: 'open',
+            scalePx: 20
         };
         options = $.extend(defaults, options);
         var obj = $(this);
         var type = options.type;
         var action = options.action;
+        var scalePx = options.scalePx;
         var content = "";
         var setStyle = 'style="width:auto;height:auto;"';
 
         //effect
-        if (action == "open"){
-            //建立pupup up物件
-            var popupBox = '<div class="resPopupBoxContent">'+
-                                '<div class="resPopupBoxCloseBtn"></div>'+
-                                '<div class="resPopupBoxContentArea">'+
-                                '</div>'+
-                            '</div>';
-            //將popup物件寫入
-            $(".resPopupBoxWrap").html(popupBox);
+        switch (action) {
+          //打開視窗
+            case "open":
+                //建立pupup up物件
+                var popupBox = '<div class="resPopupBoxContent">'+
+                                    '<div class="resPopupBoxControl">'+
+                                        '<div class="resPopupBoxCloseBtn resPopupBoxBtnGroup"></div>'+
+                                        '<div class="resPopupBoxMinusBtn resPopupBoxBtnGroup"></div>'+
+                                        '<div class="resPopupBoxPlusBtn resPopupBoxBtnGroup"></div>'+
+                                    '</div>'+
+                                    '<div class="resPopupBoxContentArea"></div>'+
+                                '</div>';
+                //將popup物件寫入
+                $(".resPopupBoxWrap").html(popupBox);
 
-            //判斷要開啟的物件
-            switch(type){
-                case "img":
-                default:
-                    var defaultW,defaultH;
-                    var imgW,imgH;
-                    var source = $(this).attr("source"); //先取得我們要放大的圖
-                    $('body').append('<img class="resTmpImgObj" src="'+source+'" />'); //建立放大物件已取得尺寸
-                    $(".resTmpImgObj").one('load', function() {
-                        defaultW = $(this).css('width');
-                        defaultH = $(this).css('height');
-                        $(this).css({width: "auto",height: "auto"}); //先還原圖片
-                        imgW = $(this).width(); 
-                        imgH = $(this).height(); 
-                        $(this).css({width: defaultW,height: defaultH});//在復原原設定
+                //判斷要開啟的物件
+                switch(type){
+                    case "img":
+                    default:
+                        var defaultW,defaultH;
+                        var imgW,imgH;
+                        var source = $(this).attr("source"); //先取得我們要放大的圖
 
-                        //console.log('W:'+imgW+', H:'+imgH+' WinW:'+$(window).width()+' WinH:'+$(window).height());
+                        $('body').append('<img class="resTmpImgObj" src="'+source+'" />'); //建立放大物件已取得尺寸
+                        $(".resTmpImgObj").one('load', function() {
+                            defaultW = $(this).css('width');
+                            defaultH = $(this).css('height');
+                            $(this).css({width: "auto",height: "auto"}); //先還原圖片
+                            imgW = $(this).width(); 
+                            imgH = $(this).height(); 
+                            $(this).css({width: defaultW, height: defaultH});//在復原原設定
 
-                         if (imgH > imgW){
-                            //如果圖片是直的
-                            if (imgH > $(window).height()) {
-                                setStyle = 'style="width:auto;height:'+($(window).height()-100)+'px;"';
-                            }
-                         }else{
-                            //如果圖片是橫的或方的
-                            if (imgW > $(window).width()) {
-                                setStyle = 'style="width:'+($(window).width()-100)+'px;height:auto;"';
-                            }else if (imgH > $(window).height()) {
-                                setStyle = 'style="width:auto;height:'+($(window).height()-100)+'px;"';
-                            }
-                         }
-                            
-                         content = '<img src="'+source+'" '+setStyle+' />';
+                            //console.log('W:'+imgW+', H:'+imgH+' WinW:'+$(window).width()+' WinH:'+$(window).height());
 
-                         $(this).remove(); //取得尺寸後移除
-                         $(".resPopupBoxContentArea").append(content); //將內容寫入
+                             if (imgH > imgW){
+                                //如果圖片是直的
+                                if (imgH > $(window).height()) {
+                                    setStyle = 'style="width:auto;height:'+($(window).height()-100)+'px;"';
+                                }
+                             }else{
+                                //如果圖片是橫的或方的
+                                if (imgW >= $(window).width()) {
+                                    setStyle = 'style="width:'+($(window).width()-100)+'px;height:auto;"';
+                                }else if (imgH >= $(window).height()) {
+                                    setStyle = 'style="width:auto;height:'+($(window).height()-100)+'px;"';
+                                }
+                             }
+                                
+                             content = '<img src="'+source+'" class="resPopupTargetImg" '+setStyle+' />';
 
-                    }).each(function(){
-                      if(this.complete) {
-                        $(this).trigger('load');
-                      }
-                    });
-                    
-                break;
-            }
+                             $(this).remove(); //取得尺寸後移除
+                             $(".resPopupBoxContentArea").append(content); //將內容寫入
 
-            $(".resPopupBoxWrap").fadeIn(500); 
-            if(!$("#resMainWrap").hasClass('resPannelOpen')){
-                $("html").addClass("resHtmlOverflow");
-            }
+                        }).each(function(){
+                          if(this.complete) {
+                            $(this).trigger('load');
+                          }
+                        });
+                        
+                    break;
+                }
+
+                $(".resPopupBoxWrap").fadeIn(500); 
+                if(!$("#resMainWrap").hasClass('resPannelOpen')){
+                    $("html").addClass("resHtmlOverflow");
+                }
             
-        }else{
-            $(".resPopupBoxWrap").fadeOut(500);
-            if(!$("#resMainWrap").hasClass('resPannelOpen')){
-                $("html").removeClass("resHtmlOverflow");
-            }
+            break;
+
+          //關閉視窗
+            case "close":
+                $(".resPopupBoxWrap").fadeOut(500);
+                if(!$("#resMainWrap").hasClass('resPannelOpen')){
+                    $("html").removeClass("resHtmlOverflow");
+                }
+            break;
+
+          //放大
+            case "plus":
+                $(".resPopupTargetImg").attr("style", "width:" + ($(".resPopupTargetImg").width() + scalePx) + "px !important");
+            break;
+
+          //縮小
+            case "dis":
+                $(".resPopupTargetImg").attr("style", "width:" + ($(".resPopupTargetImg").width() - scalePx) + "px !important");
+            break;
         }
+
     }
 
 }(jQuery, document, window));
