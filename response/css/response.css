@@ -1,4 +1,4 @@
-/* Date:2016/10/27 | JResponsive.js | (c) 2014 Digishot | Jay Hsu | license:ISC */
+/* Date:2016/11/3 | JResponsive.js | (c) 2014 Digishot | Jay Hsu | license:ISC */
 @charset "UTF-8";
 /* 預設響應式設定 */
 /* 
@@ -114,6 +114,7 @@ RES SETUP MODULES
 
 html, body {
   font-family: 'Open Sans', sans-serif, '微軟雅黑體', '微軟正黑體';
+  word-break: break-all;
 }
 
 @font-face {
@@ -314,7 +315,7 @@ img {
   display: block;
   left: 0;
   width: 100%;
-  background: url("../img/response/default/mobile_nav_bg.png") top left repeat-x;
+  background: #000;
   background-size: 100% 100%;
   z-index: 1;
 }
@@ -334,22 +335,66 @@ img {
 
 .resPageController > .resAddPageBackIcon {
   position: absolute;
-  background: url("../img/response/default/closeLeft_btn.png") top left repeat-x;
-  background-size: 100% 100%;
   left: 0;
   top: 0;
   z-index: 1;
   cursor: pointer;
 }
 
+.resPageController > .resAddPageBackIcon .icon {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.resPageController > .resAddPageBackIcon .icon::before {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  line-height: 50px;
+  content: "";
+  color: #fff;
+  font-size: 26px;
+}
+
 .resPageController > .resAddPageNextIcon {
   position: absolute;
-  background: url("../img/response/default/closeRight_btn.png") top left repeat-x;
-  background-size: 100% 100%;
   right: 0;
   top: 0;
   z-index: 1;
   cursor: pointer;
+}
+
+.resPageController > .resAddPageNextIcon .icon {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.resPageController > .resAddPageNextIcon .icon::before {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  line-height: 50px;
+  content: "";
+  color: #fff;
+  font-size: 26px;
 }
 
 .resPageControllerBottom {
@@ -357,10 +402,32 @@ img {
 }
 
 .resPageControllerBottom > #closeAllresFlipPage {
-  background: url("../img/response/default/home_btn.png") top left repeat-x;
-  background-size: 100% 100%;
   cursor: pointer;
   margin: 0 auto;
+}
+
+.resPageControllerBottom > #closeAllresFlipPage .icon {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.resPageControllerBottom > #closeAllresFlipPage .icon::before {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  line-height: 50px;
+  content: "\e900";
+  color: #fff;
+  font-size: 26px;
 }
 
 .resAddPageContent {
@@ -470,12 +537,12 @@ img {
   background: #000;
   color: #fff;
   font-size: 20px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 5%;
+  -khtml-border-radius: 5%;
+  -moz-border-radius: 5%;
+  -ms-border-radius: 5%;
+  -o-border-radius: 5%;
+  border-radius: 5%;
 }
 
 #topcontrol::before {
@@ -852,19 +919,19 @@ img {
   .flipContent .menuList div ul li ul li ul li ul li a.hasChild, .flipContent .menuList.resMenu1 ul li ul li ul li ul li a.hasChild, .flipContent .menuList .resMenu1 ul li ul li ul li ul li a.hasChild, .flipContent .menuList.resMenu ul li ul li ul li ul li a.hasChild, .flipContent .menuList .resMenu ul li ul li ul li ul li a.hasChild {
     color: #cccccc;
   }
-  .flipContent .menuList div ul li.active > a, .flipContent .menuList.resMenu1 ul li.active > a, .flipContent .menuList .resMenu1 ul li.active > a, .flipContent .menuList.resMenu ul li.active > a, .flipContent .menuList .resMenu ul li.active > a {
+  .flipContent .menuList div ul li.active > a, .flipContent .menuList div ul li:hover > a, .flipContent .menuList.resMenu1 ul li.active > a, .flipContent .menuList.resMenu1 ul li:hover > a, .flipContent .menuList .resMenu1 ul li.active > a, .flipContent .menuList .resMenu1 ul li:hover > a, .flipContent .menuList.resMenu ul li.active > a, .flipContent .menuList.resMenu ul li:hover > a, .flipContent .menuList .resMenu ul li.active > a, .flipContent .menuList .resMenu ul li:hover > a {
     color: #fff;
     background-color: #111111;
   }
-  .flipContent .menuList div ul li.active ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li.active > a {
+  .flipContent .menuList div ul li.active ul li.active > a, .flipContent .menuList div ul li.active ul li:hover > a, .flipContent .menuList div ul li:hover ul li.active > a, .flipContent .menuList div ul li:hover ul li:hover > a, .flipContent .menuList.resMenu1 ul li.active ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li:hover > a, .flipContent .menuList.resMenu1 ul li:hover ul li.active > a, .flipContent .menuList.resMenu1 ul li:hover ul li:hover > a, .flipContent .menuList .resMenu1 ul li.active ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li:hover > a, .flipContent .menuList .resMenu1 ul li:hover ul li.active > a, .flipContent .menuList .resMenu1 ul li:hover ul li:hover > a, .flipContent .menuList.resMenu ul li.active ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li:hover > a, .flipContent .menuList.resMenu ul li:hover ul li.active > a, .flipContent .menuList.resMenu ul li:hover ul li:hover > a, .flipContent .menuList .resMenu ul li.active ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li:hover > a, .flipContent .menuList .resMenu ul li:hover ul li.active > a, .flipContent .menuList .resMenu ul li:hover ul li:hover > a {
     color: #eeeeee;
     background-color: #222222;
   }
-  .flipContent .menuList div ul li.active ul li.active ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li.active ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li.active ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li.active ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li.active ul li.active > a {
+  .flipContent .menuList div ul li.active ul li.active ul li.active > a, .flipContent .menuList div ul li.active ul li.active ul li:hover > a, .flipContent .menuList div ul li.active ul li:hover ul li.active > a, .flipContent .menuList div ul li.active ul li:hover ul li:hover > a, .flipContent .menuList div ul li:hover ul li.active ul li.active > a, .flipContent .menuList div ul li:hover ul li.active ul li:hover > a, .flipContent .menuList div ul li:hover ul li:hover ul li.active > a, .flipContent .menuList div ul li:hover ul li:hover ul li:hover > a, .flipContent .menuList.resMenu1 ul li.active ul li.active ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li.active ul li:hover > a, .flipContent .menuList.resMenu1 ul li.active ul li:hover ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li:hover ul li:hover > a, .flipContent .menuList.resMenu1 ul li:hover ul li.active ul li.active > a, .flipContent .menuList.resMenu1 ul li:hover ul li.active ul li:hover > a, .flipContent .menuList.resMenu1 ul li:hover ul li:hover ul li.active > a, .flipContent .menuList.resMenu1 ul li:hover ul li:hover ul li:hover > a, .flipContent .menuList .resMenu1 ul li.active ul li.active ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li.active ul li:hover > a, .flipContent .menuList .resMenu1 ul li.active ul li:hover ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li:hover ul li:hover > a, .flipContent .menuList .resMenu1 ul li:hover ul li.active ul li.active > a, .flipContent .menuList .resMenu1 ul li:hover ul li.active ul li:hover > a, .flipContent .menuList .resMenu1 ul li:hover ul li:hover ul li.active > a, .flipContent .menuList .resMenu1 ul li:hover ul li:hover ul li:hover > a, .flipContent .menuList.resMenu ul li.active ul li.active ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li.active ul li:hover > a, .flipContent .menuList.resMenu ul li.active ul li:hover ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li:hover ul li:hover > a, .flipContent .menuList.resMenu ul li:hover ul li.active ul li.active > a, .flipContent .menuList.resMenu ul li:hover ul li.active ul li:hover > a, .flipContent .menuList.resMenu ul li:hover ul li:hover ul li.active > a, .flipContent .menuList.resMenu ul li:hover ul li:hover ul li:hover > a, .flipContent .menuList .resMenu ul li.active ul li.active ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li.active ul li:hover > a, .flipContent .menuList .resMenu ul li.active ul li:hover ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li:hover ul li:hover > a, .flipContent .menuList .resMenu ul li:hover ul li.active ul li.active > a, .flipContent .menuList .resMenu ul li:hover ul li.active ul li:hover > a, .flipContent .menuList .resMenu ul li:hover ul li:hover ul li.active > a, .flipContent .menuList .resMenu ul li:hover ul li:hover ul li:hover > a {
     color: #dddddd;
     background-color: #333333;
   }
-  .flipContent .menuList div ul li.active ul li.active ul ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li.active ul ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li.active ul ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li.active ul ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li.active ul ul li.active > a {
+  .flipContent .menuList div ul li.active ul li.active ul ul li.active > a, .flipContent .menuList div ul li.active ul li.active ul ul li:hover > a, .flipContent .menuList div ul li.active ul li:hover ul ul li.active > a, .flipContent .menuList div ul li.active ul li:hover ul ul li:hover > a, .flipContent .menuList div ul li:hover ul li.active ul ul li.active > a, .flipContent .menuList div ul li:hover ul li.active ul ul li:hover > a, .flipContent .menuList div ul li:hover ul li:hover ul ul li.active > a, .flipContent .menuList div ul li:hover ul li:hover ul ul li:hover > a, .flipContent .menuList.resMenu1 ul li.active ul li.active ul ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li.active ul ul li:hover > a, .flipContent .menuList.resMenu1 ul li.active ul li:hover ul ul li.active > a, .flipContent .menuList.resMenu1 ul li.active ul li:hover ul ul li:hover > a, .flipContent .menuList.resMenu1 ul li:hover ul li.active ul ul li.active > a, .flipContent .menuList.resMenu1 ul li:hover ul li.active ul ul li:hover > a, .flipContent .menuList.resMenu1 ul li:hover ul li:hover ul ul li.active > a, .flipContent .menuList.resMenu1 ul li:hover ul li:hover ul ul li:hover > a, .flipContent .menuList .resMenu1 ul li.active ul li.active ul ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li.active ul ul li:hover > a, .flipContent .menuList .resMenu1 ul li.active ul li:hover ul ul li.active > a, .flipContent .menuList .resMenu1 ul li.active ul li:hover ul ul li:hover > a, .flipContent .menuList .resMenu1 ul li:hover ul li.active ul ul li.active > a, .flipContent .menuList .resMenu1 ul li:hover ul li.active ul ul li:hover > a, .flipContent .menuList .resMenu1 ul li:hover ul li:hover ul ul li.active > a, .flipContent .menuList .resMenu1 ul li:hover ul li:hover ul ul li:hover > a, .flipContent .menuList.resMenu ul li.active ul li.active ul ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li.active ul ul li:hover > a, .flipContent .menuList.resMenu ul li.active ul li:hover ul ul li.active > a, .flipContent .menuList.resMenu ul li.active ul li:hover ul ul li:hover > a, .flipContent .menuList.resMenu ul li:hover ul li.active ul ul li.active > a, .flipContent .menuList.resMenu ul li:hover ul li.active ul ul li:hover > a, .flipContent .menuList.resMenu ul li:hover ul li:hover ul ul li.active > a, .flipContent .menuList.resMenu ul li:hover ul li:hover ul ul li:hover > a, .flipContent .menuList .resMenu ul li.active ul li.active ul ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li.active ul ul li:hover > a, .flipContent .menuList .resMenu ul li.active ul li:hover ul ul li.active > a, .flipContent .menuList .resMenu ul li.active ul li:hover ul ul li:hover > a, .flipContent .menuList .resMenu ul li:hover ul li.active ul ul li.active > a, .flipContent .menuList .resMenu ul li:hover ul li.active ul ul li:hover > a, .flipContent .menuList .resMenu ul li:hover ul li:hover ul ul li.active > a, .flipContent .menuList .resMenu ul li:hover ul li:hover ul ul li:hover > a {
     color: #cccccc;
     background-color: #444444;
   }
@@ -1621,14 +1688,14 @@ select.resSelect::-ms-expand {
   text-decoration: none;
   display: block;
   position: absolute;
+  text-align: center;
   top: 50%;
   left: 50%;
-  margin: -10px;
+  margin-left: -10px;
+  margin-top: -10px;
   font-size: 20px;
   width: 20px;
   height: 20px;
-  font-size: 1.5vw;
-  text-align: center;
 }
 
 .resJSlideImg .resJSlideImgThumb.resSlideBtnV .resJSlideImgThumbPrev::before {
@@ -1738,12 +1805,12 @@ select.resSelect::-ms-expand {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -10px;
+  text-align: center;
+  margin-left: -10px;
+  margin-top: -10px;
   font-size: 20px;
   width: 20px;
   height: 20px;
-  font-size: 1.5vw;
-  text-align: center;
 }
 
 .resJSlideImg .resJSlideImgslideBtn.resSlideBtnH .resJSlideImgslideBtnPrev::before {
@@ -1976,21 +2043,54 @@ select.resSelect::-ms-expand {
   -moz-osx-font-smoothing: grayscale;
   position: absolute;
   content: "";
-  font-size: 25px;
-  padding: 10px;
-  top: 100px;
+  font-size: 60px;
   color: #000;
   background: none;
+  top: 50%;
+  left: 50%;
+  margin-left: -30px;
+  margin-top: -30px;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  pointer-events: none;
   -webkit-transition: all 0.5s;
   -khtml-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -ms-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
+  filter: alpha(opacity=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  -webkit-opacity: 0;
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
+  -ms-opacity: 0;
+  -o-opacity: 0;
+  opacity: 0;
+  -webkit-transform: rotate(180deg) scale(2);
+  -khtml-transform: rotate(180deg) scale(2);
+  -moz-transform: rotate(180deg) scale(2);
+  -ms-transform: rotate(180deg) scale(2);
+  -o-transform: rotate(180deg) scale(2);
+  transform: rotate(180deg) scale(2);
 }
 
 .resPopupModeObj:hover::before {
-  top: 0;
+  filter: alpha(opacity=100);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  -webkit-opacity: 1;
+  -khtml-opacity: 1;
+  -moz-opacity: 1;
+  -ms-opacity: 1;
+  -o-opacity: 1;
+  opacity: 1;
+  -webkit-transform: rotate(0) scale(1);
+  -khtml-transform: rotate(0) scale(1);
+  -moz-transform: rotate(0) scale(1);
+  -ms-transform: rotate(0) scale(1);
+  -o-transform: rotate(0) scale(1);
+  transform: rotate(0) scale(1);
 }
 
 .resPopupBoxWrap {
@@ -2072,11 +2172,11 @@ select.resSelect::-ms-expand {
   height: -moz-calc(100% - 60px);
   padding-top: 60px;
   overflow: auto;
+  cursor: -webkit-zoom-in;
 }
 
 .resPopupBoxWrap .resPopupBoxContent .resPopupBoxContentArea img {
   max-width: none;
-  cursor: -webkit-zoom-in;
 }
 
 /* 
@@ -2206,7 +2306,11 @@ select.resSelect::-ms-expand {
     padding: 35px 0 0 0;
     width: auto;
     overflow: auto;
-    background: url("../img/response/default/scroller_btn.png") top left no-repeat;
+    position: relative;
+    background-color: none;
+    background-image: url("../img/response/default/scroller_btn.png");
+    background-position: top left;
+    background-repeat: no-repeat;
   }
   .mobile_overflow > img {
     max-width: initial !important;
@@ -2611,6 +2715,14 @@ select.resSelect::-ms-expand {
   overflow: auto;
 }
 
+.resContentTab_append .tabs_content .expend_title {
+  display: none;
+}
+
+.resContentTab_collapse .tabs_content .expend_title {
+  display: none;
+}
+
 /* 
     - google nexus 10 landscape / galaxy tab 7.7,8,9,10.1 (1280px)
 */
@@ -2638,6 +2750,79 @@ select.resSelect::-ms-expand {
     - google nexus 7 2 portrait (600px)
     - galaxy tab portrait (600px)
 */
+@media (max-width: 604px) {
+  .resContentTab_append .tabs {
+    display: none;
+  }
+  .resContentTab_append .tabs_content {
+    border: 0;
+    padding: 0;
+  }
+  .resContentTab_append .tabs_content .tabsContent {
+    display: block;
+    padding: 0;
+    margin: 3px 0 3px;
+    border: 1px solid #000;
+  }
+  .resContentTab_append .tabs_content .tabsContent .expend_title {
+    display: block;
+    width: 96%;
+    padding: 2%;
+    color: #fff;
+    background: #000;
+  }
+  .resContentTab_append .tabs_content .tabsContent .expend_content_wrapper {
+    padding: 10px;
+  }
+  .resContentTab_collapse .tabs {
+    display: none;
+  }
+  .resContentTab_collapse .tabs_content {
+    border: 0;
+    padding: 0;
+  }
+  .resContentTab_collapse .tabs_content .tabsContent {
+    display: block;
+    padding: 0;
+    margin: 3px 0 3px;
+    border: 1px solid #000;
+  }
+  .resContentTab_collapse .tabs_content .tabsContent .expend_title {
+    display: block;
+    width: 100%;
+    color: #fff;
+    background: #000;
+  }
+  .resContentTab_collapse .tabs_content .tabsContent .expend_title a {
+    display: block;
+    padding: 2%;
+    color: #fff;
+    text-decoration: none;
+  }
+  .resContentTab_collapse .tabs_content .tabsContent .expend_title a::after {
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    float: right;
+  }
+  .resContentTab_collapse .tabs_content .tabsContent .expend_title a.active::after {
+    content: "";
+    float: right;
+  }
+  .resContentTab_collapse .tabs_content .tabsContent .expend_content_wrapper {
+    display: none;
+    padding: 10px;
+  }
+}
+
 /* 
     - iphone 5 landscape (568px)
     - iphone 4 landscape (480px)
@@ -2647,6 +2832,9 @@ select.resSelect::-ms-expand {
     - galaxy note portrait (400px)
 */
 @media (max-width: 420px) {
+  .tabs {
+    margin-bottom: 1px;
+  }
   .tabs li {
     clear: both;
     float: none;
@@ -2655,21 +2843,21 @@ select.resSelect::-ms-expand {
   .tabs li .tabsBtn {
     padding: 5px 10px;
     clear: both;
-    -webkit-border-radius: 2px 2px 0 0;
-    -khtml-border-radius: 2px 2px 0 0;
-    -moz-border-radius: 2px 2px 0 0;
-    -ms-border-radius: 2px 2px 0 0;
-    -o-border-radius: 2px 2px 0 0;
-    border-radius: 2px 2px 0 0;
+    -webkit-border-radius: 0;
+    -khtml-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
   }
   .tabs li .tabsBtn:hover, .tabs li .tabsBtn.active {
-    border: 1px solid #AAAAAA;
-    background: #cccccc;
+    color: #fff;
+    border: 1px solid #000;
+    background: #000;
   }
   .tabs_content {
     margin: 0 0 10px 0;
     top: 0;
-    border-top: 0;
   }
 }
 
@@ -2741,11 +2929,9 @@ select.resSelect::-ms-expand {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -10px;
+  margin-left: -10px;
+  margin-top: -10px;
   font-size: 20px;
-  width: 20px;
-  height: 20px;
-  font-size: 1.5vw;
   text-align: center;
 }
 
@@ -3020,6 +3206,160 @@ select.resSelect::-ms-expand {
     - iphone 5 portrait (320px)
     - iphone 4 portrait (320px)
 */
+/* 橫向排列 */
+.resAccordion {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.resAccordion > li {
+  margin: 0;
+  padding: 0;
+  display: block;
+  height: 100%;
+  float: left;
+  cursor: pointer;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.resAccordion > li .heading {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.resAccordion > li .content {
+  width: 0;
+  height: 100%;
+  color: #000;
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.resAccordion > li:nth-child(odd) .heading {
+  background: #333;
+}
+
+/* 直向排列 */
+.resAccordionVertical {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.resAccordionVertical > li {
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 100%;
+  float: left;
+  cursor: pointer;
+  background: #fff;
+  position: relative;
+}
+
+.resAccordionVertical > li .heading {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.resAccordionVertical > li .content {
+  width: 100%;
+  color: #000;
+  background: #ccc;
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.resAccordionVertical > li:nth-child(odd) .heading {
+  background: #333;
+}
+
+.JResWrapper {
+  position: relative;
+  overflow: initial !important;
+}
+
+.JResWrapper > .resWrapperSwitch {
+  display: none;
+  position: absolute;
+  background: #000;
+  cursor: pointer;
+}
+
+.JResWrapper > .resWrapperSwitch.show {
+  display: block;
+}
+
+.JResWrapper > .resWrapperSwitch.active {
+  background: #222;
+}
+
+.JResWrapper > .resWrapperSwitch:hover {
+  background: #222;
+}
+
+.JResWrapper > .resWrapperSwitch.left {
+  width: 20px;
+  height: 100%;
+  top: 0;
+  right: -20px;
+}
+
+.JResWrapper > .resWrapperSwitch.right {
+  width: 20px;
+  height: 100%;
+  top: 0;
+  left: -20px;
+}
+
+.JResWrapper > .resWrapperSwitch.top {
+  width: 150px;
+  height: 20px;
+  bottom: -20px;
+  left: 0;
+}
+
+.JResWrapper > .resWrapperSwitch.top.active {
+  bottom: 0;
+  left: 0;
+}
+
+.JResWrapper > .resWrapperSwitch.bottom {
+  width: 150px;
+  height: 20px;
+  top: -20px;
+  left: 0;
+}
+
+.JResWrapper > .resWrapperSwitch.bottom.active {
+  top: 0;
+  left: 0;
+}
+
 /*
 ie hack scss
 

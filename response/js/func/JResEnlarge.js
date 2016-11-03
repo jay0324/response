@@ -242,14 +242,14 @@
                     $(this).JResPopupBox({
                         action:'plus'
                     });
-                }).on('mousewheel','.resPopupTargetImg',function(e){
+                }).on('mousewheel','.resPopupBoxContentArea',function(e){
                     if(e.originalEvent.wheelDelta /120 > 0) {
-                        $(this).JResPopupBox({
+                        $(">.resPopupTargetImg",this).JResPopupBox({
                             action:'plus'
                         });
                         //console.log('scrolling up !');
                     }else{
-                        $(this).JResPopupBox({
+                        $(">.resPopupTargetImg",this).JResPopupBox({
                             action:'dis'
                         });
                         //console.log('scrolling down !');

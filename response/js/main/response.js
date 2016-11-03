@@ -173,9 +173,9 @@
         var resPageTitleHeight = resMobileNavSetupHeight - (resPageTitleMargin * 2); //resPageTitle高度
         var additionalPageContent = '<div id="resPageLoader" class="resFlipPage resFlipPageR"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' +
             '<div style="height:' + resMobileNavSetupHeight + 'px;" class="resPageController">' +
-            '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#resPageLoader\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div>' +
+            '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#resPageLoader\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"><div class="icon"></div></div>' +
             '<div style="height:' + resPageTitleHeight + 'px;margin:' + resPageTitleMargin + 'px 0;" class="resAddPageTitle">Res Loader</div></div>' +
-            '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div></div>' +
+            '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"><div class="icon"></div></div></div>' +
             '<div class="resAddPageContent"><div class="resAddPageContentMain">' +
             '<div id="resPageLoad_loading_icon"></div>' +
             '<div id="resPageLoad_area"></div>' +
@@ -196,15 +196,15 @@
                 var relateBtn = "";
                 if ($.trim(additionalPageArray[i][4]) != "") {
                     var relateID = additionalPageArray[i][4].indexOf("_pageContent") == -1 ? additionalPageArray[i][4] + "_pageContent" : additionalPageArray[i][4];
-                    relateBtn = '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageNextIcon" onclick="JResPageControl({id:\'#' + relateID + '\',action:\'open\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div>';
+                    relateBtn = '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageNextIcon" onclick="JResPageControl({id:\'#' + relateID + '\',action:\'open\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"><div class="icon"></div></div>';
                 }
                 additionalPageContent += '<div id="' + addPageID + '" class="resFlipPage ' + addPagePosition + '"><div class="menuList" style="' + resMarginTop + resMarginBottom + '">' +
                     '<div style="height:' + resMobileNavSetupHeight + 'px;" class="resPageController">' +
-                    '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#' + addPageID + '\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div>' +
+                    '<div style="width:' + resMobileNavSetupWidth + 'px;height:' + resMobileNavSetupHeight + 'px;" class="resAddPageBackIcon" onclick="JResPageControl({id:\'#' + addPageID + '\',action:\'back\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"><div class="icon"></div></div>' +
                     '<div style="height:' + resPageTitleHeight + 'px;margin:' + resPageTitleMargin + 'px 0;" class="resAddPageTitle">' + additionalPageArray[i][2] + "</div>" +
                     relateBtn +
                     '</div>' +
-                    '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"></div></div>' +
+                    '<div style="height:' + resBottomMobileNavSetupHeight + 'px;" class="resPageControllerBottom"><div style="width:' + resBottomMobileNavSetupWidth + 'px;height:' + resBottomMobileNavSetupHeight + 'px;" id="closeAllresFlipPage" onclick="JResPageControl({id:\'\',action:\'closeAll\',animateTime:' + pannelAnimateTime + ',animateEasing:\'' + pannelAnimateEasing + '\'});return false;"><div class="icon"></div></div></div>' +
                     '<div class="resAddPageContent"><div class="resAddPageContentMain">' +
                     addPageContent +
                     "<div class='clear'></div></div></div></div></div>";
@@ -817,8 +817,8 @@
             //resTabJumper
         if (restabJumperState) {
             //$(".resTabJumper").each(function() {
-            $('body').on('click', '.resTabJumper', function() {
-                //$(this).click(function() {
+            $(document).on('click', '.resTabJumper', function() {
+                
                 var targetURL = $(this).attr("href");
                 if (targetURL.split("#")[0] == undefined || targetURL.split("#")[0] == "") {
                     var targetPosID = "#" + targetURL.split("#")[1];
@@ -832,11 +832,12 @@
                         }
                         fnTabJumper(targetPosID, speed, paddingAmt);
                     }
+                    
                     return false;
                 } else {
                     return true;
                 }
-                //});
+                
             });
 
             //在相對高度的jumper按鈕加入jumperActive class
@@ -1153,19 +1154,29 @@
                 if ($(id).hasClass("resFlipPageR")) {
                     $(id).animate({
                         right: "-120%"
-                    }, animateTime, animateEasing);
+                    }, animateTime, animateEasing, function(){
+                        //關閉時清除url_loader內容
+                        $("#resPageLoad_area").html("");
+                        $(id).css({ "z-index": -1 });
+                    });
                 } else if ($(id).hasClass("resFlipPageT")) {
                     $(id).animate({
                         top: "-120%"
-                    }, animateTime, animateEasing);
+                    }, animateTime, animateEasing, function(){
+                        //關閉時清除url_loader內容
+                        $("#resPageLoad_area").html("");
+                        $(id).css({ "z-index": -1 });
+                    });
                 } else {
                     $(id).animate({
                         left: "-120%"
-                    }, animateTime, animateEasing);
+                    }, animateTime, animateEasing, function(){
+                        //關閉時清除url_loader內容
+                        $("#resPageLoad_area").html("");
+                        $(id).css({ "z-index": -1 });
+                    });
                 }
-                //關閉時清除url_loader內容
-                $("#resPageLoad_area").html("");
-                $(this).animate({ "z-index": -1 }, animateTime, animateEasing);
+                
                 break;
 
                 //關閉全部頁面
@@ -1178,20 +1189,29 @@
                         if ($(this).hasClass("resFlipPageR") && ($(this).css("right") == "0px" || $(this).css("right") == "0%")) {
                             $(this).animate({
                                 right: "-120%"
-                            }, animateTime, animateEasing);
+                            }, animateTime, animateEasing, function(){
+                                //關閉時清除url_loader內容
+                                $("#resPageLoad_area").html("");
+                                $(this).css({ "z-index": -1 });
+                            });
                         } else if ($(this).hasClass("resFlipPageT") && ($(this).css("top") == "0px" || $(this).css("top") == "0%")) {
                             $(this).animate({
                                 right: "-120%"
-                            }, animateTime, animateEasing);
+                            }, animateTime, animateEasing, function(){
+                                //關閉時清除url_loader內容
+                                $("#resPageLoad_area").html("");
+                                $(this).css({ "z-index": -1 });
+                            });
                         } else {
                             $(this).animate({
                                 right: "-120%"
-                            }, animateTime, animateEasing);
+                            }, animateTime, animateEasing, function(){
+                                //關閉時清除url_loader內容
+                                $("#resPageLoad_area").html("");
+                                $(this).css({ "z-index": -1 });
+                            });
                         }
-                    })
-                    //關閉時清除url_loader內容
-                $("#resPageLoad_area").html("");
-                $(this).animate({ "z-index": -1 }, animateTime, animateEasing);
+                })
                 break;
 
                 //打開頁面

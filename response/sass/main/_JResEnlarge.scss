@@ -141,16 +141,25 @@
         position:absolute;
         content: $enlarge-resPopupModeObj-content;
         font-size: $enlarge-resPopupModeObj-font-size;
-        padding: $enlarge-resPopupModeObj-padding;
-        top: $enlarge-resPopupModeObj-from;
         color: $enlarge-resPopupModeObj-color;
         background: $enlarge-resPopupModeObj-background;
+        top: 50%;
+        left: 50%;
+        margin-left: -(($enlarge-resPopupModeObj-font-size/2));
+        margin-top: -(($enlarge-resPopupModeObj-font-size/2));
+        width: $enlarge-resPopupModeObj-font-size;
+        height: $enlarge-resPopupModeObj-font-size;
+        text-align:center;
+        pointer-events: none;
         @include transition("all 0.5s");
+        @include opacity(0);
+        @include transform(rotate(180deg) scale(2));
     }
 
     &:hover{
         &::before{
-            top:0;
+            @include opacity(1);
+            @include transform(rotate(0) scale(1));
         }
     }
 }
@@ -237,10 +246,10 @@
             height: -moz-calc(100% - 60px);
             padding-top: 60px;
             overflow: auto;
+            cursor: -webkit-zoom-in;
 
             img{
                 max-width: none;
-                cursor: -webkit-zoom-in;
             }
         }
     }

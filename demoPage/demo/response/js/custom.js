@@ -4,8 +4,8 @@ $(function() {
 	$.JResponsive({
 		defaultMenuObj: "#nav",
         defaultLangMenuObj: "#lang",
-        //resPageLoader: true,
-        //resPageLoaderTigger: 'always',
+        resPageLoader: true,
+        resPageLoaderTigger: 'always',
         additionalBtn: [
             [
                 "submenu_btn",
@@ -22,12 +22,32 @@ $(function() {
                 resHost,
                 '<span class="icon-home"></span>',
                 "_self"
+            ],
+            [
+                "demo_page_btn",
+                "demo_page1",
+                "DEMO PAGE",
+                "page"
+            ],
+            [
+                "demo_loader",
+                "https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14559.8434006705!2d120.66025329999998!3d24.17310575!3m2!1i1024!2i768!4f13.1!5e0!3m2!1szh-TW!2stw!4v1478138160232",
+                "LOAD PAGE",
+                "loader",
+                {
+                    title: "DEMO LOADER"
+                }
             ]
         ],
         menuCollapse: '#resPrimery',
         pannelPosition: 'left_under',
         pannelAnimateTime: 1000,
-        pannelAnimateEasing: "easeOutBounce"
+        pannelAnimateEasing: "easeOutBounce",
+        additionalPage: [
+            ["demo_page1","right","DEMO 1","<p style='color:#fff'>DEMO 1 CONTENT</p>","demo_page2"],
+            ["demo_page2","right","DEMO 2","<p style='color:#E6DB74'>DEMO 2 CONTENT</p>","demo_page3"],
+            ["demo_page3","right","DEMO 3","<p style='color:#66D9B1'>DEMO 3 CONTENT</p>",""]
+        ]
 	});
 
     
@@ -276,14 +296,16 @@ $(function() {
 
     //tab group list
     $("#myTabList").JResContentTab({
-        fx: 'slide'
+        fx: 'slide',
+        resMode: 'collapse'
     })
 
     $("#myTabList2").JResContentTab({
         fx: 'show',
         onClick: function(){
             alert('custom setting!');
-        }
+        },
+        resMode: 'expend'
     })
 
     //resEnlarge obj

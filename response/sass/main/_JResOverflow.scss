@@ -28,7 +28,11 @@
         padding: 35px 0 0 0;
         width: auto;
         overflow: auto;
-        background: url("../img/response/default/scroller_btn.png") top left no-repeat;
+        position:relative;
+        background-color: $overflow-bg-color;
+        background-image: $overflow-bg-image;
+        background-position: top left;
+        background-repeat:no-repeat;
 
         >img{
         	max-width: initial !important;

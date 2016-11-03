@@ -96,8 +96,6 @@ $slidesImg-loader-offset:			-30px;
 $slidesImg-slideBtn-bg-color:		$global-background-color;
 $slidesImg-slideBtn-color:			$global-text-color;
 $slidesImg-slideBtn-size:			20px;
-$slidesImg-slideBtn-offset:			-10px;
-$slidesImg-slideBtn-res-size:		1.5vw;	
 
 $slidesImg-slideBtn-prev-content-h:	"\f053";
 $slidesImg-slideBtn-next-content-h:	"\f054";
@@ -113,8 +111,6 @@ $thumbslide-bg-color-active:		$global-text-color;
 $contentSlider-btn-bg:				$global-background-color;
 $contentSlider-btn-color:			$global-text-color;
 $contentSlider-btn-size:			20px;
-$contentSlider-btn-offset:			-10px;
-$contentSlider-btn-res-size:		1.5vw;
 
 $contentSlider-btn-prev-h:			"\f053";
 $contentSlider-btn-next-h:			"\f054";
@@ -134,6 +130,9 @@ $tabsBtn-border-active:				1px solid $global-background-color;
 
 $tabsContent-border:				1px solid $global-background-color;
 $tabsContent-overflow:				auto;
+
+$resContentTab_collapse_fold:		"\f078";
+$resContentTab_collapse_unfold:		"\f068";
 
 /* _resMenu.scss */
 //resMenu
@@ -229,12 +228,14 @@ $enlarge-Btn-font-size:					25px;
 $enlarge-Btn-color:						#fff;
 $enlarge-BoxWrap-background-color:		#000;
 $enlarge-BoxWrap-background-opacity:	0.8;
+$enlarge-resPopupModeObj-font-size: 	60px;
+$enlarge-resPopupModeObj-color:			#000;
+$enlarge-resPopupModeObj-background:	none;
 $enlarge-resPopupBoxPlusBtn-content:	"\f00a";
 $enlarge-resPopupBoxMinusBtn-content:	"\f010";
 $enlarge-resPopupBoxCloseBtn-content:	"\f00d";
 $enlarge-resPopupModeObj-content: 		"\f00a";
-$enlarge-resPopupModeObj-font-size: 	25px;
-$enlarge-resPopupModeObj-padding: 		10px;
-$enlarge-resPopupModeObj-from: 			100px;
-$enlarge-resPopupModeObj-color:			#000;
-$enlarge-resPopupModeObj-background:	none;
+
+//overflow
+$overflow-bg-color:		none;
+$overflow-bg-image:		url("../img/response/default/scroller_btn.png");
