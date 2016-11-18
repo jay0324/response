@@ -474,7 +474,7 @@ https://cdn.rawgit.com/jay0324/response/master/response/dist/response/response.m
 				onLoad: function () {} //其他延遲後載入的動作,預設false
 			})
 			//====================================================================================
-
+ 
 			//resMenu功能=========================================================================
 			$(menuObjID).JResMenu({
 		        view: 顯示方式(字串)(horizontal: 橫向, vertical:縱向(預設)),
