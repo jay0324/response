@@ -36,9 +36,7 @@ screenfull.js: https://sindresorhus.com/screenfull.js/
 =======================================================================================================================
 
 *Date: 2016/08/17 後版本請在網頁中加入viewport標籤
-=======================================================================================================================
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0" />
-=======================================================================================================================
 
 在head所有加入下面幾行幾可啟用
 注意: jquery請看情形加入，如果該頁面已經有用jQuery則不用加入
@@ -57,16 +55,11 @@ SASS樣式檔案: sass/custom/_JResCustomSetup.scss
 NOTE: 若您可以用sass來轉css的人，可以透過_sass下的scss來編輯產生css
 如果沒有的人請直接編輯_css下的css檔案
 
-jQuery: 
-=======================================================================================================================
 <!--JQUERY-->
 <script type="text/javascript" src="response/jquery.min.js"></script> <!--jQuery Local v1.11.1 -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> <!--cloudflare CDN v1.11.1 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script> <!--jQuery CDN v1.11.1 -->
-=======================================================================================================================
 
-Responsive:
-=======================================================================================================================
 <!--響應式設定-->
 <link rel="stylesheet" type="text/css" href="response/response.min.css" media="all"> <!--預設響應式樣式-->
 <link rel="stylesheet" type="text/css" href="response/css/sass.css" media="all"> <!--客製樣式 SASS-->
@@ -74,14 +67,10 @@ Responsive:
 <script type="text/javascript" src="response/response.min.js"></script> <!--響應式主程式-->
 <script type="text/javascript" src="response/js/custom.js"></script> <!--客製設定-->
 <!--響應式設定-->
-=======================================================================================================================
 
-Responsive Rawgit Path:
-=======================================================================================================================
 <!-- rawgit cdn -->
 https://cdn.rawgit.com/jay0324/response/master/response/dist/response/response.min.css <!--預設響應式樣式-->
 https://cdn.rawgit.com/jay0324/response/master/response/dist/response/response.min.js
-=======================================================================================================================
 
 =======================================================================================================================
 響應式設定相關參數說明
