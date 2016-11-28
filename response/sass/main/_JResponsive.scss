@@ -431,34 +431,51 @@ img {
             display: block;
             float: left;
             position: relative;
-            &#menu_btn,
-            &#menu_btn_bottom {
-                a{
-                    &::before{
-                        font-family: 'icomoon' !important;
-                        speak: none;
-                        font-style: normal;
-                        font-weight: normal;
-                        font-variant: normal;
-                        text-transform: none;
-                        line-height: 1;
-                        /* Better Font Rendering =========== */
-                        -webkit-font-smoothing: antialiased;
-                        -moz-osx-font-smoothing: grayscale;
-                        content:$menu_btn_content;
-                        font-size:$menu_btn_size;
-                    }
-                }
-            }
-            a {
-                display: table-cell;
+
+
+            a{
+                display:block;
+                text-align: center;
                 overflow: hidden;
                 color: #fff;
                 text-decoration: none;
                 text-align: center;
                 vertical-align: middle;
-
+                &::before{
+                  content: '';
+                  display: inline-block;
+                  vertical-align: middle;
+                  width: 0;
+                  height: 100%;
+                }
+                .label{
+                    display: inline-block;
+                    vertical-align: middle;/* 保证文字垂直居中 */
+                }
             }
+
+            &#menu_btn,
+            &#menu_btn_bottom {
+                a{
+                    .label{
+                        &::before{
+                            font-family: 'icomoon' !important;
+                            speak: none;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-variant: normal;
+                            text-transform: none;
+                            line-height: 1;
+                            /* Better Font Rendering =========== */
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            content:$menu_btn_content;
+                            font-size:$menu_btn_size;
+                        }
+                    }
+                }
+            }
+
             .closeTop_btn,
             .closeRight_btn,
             .closeLeft_btn {

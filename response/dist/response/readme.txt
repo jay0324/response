@@ -7,23 +7,19 @@ this is a response setup for general webpage which is not designed by table and 
 Program: JQuery Responsive plugin
 Programmer: Jay HSU
 
--修改: 修改樣式
--增加: 
-$(obj).JResContentTab({
-				init: 預設的顯示標籤 (預設:0),
-	            fx: 切換效果 (預設:slide / fade,slide,show),
-	            transitTime: 切換效果時間 (預設:300),
-	            createTabs: {			//js寫入Tab
-	            	tab1:{				//新標籤編號
-	            		id: "物件ID",
-						text: "Tab按鈕顯示文字",
-						content: "Tab內容"
-	            	}
-	            },
-	            onClick: {} //tab點擊客製動作, 預設 false,
-	            resMode: '', //響應式呈現模式 'expend':完全展開 'collapse': 收合展開 預設:無
-            	resModeActiveWidth: 604 //響應式呈現模式觸發尺寸(尺寸修改請一併修改樣式)
-			});
+-修改: 修正mobile safari UI文字置中問題
+-增加: JResponsive寫入在螢幕尺寸變換重整停用狀態下，仍保持UI同步更新，寫法:
+
+//建立重整function JResponsive宣告在這邊
+function resInit() {
+	$.JResponsive();
+}
+//jquery onload function
+$(function() { 
+	$.JRes_autoRefresh({state: false}); //停用自動重整
+	resInit(); //呼叫UI
+	$(window).resize(function(){resInit();})//重整的時候就呼叫UI
+})
 
 =======================================================================================================================
 #其他外掛
@@ -36,11 +32,23 @@ screenfull.js: https://sindresorhus.com/screenfull.js/
 =======================================================================================================================
 
 #Date: 2016/08/17 後版本請在網頁中加入viewport標籤
-=======================================================================================================================
 ```
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0" />
 ```
-=======================================================================================================================
+
+#Date: 2015/11/28 響應式尺寸變動預設為葉面重整來取得UI建立所需的數值，如需改為非重整的方式，請參照以下作法
+```
+//建立重整function JResponsive宣告在這邊
+function resInit() {
+	$.JResponsive();
+}
+//jquery onload function
+$(function() { 
+	$.JRes_autoRefresh({state: false}); //停用自動重整
+	resInit(); //呼叫UI
+	$(window).resize(function(){resInit();})//重整的時候就呼叫UI
+})
+```
 
 在head所有加入下面幾行幾可啟用
 注意: jquery請看情形加入，如果該頁面已經有用jQuery則不用加入
