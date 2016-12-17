@@ -346,6 +346,10 @@ img {
     @include box-shadow(0);
 }
 
+#resPageLoad_area{
+    background:#fff;
+}
+
 
 /* 
     - google nexus 10 landscape / galaxy tab 7.7,8,9,10.1 (1280px)
@@ -609,6 +613,8 @@ img {
                         display: block;
                         a{
                             display: block;
+                            width:100%;
+                            @include box-sizing(border-box);
                         }
 
                         ul{
