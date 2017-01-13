@@ -582,7 +582,8 @@ https://cdn.rawgit.com/jay0324/response/master/response/dist/response/response.m
 
 		    //JResScrollSticker功能===============================================================
 		    $("#ID").JResScrollSticker({
-		    	delay: 500 //設定延遲時間 (int) 預設500
+		    	delay: 500, 					//設定延遲時間 (毫秒) 預設500,
+		    	disableBy: 800					//在指定尺寸以上才使用
 		    });
 		    //====================================================================================
 
