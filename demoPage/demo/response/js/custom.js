@@ -109,7 +109,7 @@ $(function() {
                     }
                 }
             }
-        })
+    })
 
     //slideshow
     $("#slideshow2").JSlideImg({
@@ -175,9 +175,9 @@ $(function() {
             var curr = this.curr;
             var prev = this.prev;
             var begin = this.begin;
-            $(curr).removeClass().addClass('animated flipInY');
+            $(curr).removeClass('animated flipOutY').addClass('animated flipInY');
             if (!begin) {
-                $(prev).removeClass().addClass('animated flipOutY');
+                $(prev).removeClass('animated flipInY').addClass('animated flipOutY');
             }
         }
     })
@@ -314,17 +314,84 @@ $(function() {
         paddingAmt: 0
     })
 
-    //delay show
-    /*$("div[class*='resCol']").addClass('resDelay');
-    $(".resContainer").each(function(){
-        $(this).JResDelayLoader({
-            loadObj: ".resDelay",
-            onLoad:function(){
-                //客製效果
-                $(this).addClass('animated bounceInUp');
+    //slideshow with resEnlarge obj
+    $("#slideshow4").JSlideImg({
+        enlargeObj: true,
+        paddingAmt: 0,
+        thumb: {
+            state: true,
+            amount: 15,
+            type: 'horizontal',
+            position: 'bottom:0;left:0;',
+            displayTitle: 'top'
+        },
+        slideBtn:{
+            state: true,
+            width: 20,
+            height: 50,
+            type: 'horizontal'
+        },
+        setupResposive: {
+            800:{
+                state: false,
+                slideBtn:{
+                    width: 20,
+                    height: 'auto'
+                }
             }
-        })
-    })*/
+        },
+        onTrans: function(){
+            var curr = this.curr;
+            var prev = this.prev;
+            var begin = this.begin;
+            $(curr).removeClass('animated flipOutY').addClass('animated flipInY');
+            if (!begin) {
+                $(prev).removeClass('animated flipInY').addClass('animated flipOutY');
+            }
+        }
+    })
+
+    //slideshow with multi objs
+    $("#slideshow5").JSlideImg({
+        autoPlay: false,
+        childTag: 'div',
+        childClass: '.slide',
+        multiLayerMode: {
+            state: true
+        },
+        paddingAmt: 0,
+        thumb: {
+            state: true,
+            amount: 15,
+            type: 'horizontal',
+            position: 'bottom:0;left:0;',
+            displayTitle: 'top'
+        },
+        slideBtn:{
+            state: true,
+            width: 20,
+            height: 50,
+            type: 'horizontal'
+        },
+        setupResposive: {
+            800:{
+                state: false,
+                slideBtn:{
+                    width: 20,
+                    height: 'auto'
+                }
+            }
+        },
+        onTrans: function(){
+            var curr = this.curr;
+            var prev = this.prev;
+            var begin = this.begin;
+            $(curr).removeClass('animated flipOutY').addClass('animated flipInY');
+            if (!begin) {
+                $(prev).removeClass('animated flipInY').addClass('animated flipOutY');
+            }
+        }
+    })
        
     //testTabGroup
     $("#testTabGroup").JResContentTab({
@@ -356,4 +423,19 @@ $(function() {
 
     //resOverflow
     $(".overflowObj").JResOverflow();
+
+    //stick menu
+    $("#row0").JResScrollSticker();
+
+    //delay show
+    $("div[class*='resCol']").addClass('resDelay');
+    $(".resContainer").each(function(){
+        $(this).JResDelayLoader({
+            loadObj: ".resDelay",
+            onLoad:function(){
+                //客製效果
+                $(this).addClass('animated bounceInUp');
+            }
+        })
+    })
  })

@@ -932,7 +932,7 @@
             return false;
         });
         //close all pannel if click resContentMask area
-        $("#resContentMask").click(function() {
+        $(document).on('touchend click',"#resContentMask", function() {
             JResMobileTopNav({
                 resetEvt: true,
                 animateTime: pannelAnimateTime,
