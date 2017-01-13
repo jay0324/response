@@ -351,7 +351,7 @@ https://cdn.rawgit.com/jay0324/response/master/response/dist/response/response.m
 				},
 				slideBtn:{
 					state: true,						//是否使用上下項目切換按鈕組
-					trigger: 'click',					//觸發動作 預設:click 其他: mouseenter ...
+					trigger: 'touched click',					//觸發動作 預設:click 其他: mouseenter ...
 					width: 100,							//按鈕寬
 					height: 100,						//按鈕高
 					type: 'horizontal'					//按鈕呈現方式(直式:vertical 橫式: horizontal) 

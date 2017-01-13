@@ -152,7 +152,7 @@
             /*initial value*/
             var sideBtnInitial = {
                 state: false,
-                trigger: 'click',
+                trigger: 'touched click',
                 width: 100,
                 height: 100,
                 type: 'horizontal'
