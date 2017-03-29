@@ -287,6 +287,8 @@ https://cdn.rawgit.com/jay0324/response/master/response/dist/response/response.m
             	additionalBottomBtn: {},						//請參照additionalBtn的設定值
             	scrollTop: true,								//使用ScrollToTop外掛功能 (預設:true)
             	app_icon: "img/response/app_ico.png" 			//APP icon的圖檔路徑 (預設: "img/response/app_ico.png")
+            	minTouchSlideAmt: 20,							//主選單觸控展開最小感應範圍 (預設: 20px)
+            	triggerTouchOpenRange: 3						//主選單觸控拉開最大範圍(如:3=3/1的螢幕寬度) (預設: 3)
 			});
 			//===================================================================================
 			
