@@ -245,13 +245,15 @@
                     });
 
                     return false;
-                }).on('mousedown','.resPopupBoxContentArea',function(e){
+                }).on('mousedown touchstart','.resPopupBoxContentArea',function(e){
                     if (!$.JRes_isMobile()) {
                         e.preventDefault();
                         desktopMouseDownMove = true;
                         previousPressPOSX = e.pageX;
                         previousPressPOSY = (e.pageY-window.pageYOffset-50);
                         $(this).addClass('movehand');
+                    }else{
+                        $(this).addClass('touchmove');
                     }
                 }).on('mousemove','.resPopupBoxContentArea',function(e){
                     if (!$.JRes_isMobile()) {
@@ -265,10 +267,12 @@
                             $(this).scrollTop($(this).scrollTop()+movePOSY);
                         }
                     }
-                }).on('mouseup','.resPopupBoxContentArea',function(e){
+                }).on('mouseup touchend','.resPopupBoxContentArea',function(e){
                     if (!$.JRes_isMobile()) {
                         desktopMouseDownMove = false;
                         $(this).removeClass('movehand');
+                    }else{
+                        $(this).removeClass('touchmove');
                     }
                 }).on('mousewheel','.resPopupBoxContentArea',function(e){
                     if (!$.JRes_isMobile()) {
