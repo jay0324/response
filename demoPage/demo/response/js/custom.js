@@ -40,7 +40,7 @@ $(function() {
             ]
         ],
         menuCollapse: '#resPrimery',
-        pannelPosition: 'left_under',
+        pannelPosition: 'left',
         pannelAnimateTime: 1000,
         pannelAnimateEasing: "easeOutBounce",
         additionalPage: [
