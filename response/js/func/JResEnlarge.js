@@ -125,13 +125,14 @@
                                         if (enablePluginMode && fnCheckFormat($(this).parent("a").attr("href").toLowerCase())){
                                             var doUsed = true;
                                             options.extraSource = $(this).parent("a").attr('href');
+                                            var extraSource = options.extraSource;
                                             $(this).unwrap('a');
                                         }else{
                                             var doUsed = false;
                                         }
                                     break;
                                     default:
-                                        options.extraSource = options.extraSource != "" ? options.extraSource : ($(this).attr("toggle-src") != undefined) ? $(this).attr("toggle-src") : $(this).attr("src");
+                                        var extraSource = options.extraSource != "" ? options.extraSource : ($(this).attr("toggle-src") != undefined) ? $(this).attr("toggle-src") : $(this).attr("src");
                                         var doUsed = true;
                                     break;
                                 }
@@ -139,10 +140,11 @@
                                 var doUsed = false;
                             }
                         }
+
                         if (doUsed) {
                             $(this).each(function() {
                                 $(this).addClass("resPopupBox").wrap('<div class="resPopupModeObj">');
-                                $(this).attr("source",options.extraSource);
+                                $(this).attr("source",extraSource);
                             })
                         }
                     }
