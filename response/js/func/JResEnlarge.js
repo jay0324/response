@@ -278,7 +278,23 @@
                     }
                 }).on('mousewheel','.resPopupBoxContentArea',function(e){
                     if (!$.JRes_isMobile()) {
+                        //other browser
                         if(e.originalEvent.wheelDelta /120 > 0) {
+                            $(">.resPopupTargetImg",this).JResPopupBox({
+                                action:'plus'
+                            });
+                            //console.log('scrolling up !');
+                        }else{
+                            $(">.resPopupTargetImg",this).JResPopupBox({
+                                action:'dis'
+                            });
+                            //console.log('scrolling down !');
+                        }
+                    }
+                }).on('DOMMouseScroll','.resPopupBoxContentArea',function(e){
+                    if (!$.JRes_isMobile()) {
+                        //firefox
+                        if(e.originalEvent.detail < 0) {
                             $(">.resPopupTargetImg",this).JResPopupBox({
                                 action:'plus'
                             });
