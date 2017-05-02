@@ -1,4 +1,6 @@
 $(function() {
+    //$.JRes_autoRefresh({state: false}); //停用自動重整
+
     var resHost = $.JRes_modulePath();
 
 	$.JResponsive({
@@ -7,47 +9,84 @@ $(function() {
         resPageLoader: true,
         resPageLoaderTigger: 'always',
         additionalBtn: [
-            [
-                "submenu_btn",
-                "#",
-                "SUB",
-                "pannel",
-                [
-                    "right",
-                    $("#resMenuStyle").html()
-                ]
-            ],
-            [
-                "logo_btn",
-                resHost,
-                '<span class="icon-home"></span>',
-                "_self"
-            ],
-            [
-                "demo_page_btn",
-                "demo_page1",
-                "DEMO PAGE",
-                "page"
-            ],
-            [
-                "demo_loader",
-                "https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14559.8434006705!2d120.66025329999998!3d24.17310575!3m2!1i1024!2i768!4f13.1!5e0!3m2!1szh-TW!2stw!4v1478138160232",
-                "LOAD PAGE",
-                "loader",
-                {
+            {
+                id: "submenu_btn",
+                link: "#",
+                show: "SUB",
+                target: "pannel",
+                setup: {
+                    type: "right",
+                    content: $("#resMenuStyle").html()
+                },
+                width:400
+            },
+            {
+                id: "logo_btn",
+                link: resHost,
+                show: '<span class="icon-home"></span>',
+                target: "_self"
+            },
+            {
+                id: "demo_page_btn",
+                page_id: "demo_page1",
+                show: "DEMO PAGE",
+                target: "page"
+            },
+            {
+                id: "demo_loader",
+                link: "https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14559.8434006705!2d120.66025329999998!3d24.17310575!3m2!1i1024!2i768!4f13.1!5e0!3m2!1szh-TW!2stw!4v1478138160232",
+                show: "LOAD PAGE",
+                target: "loader",
+                setup: {
                     title: "DEMO LOADER"
                 }
-            ]
+            },
+            {
+                id: "Followup_btn",
+                link: "#",
+                show: "Follow",
+                target: "pannel",
+                setup: {
+                    type: "top",
+                    content: $('#myFollowObj').html()
+                }
+            }
         ],
         menuCollapse: '#resPrimery',
         pannelPosition: 'left',
         pannelAnimateTime: 1000,
         pannelAnimateEasing: "easeOutBounce",
         additionalPage: [
-            ["demo_page1","right","DEMO 1","<p style='color:#fff'>DEMO 1 CONTENT</p>","demo_page2"],
-            ["demo_page2","right","DEMO 2","<p style='color:#E6DB74'>DEMO 2 CONTENT</p>","demo_page3"],
-            ["demo_page3","right","DEMO 3","<p style='color:#66D9B1'>DEMO 3 CONTENT</p>",""]
-        ]
+            {
+                id: "demo_page1",
+                type: "right",
+                show: "DEMO 1",
+                content: "<p style='color:#fff'>DEMO 1 CONTENT</p>",
+                relate_id: "demo_page2"
+            },
+            {
+                id: "demo_page2",
+                type: "right",
+                show: "DEMO 2",
+                content: "<p style='color:#E6DB74'>DEMO 2 CONTENT</p>",
+                relate_id: "demo_page3"
+            },
+            {
+                id: "demo_page3",
+                type: "right",
+                show: "DEMO 3",
+                content: "<p style='color:#66D9B1'>DEMO 3 CONTENT</p>",
+                relate_id: ""
+            }
+        ],
+        defaultSubMenuObj: [                        //主選單下方添加選單區塊
+                    {
+                        id: 'sub_menu1',
+                        show: "Search",
+                        obj: "#logo"
+                    }
+        ],
+        res_langVarTw: '?tw'
 	});
 
     
@@ -437,5 +476,13 @@ $(function() {
                 $(this).addClass('animated bounceInUp');
             }
         })
+    })
+
+    //followup obj
+    $('#myFollowObj').JResFollowObj({
+        pos: {
+                top: 200,
+                right: 0
+            }
     })
  })

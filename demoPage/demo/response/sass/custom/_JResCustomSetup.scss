@@ -112,6 +112,14 @@ body{
 	}
 }
 
+#myFollowObj{
+	background:#eee;
+	padding:10px;
+	width:200px;
+	height:200px;
+	@include box-shadow(0,0,10px,#000);
+}
+
 /* 
 	- google nexus 10 landscape / galaxy tab 7.7,8,9,10.1 (1280px)
 */
@@ -145,6 +153,14 @@ body{
 	#logo_btn{
 		float:right !important;
 		font-size: 25px;
+	}
+
+	#Followup_btn_pannelContent .menuList{
+		color:#fff;
+	}
+
+	#myFollowObj{
+		display:none;
 	}
 
 }
